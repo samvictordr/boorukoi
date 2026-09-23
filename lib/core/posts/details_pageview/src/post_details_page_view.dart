@@ -1,6 +1,9 @@
 // Dart imports:
 import 'dart:async';
 
+// Flutter imports:
+import 'package:flutter/physics.dart';
+
 // Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kurumi/kurumi.dart';
@@ -43,7 +46,7 @@ class PostDetailsPageView extends ConsumerStatefulWidget {
     this.onExpanded,
     this.onShrink,
     this.onPageChanged,
-    this.swipeDownThreshold = 20,
+    this.swipeDownThreshold = 100,
     this.actions = const [],
     this.leftActions = const [],
     this.bottomSheet,
@@ -90,7 +93,11 @@ class _PostDetailsPageViewState extends ConsumerState<PostDetailsPageView>
   final _pointerCount = ValueNotifier(0);
   final _interacting = ValueNotifier(false);
   var _freestyleMoveStartOffset = Offset.zero;
-  var _freestyleMoveScale = 1.0;
+  var _passedDismissThreshold = false;
+
+  late final _dismissSpringController = AnimationController.unbounded(
+    vsync: this,
+  );
 
   late final PostDetailsPageViewController _controller;
 
@@ -333,6 +340,7 @@ class _PostDetailsPageViewState extends ConsumerState<PostDetailsPageView>
     _interacting.dispose();
     _isSheetAnimating.dispose();
 
+    _dismissSpringController.dispose();
     _overlayCurvedAnimation?.dispose();
     _overlayAnimController?.dispose();
     _sheetAnimController.dispose();
@@ -433,6 +441,16 @@ class _PostDetailsPageViewState extends ConsumerState<PostDetailsPageView>
     return Stack(
       children: [
         Positioned.fill(
+          child: ValueListenableBuilder(
+            valueListenable: _controller.freestyleMoveOffset,
+            builder: (context, offset, _) => ColoredBox(
+              color: Kurumi.themeOf(context).colorScheme.surface.withValues(
+                alpha: 1 - _dismissProgress(offset),
+              ),
+            ),
+          ),
+        ),
+        Positioned.fill(
           child: Column(
             children: [
               Expanded(
@@ -464,8 +482,9 @@ class _PostDetailsPageViewState extends ConsumerState<PostDetailsPageView>
                         begin: const Offset(0, 1),
                         end: Offset.zero,
                       ).animate(_bottomInfoAnimController),
-                      child: ColoredBox(
-                        color: Kurumi.themeOf(context).colorScheme.surface,
+                      child: KurumiGlass(
+                        shape: KurumiShapes.sheet,
+                        thickness: KurumiGlassThickness.thick,
                         child: FadeTransition(
                           opacity:
                               Tween(
@@ -632,23 +651,19 @@ class _PostDetailsPageViewState extends ConsumerState<PostDetailsPageView>
                       _controller.freestyleMoveOffset,
                       _controller.sheetState,
                     ]),
-                    builder: (context, childAb) => Transform(
-                      alignment: Alignment.center,
-                      transform: Matrix4.identity()
-                        ..translateByDouble(
-                          _controller.freestyleMoveOffset.value.dx,
-                          _controller.freestyleMoveOffset.value.dy,
-                          0,
-                          1,
-                        )
-                        ..scaledByDouble(
-                          _freestyleMoveScale,
-                          _freestyleMoveScale,
-                          _freestyleMoveScale,
-                          1,
-                        ),
-                      child: childAb,
-                    ),
+                    builder: (context, childAb) {
+                      final offset = _controller.freestyleMoveOffset.value;
+                      final scale =
+                          1 - _dismissProgress(offset) * _kSwipeDownScaleFactor;
+
+                      return Transform(
+                        alignment: Alignment.center,
+                        transform: Matrix4.identity()
+                          ..translateByDouble(offset.dx, offset.dy, 0, 1)
+                          ..scaledByDouble(scale, scale, scale, 1),
+                        child: childAb,
+                      );
+                    },
                     child: widget.itemBuilder(context, index),
                   ),
                 ),
@@ -664,12 +679,35 @@ class _PostDetailsPageViewState extends ConsumerState<PostDetailsPageView>
     );
   }
 
+  /// 0 when the image is at rest, 1 once it has been dragged far enough down
+  /// that the background is fully transparent.
+  double _dismissProgress(Offset offset) {
+    final distance =
+        MediaQuery.sizeOf(context).height * _kDismissDistanceFactor;
+
+    return (offset.dy / distance).clamp(0.0, 1.0);
+  }
+
+  /// The viewer route is opaque so the page below stops painting. While the
+  /// image is dragged to dismiss, the page below has to show through.
+  void _setPageBelowVisible(bool visible) {
+    if (ModalRoute.of(context) case final route?
+        when route.opaque &&
+            route.isCurrent &&
+            route.overlayEntries.isNotEmpty) {
+      route.overlayEntries.first.opaque = !visible;
+    }
+  }
+
   void _onVerticalDragStart(DragStartDetails details) {
     _controller.pulling.value = true;
+    _dismissSpringController.stop();
+    _setPageBelowVisible(true);
 
     if (!_controller.isExpanded) {
-      _freestyleMoveStartOffset = details.globalPosition;
-      _freestyleMoveScale = 1.0;
+      _freestyleMoveStartOffset =
+          details.globalPosition - _controller.freestyleMoveOffset.value;
+      _passedDismissThreshold = false;
     }
   }
 
@@ -679,86 +717,89 @@ class _PostDetailsPageViewState extends ConsumerState<PostDetailsPageView>
     if (_controller.freestyleMoving.value) {
       if (_controller.verticalPosition.value <= 0) return;
 
-      // Calculate scale first
-      final movePercent =
-          details.globalPosition.dy - _freestyleMoveStartOffset.dy;
-      final normalizedPercent = movePercent / widget.swipeDownThreshold;
-      _freestyleMoveScale =
-          1.0 -
-          (normalizedPercent * _kSwipeDownScaleFactor).clamp(
-            0.0,
-            _kSwipeDownScaleFactor,
-          );
+      final offset = details.globalPosition - _freestyleMoveStartOffset;
+      _controller.freestyleMoveOffset.value = offset;
 
-      // Adjust translation based on scale
-      final scaledOffset = details.globalPosition - _freestyleMoveStartOffset;
-      // Apply scale compensation to keep the image centered
-      final scaleCompensation =
-          (1 - _freestyleMoveScale) *
-          (_freestyleMoveStartOffset.dy - details.globalPosition.dy) /
-          2;
-
-      _controller.freestyleMoveOffset.value = Offset(
-        scaledOffset.dx,
-        scaledOffset.dy + scaleCompensation,
-      );
+      final passed = offset.dy > widget.swipeDownThreshold;
+      if (passed != _passedDismissThreshold) {
+        _passedDismissThreshold = passed;
+        context.kurumiBehavior.provideSelectionFeedback();
+      }
     }
   }
 
   void _onVerticalDragEnd(DragEndDetails details) {
     _controller.pulling.value = false;
 
-    // Check if drag distance exceeds threshold for dismissal
-    if (_controller.freestyleMoveOffset.value.dy.abs() >
-        widget.swipeDownThreshold) {
-      if (widget.onSwipeDownThresholdReached != null) {
-        widget.onSwipeDownThresholdReached?.call();
+    final offset = _controller.freestyleMoveOffset.value;
+    final velocity = details.velocity.pixelsPerSecond.dy;
+    final shouldDismiss =
+        offset.dy > 0 &&
+        velocity > -_kDismissVelocity &&
+        (offset.dy > widget.swipeDownThreshold || velocity > _kDismissVelocity);
+
+    if (shouldDismiss) {
+      if (widget.onSwipeDownThresholdReached case final onSwipeDown?) {
+        onSwipeDown();
       } else {
+        // Leave the image where it is so the hero flies back from there.
         Navigator.of(context).maybePop();
         return;
       }
-      // scale back to 1.0
-      _freestyleMoveScale = 1.0;
-    } else {
-      // Animate back to original position
-      _animateBackToPosition();
-      _freestyleMoveScale = 1.0;
     }
 
-    _controller.freestyleMoveOffset.value = Offset.zero;
+    _springBackToPosition(details.velocity.pixelsPerSecond);
 
     _controller.dragEnd();
   }
 
-  void _animateBackToPosition() {
+  void _springBackToPosition(Offset velocity) {
     final startOffset = _controller.freestyleMoveOffset.value;
 
-    final animController = AnimationController(
-      duration: const Duration(milliseconds: 300),
-      vsync: this,
-    );
+    if (startOffset == Offset.zero) {
+      _setPageBelowVisible(false);
+      return;
+    }
 
-    final animation =
-        Tween(
-          begin: startOffset,
-          end: Offset.zero,
-        ).animate(
-          CurvedAnimation(
-            parent: animController,
-            curve: Curves.easeOut,
+    if (context.kurumiBehavior.reduceMotion) {
+      _controller.freestyleMoveOffset.value = Offset.zero;
+      _setPageBelowVisible(false);
+      return;
+    }
+
+    final distance = startOffset.distance;
+    final towardsRest =
+        -(velocity.dx * startOffset.dx + velocity.dy * startOffset.dy) /
+        distance;
+
+    void onTick() {
+      _controller.freestyleMoveOffset.value = Offset.lerp(
+        startOffset,
+        Offset.zero,
+        _dismissSpringController.value,
+      )!;
+    }
+
+    _dismissSpringController
+      ..value = 0
+      ..addListener(onTick);
+
+    _dismissSpringController
+        .animateWith(
+          SpringSimulation(
+            KurumiMotion.snappySpring,
+            0,
+            1,
+            towardsRest / distance,
           ),
-        );
-
-    animation.addListener(() {
-      if (mounted) {
-        _controller.freestyleMoveOffset.value = animation.value;
-      }
-    });
-
-    // Start animation
-    animController.forward().then((_) {
-      animController.dispose();
-    });
+        )
+        .whenCompleteOrCancel(() {
+          _dismissSpringController.removeListener(onTick);
+          if (mounted && !_controller.pulling.value) {
+            _controller.freestyleMoveOffset.value = Offset.zero;
+            _setPageBelowVisible(false);
+          }
+        });
   }
 }
 
@@ -790,7 +831,9 @@ class _PostDetailsPagePhysics extends ScrollPhysics {
   ) => false;
 }
 
-const _kSwipeDownScaleFactor = 0.2;
+const _kSwipeDownScaleFactor = 0.3;
+const _kDismissDistanceFactor = 0.4;
+const _kDismissVelocity = 700.0;
 
 double _clampToZero(
   double value, {

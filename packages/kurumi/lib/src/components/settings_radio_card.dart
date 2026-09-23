@@ -1,4 +1,5 @@
 import 'package:material_ui/material_ui.dart';
+import '../theme/shapes.dart';
 
 class KurumiSettingsRadioCard extends StatelessWidget {
   const KurumiSettingsRadioCard({
@@ -51,7 +52,7 @@ class KurumiSettingsRadioCard extends StatelessWidget {
           DecoratedBox(
             decoration: BoxDecoration(
               color: colorScheme.surfaceContainerLow,
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: KurumiBorderRadius.md,
             ),
             child: Column(
               children: [

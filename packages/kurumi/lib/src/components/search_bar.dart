@@ -1,6 +1,7 @@
 import 'package:material_ui/material_ui.dart';
 
 import 'text_field.dart';
+import '../theme/shapes.dart';
 
 class KurumiSearchBar extends StatefulWidget {
   const KurumiSearchBar({
@@ -114,7 +115,7 @@ class _KurumiSearchBarState extends State<KurumiSearchBar> {
         color: colorScheme.brightness == Brightness.dark
             ? colorScheme.surfaceContainerHigh
             : colorScheme.surfaceContainerHighest,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: KurumiBorderRadius.full,
       ),
       child: GestureDetector(
         onTap: () => widget.onTap?.call(),

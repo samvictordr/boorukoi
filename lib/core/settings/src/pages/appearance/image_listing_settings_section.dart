@@ -220,7 +220,6 @@ class _ImageListingSettingsSectionState
           onChangeEnd: (value) =>
               _onUpdate(settings.copyWith(imageBorderRadius: value)),
           onChanged: (value) => _borderRadiusSliderValue.value = value,
-          padding: EdgeInsets.zero,
         );
       },
     );
@@ -238,7 +237,6 @@ class _ImageListingSettingsSectionState
           onChangeEnd: (value) =>
               _onUpdate(settings.copyWith(imageGridSpacing: value)),
           onChanged: (value) => _spacingSliderValue.value = value,
-          padding: EdgeInsets.zero,
         );
       },
     );
@@ -256,7 +254,6 @@ class _ImageListingSettingsSectionState
           onChangeEnd: (value) =>
               _onUpdate(settings.copyWith(imageGridPadding: value)),
           onChanged: (value) => _paddingSliderValue.value = value,
-          padding: EdgeInsets.zero,
         );
       },
     );
@@ -275,7 +272,6 @@ class _ImageListingSettingsSectionState
           onChangeEnd: (value) =>
               _onUpdate(settings.copyWith(imageGridAspectRatio: value)),
           onChanged: (value) => _aspectRatioSliderValue.value = value,
-          padding: EdgeInsets.zero,
         );
       },
     );
@@ -296,26 +292,28 @@ class LayoutSection extends ConsumerWidget {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        KurumiSettingsHeader(
-          label: context.t.settings.appearance.booru_config,
-        ),
-        KurumiSettingsTile(
-          title: Text(context.t.settings.appearance.booru_config_placement),
-          selectedOption: settings.booruConfigSelectorPosition,
-          items: const [...BooruConfigSelectorPosition.values],
-          onChanged: (value) => notifier.updateSettings(
-            settings.copyWith(booruConfigSelectorPosition: value),
-          ),
-          optionBuilder: (value) => Text(value.localize(context)),
-        ),
-        KurumiSettingsTile(
-          title: Text(context.t.settings.appearance.booru_config_label),
-          selectedOption: settings.booruConfigLabelVisibility,
-          items: const [...BooruConfigLabelVisibility.values],
-          onChanged: (value) => notifier.updateSettings(
-            settings.copyWith(booruConfigLabelVisibility: value),
-          ),
-          optionBuilder: (value) => Text(value.localize(context)),
+        KurumiSettingsSection(
+          header: context.t.settings.appearance.booru_config,
+          children: [
+            KurumiSettingsTile(
+              title: Text(context.t.settings.appearance.booru_config_placement),
+              selectedOption: settings.booruConfigSelectorPosition,
+              items: const [...BooruConfigSelectorPosition.values],
+              onChanged: (value) => notifier.updateSettings(
+                settings.copyWith(booruConfigSelectorPosition: value),
+              ),
+              optionBuilder: (value) => Text(value.localize(context)),
+            ),
+            KurumiSettingsTile(
+              title: Text(context.t.settings.appearance.booru_config_label),
+              selectedOption: settings.booruConfigLabelVisibility,
+              items: const [...BooruConfigLabelVisibility.values],
+              onChanged: (value) => notifier.updateSettings(
+                settings.copyWith(booruConfigLabelVisibility: value),
+              ),
+              optionBuilder: (value) => Text(value.localize(context)),
+            ),
+          ],
         ),
       ],
     );

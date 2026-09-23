@@ -44,7 +44,7 @@ void goToSavedSearchCreatePage(
             ),
             decoration: const BoxDecoration(
               borderRadius: BorderRadius.all(
-                Radius.circular(8),
+                Radius.circular(KurumiRadius.sm),
               ),
             ),
             child: CreateSavedSearchSheet(

@@ -133,7 +133,10 @@ class _DownloadManagerPageState extends ConsumerState<DownloadManagerPage> {
                   ),
                   KurumiPopupMenuItem(
                     title: Text(context.t.generic.action.clear),
-                    onTap: () {
+                    onTap: () async {
+                      final confirmed = await _confirmClear(context);
+                      if (!confirmed || !context.mounted) return;
+
                       // clear default group only
                       ref
                           .read(downloadTaskUpdatesProvider.notifier)
@@ -191,22 +194,16 @@ class _DownloadManagerPageState extends ConsumerState<DownloadManagerPage> {
                           ? SelectionCanvas(
                               child: _buildList(tasks, config),
                             )
-                          : Column(
-                              children: [
-                                Container(
-                                  padding: const EdgeInsets.symmetric(
-                                    vertical: 24,
-                                  ),
-                                  child: Text(
-                                    ref
-                                        .watch(
-                                          downloadFilterProvider(widget.filter),
-                                        )
-                                        .emptyLocalize(context),
-                                  ),
-                                ),
-                                const Spacer(),
-                              ],
+                          : Align(
+                              alignment: const Alignment(0, -0.4),
+                              child: KurumiEmptyState(
+                                icon: Symbols.download,
+                                title: ref
+                                    .watch(
+                                      downloadFilterProvider(widget.filter),
+                                    )
+                                    .emptyLocalize(context),
+                              ),
                             ),
                     ),
                   ),
@@ -320,4 +317,27 @@ class _DownloadManagerPageState extends ConsumerState<DownloadManagerPage> {
       },
     );
   }
+}
+
+Future<bool> _confirmClear(BuildContext context) async {
+  final colorScheme = Kurumi.themeOf(context).colorScheme;
+  final confirmed = await showDialog<bool>(
+    context: context,
+    builder: (context) => AlertDialog(
+      content: Text(context.t.download.clear_confirmation),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(false),
+          child: Text(context.t.generic.action.cancel),
+        ),
+        TextButton(
+          style: TextButton.styleFrom(foregroundColor: colorScheme.error),
+          onPressed: () => Navigator.of(context).pop(true),
+          child: Text(context.t.generic.action.clear),
+        ),
+      ],
+    ),
+  );
+
+  return confirmed ?? false;
 }

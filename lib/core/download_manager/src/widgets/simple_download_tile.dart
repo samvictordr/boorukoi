@@ -257,8 +257,8 @@ class _ModalOptions extends ConsumerWidget {
             const KurumiDragLine(),
             const SizedBox(height: 8),
             ListTile(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
+              shape: const RoundedRectangleBorder(
+                borderRadius: KurumiBorderRadius.sm,
               ),
               title: Text(context.t.post.action.view_in_browser),
               onTap: () {
@@ -271,8 +271,8 @@ class _ModalOptions extends ConsumerWidget {
             ),
             if (path != null)
               ListTile(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
+                shape: const RoundedRectangleBorder(
+                  borderRadius: KurumiBorderRadius.sm,
                 ),
                 title: Text(context.t.post.detail.share.file),
                 onTap: () {

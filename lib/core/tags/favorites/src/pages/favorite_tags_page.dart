@@ -534,7 +534,7 @@ class _FavoriteTagGroup extends StatelessWidget {
           ),
           Material(
             color: colorScheme.surfaceContainer,
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: KurumiBorderRadius.md,
             clipBehavior: Clip.antiAlias,
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -717,17 +717,11 @@ class _EmptyFavoriteTagsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(24),
-        child: Text(
-          hasFavorites
-              ? context.t.favorite_tags.filtered_empty
-              : context.t.favorite_tags.empty,
-          textAlign: TextAlign.center,
-          style: Kurumi.themeOf(context).textTheme.bodyLarge?.copyWith(
-            color: Kurumi.themeOf(context).colorScheme.onSurfaceVariant,
-          ),
-        ),
+      child: KurumiEmptyState(
+        icon: hasFavorites ? Symbols.filter_alt_off : Symbols.tag,
+        title: hasFavorites
+            ? context.t.favorite_tags.filtered_empty
+            : context.t.favorite_tags.empty,
       ),
     );
   }

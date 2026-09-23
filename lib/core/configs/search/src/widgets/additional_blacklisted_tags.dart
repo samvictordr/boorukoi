@@ -58,8 +58,8 @@ class AdditionalBlacklistedTags extends ConsumerWidget {
             onTap: () {
               _onEdit(context, id);
             },
-            customBorder: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
+            customBorder: const RoundedRectangleBorder(
+              borderRadius: KurumiBorderRadius.sm,
             ),
             child: TagListPreview(
               header: Text(

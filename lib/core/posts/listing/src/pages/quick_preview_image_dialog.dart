@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 
 // Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kurumi/kurumi.dart';
 import 'package:kurumi/material.dart';
 
 // Project imports:
@@ -44,26 +45,29 @@ class QuickPreviewImageDialog extends ConsumerWidget {
         child: Focus(
           autofocus: true,
           child: Scaffold(
-            backgroundColor: Colors.black54,
+            backgroundColor: Colors.transparent,
             body: Center(
               child: ConstrainedBox(
                 constraints: BoxConstraints(
                   maxHeight: size.height * 0.85,
                   maxWidth: size.width * 0.85,
                 ),
-                child: RawPostDetailsImage(
-                  imageUrlBuilder: (post) => post.isVideo
-                      ? post.videoThumbnailUrl
-                      : post.sampleImageUrl,
-                  mediaAspectRatioBuilder: (post) => post.isVideo
-                      ? post.effectiveVideoThumbnailAspectRatio
-                      : post.effectiveSampleAspectRatio,
-                  placeholderMediaBuilder: (_) => placeholderMedia,
-                  imageCacheManager: ref.watch(
-                    defaultImageCacheManagerProvider,
+                child: ClipRSuperellipse(
+                  borderRadius: KurumiBorderRadius.lg,
+                  child: RawPostDetailsImage(
+                    imageUrlBuilder: (post) => post.isVideo
+                        ? post.videoThumbnailUrl
+                        : post.sampleImageUrl,
+                    mediaAspectRatioBuilder: (post) => post.isVideo
+                        ? post.effectiveVideoThumbnailAspectRatio
+                        : post.effectiveSampleAspectRatio,
+                    placeholderMediaBuilder: (_) => placeholderMedia,
+                    imageCacheManager: ref.watch(
+                      defaultImageCacheManagerProvider,
+                    ),
+                    post: post,
+                    config: config,
                   ),
-                  post: post,
-                  config: config,
                 ),
               ),
             ),

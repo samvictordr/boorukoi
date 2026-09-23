@@ -68,13 +68,13 @@ class SavedTaskListTile extends ConsumerWidget {
             width: 0.5,
           ),
           color: Kurumi.themeOf(context).colorScheme.surfaceContainerLow,
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: KurumiBorderRadius.sm,
         ),
         child: Material(
           color: Colors.transparent,
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: KurumiBorderRadius.sm,
           child: InkWell(
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: KurumiBorderRadius.sm,
             onTap: enableTap
                 ? () async {
                     await Kurumi.showAppModalBottomSheet(

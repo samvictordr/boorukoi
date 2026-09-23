@@ -119,8 +119,8 @@ class _BookmarkSearchBarState extends ConsumerState<BookmarkSearchBar> {
           ? Padding(
               padding: const EdgeInsets.only(right: 8),
               child: InkWell(
-                customBorder: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
+                customBorder: const RoundedRectangleBorder(
+                  borderRadius: KurumiBorderRadius.sm,
                 ),
                 child: const Icon(Symbols.clear),
                 onTap: () {
@@ -184,7 +184,7 @@ class _OverlayState extends ConsumerState<_Overlay> {
     return DecoratedBox(
       decoration: BoxDecoration(
         color: colorScheme.surfaceContainer,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: KurumiBorderRadius.sm,
       ),
       child: switch (ref.watch(tagSuggestionsProvider)) {
         AsyncData(:final value) when value.suggestions.isNotEmpty =>
@@ -236,13 +236,13 @@ class _SuggestionItem extends ConsumerWidget {
     final count = tagWithColor.count;
 
     return Material(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8),
+      shape: const RoundedRectangleBorder(
+        borderRadius: KurumiBorderRadius.sm,
       ),
       color: Colors.transparent,
       child: InkWell(
-        customBorder: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
+        customBorder: const RoundedRectangleBorder(
+          borderRadius: KurumiBorderRadius.sm,
         ),
         onTap: onTap,
         child: IgnorePointer(

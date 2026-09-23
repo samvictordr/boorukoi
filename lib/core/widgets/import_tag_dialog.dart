@@ -42,7 +42,7 @@ class _ImportTagsDialogState extends ConsumerState<ImportTagsDialog> {
           ),
           decoration: const BoxDecoration(
             borderRadius: BorderRadius.all(
-              Radius.circular(8),
+              Radius.circular(KurumiRadius.sm),
             ),
           ),
           child: Column(

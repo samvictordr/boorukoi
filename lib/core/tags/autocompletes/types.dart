@@ -204,8 +204,12 @@ IList<AutocompleteData> filterNsfw(
       : data.lock;
 }
 
+typedef AutocompleteDisplaySegment = ({String text, bool highlighted});
+
 extension AutocompleteDataDisplayX on AutocompleteData {
-  String toDisplayHtml(
+  /// Splits the label into runs, marking the parts that match [value] so the
+  /// UI can emphasize them.
+  List<AutocompleteDisplaySegment> toDisplaySegments(
     String value, [
     MetatagExtractor? metatagExtractor,
   ]) {
@@ -218,18 +222,39 @@ extension AutocompleteDataDisplayX on AutocompleteData {
         ? rawQuery.replaceFirst('$metatag:', '')
         : rawQuery;
 
-    String replaceAndHighlight(String text) {
-      return text.replaceAllMapped(
-        RegExp(
-          RegExp.escape(query),
-          caseSensitive: false,
-        ),
-        (match) => '<b>${match.group(0)}</b>',
-      );
+    List<AutocompleteDisplaySegment> highlight(String text) {
+      if (query.isEmpty) return [(text: text, highlighted: false)];
+
+      final segments = <AutocompleteDisplaySegment>[];
+      var start = 0;
+
+      for (final match in RegExp(
+        RegExp.escape(query),
+        caseSensitive: false,
+      ).allMatches(text)) {
+        if (match.start > start) {
+          segments.add(
+            (text: text.substring(start, match.start), highlighted: false),
+          );
+        }
+        segments.add((text: match.group(0)!, highlighted: true));
+        start = match.end;
+      }
+
+      if (start < text.length) {
+        segments.add((text: text.substring(start), highlighted: false));
+      }
+
+      return segments;
     }
 
-    return hasAlias
-        ? '<p>${replaceAndHighlight(antecedent!.replaceAll('_', ' '))} ➞ ${replaceAndHighlight(label)}</p>'
-        : '<p>${replaceAndHighlight(label.replaceAll('_', ' '))}</p>';
+    return switch (antecedent) {
+      final antecedent? => [
+        ...highlight(antecedent.replaceAll('_', ' ')),
+        (text: ' ➞ ', highlighted: false),
+        ...highlight(label),
+      ],
+      _ => highlight(label.replaceAll('_', ' ')),
+    };
   }
 }

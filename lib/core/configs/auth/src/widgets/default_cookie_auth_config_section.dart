@@ -78,7 +78,7 @@ class DefaultCookieAuthConfigSection extends ConsumerWidget {
         border: Border.all(
           color: Kurumi.themeOf(context).colorScheme.primary,
         ),
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: KurumiBorderRadius.sm,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

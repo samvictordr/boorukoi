@@ -7,6 +7,7 @@ import 'package:i18n/i18n.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:kurumi/kurumi.dart';
 import 'package:kurumi/material.dart';
+import 'package:material_symbols_icons/symbols.dart';
 
 // Project imports:
 import '../../../widgets/widgets.dart';
@@ -87,9 +88,9 @@ class _BulkDownloadCompletedPageState
                       onDelete: _refreshList,
                     ),
                 noItemsFoundIndicatorBuilder: (context) => Center(
-                  child: Text(
-                    context.t.bulk_downloads.completed.empty,
-                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  child: KurumiEmptyState(
+                    icon: Symbols.download_done,
+                    title: context.t.bulk_downloads.completed.empty,
                   ),
                 ),
               ),

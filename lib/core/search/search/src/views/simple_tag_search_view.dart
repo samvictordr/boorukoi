@@ -251,10 +251,10 @@ class _AddButton extends StatelessWidget {
         color: onTap == null
             ? colorScheme.onSurface.withValues(alpha: 0.1)
             : colorScheme.primary,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: KurumiBorderRadius.sm,
         child: InkWell(
-          customBorder: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
+          customBorder: const RoundedRectangleBorder(
+            borderRadius: KurumiBorderRadius.sm,
           ),
           onTap: onTap,
           child: Container(

@@ -26,38 +26,52 @@ class KurumiSettingsSliderTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin:
+    final theme = Theme.of(context);
+    final formatted = _formatValue(value);
+
+    return Padding(
+      padding:
           padding ??
           const EdgeInsets.only(
             left: 16,
             right: 16,
+            top: 12,
           ),
-      child: Row(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          SizedBox(
-            width: 80,
-            child: Text(
-              title,
-              textAlign: TextAlign.start,
-              style: const TextStyle(
-                fontSize: 16,
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  title,
+                  style: theme.textTheme.bodyLarge,
+                ),
               ),
-            ),
+              Text(
+                formatted,
+                style: theme.textTheme.bodyLarge?.copyWith(
+                  color: theme.colorScheme.onSurfaceVariant,
+                  fontFeatures: const [FontFeature.tabularFigures()],
+                ),
+              ),
+            ],
           ),
-          Expanded(
-            child: KurumiSlider(
-              label: value.toStringAsFixed(1),
-              divisions: divisions,
-              max: max,
-              min: min,
-              value: value,
-              onChangeEnd: onChangeEnd,
-              onChanged: onChanged,
-            ),
+          KurumiSlider(
+            label: formatted,
+            divisions: divisions,
+            max: max,
+            min: min,
+            value: value,
+            onChangeEnd: onChangeEnd,
+            onChanged: onChanged,
           ),
         ],
       ),
     );
   }
 }
+
+String _formatValue(double value) => value == value.roundToDouble()
+    ? value.toStringAsFixed(0)
+    : value.toStringAsFixed(1);

@@ -131,7 +131,7 @@ class _ImportDataPageState extends ConsumerState<ImportDataPage> {
                     ),
                     decoration: BoxDecoration(
                       color: colorScheme.surfaceContainer,
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: KurumiBorderRadius.md,
                     ),
                     child: ListTile(
                       title: Text(

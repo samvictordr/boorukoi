@@ -48,7 +48,7 @@ class TagEditHistoryCard extends StatelessWidget {
           color: colorScheme.outlineVariant,
           width: 0.2,
         ),
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: KurumiBorderRadius.sm,
         color: colorScheme.surfaceContainerLow,
       ),
       child: Row(
@@ -231,7 +231,7 @@ class PostVersionTagText extends StatelessWidget {
       color: Colors.transparent,
       child: InkWell(
         customBorder: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(4)),
+          borderRadius: BorderRadius.all(Radius.circular(KurumiRadius.xs)),
         ),
         onTap: onTap,
         child: Container(

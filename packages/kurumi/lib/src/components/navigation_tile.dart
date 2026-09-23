@@ -2,6 +2,7 @@ import 'package:material_ui/material_ui.dart';
 import 'package:anchor_ui/anchor_ui.dart';
 
 import 'tooltip.dart';
+import '../theme/shapes.dart';
 
 class KurumiNavigationTile extends StatelessWidget {
   const KurumiNavigationTile({
@@ -77,7 +78,7 @@ class _NavigationTileContainer extends StatelessWidget {
         vertical: 2,
       ),
       child: Material(
-        borderRadius: BorderRadius.circular(4),
+        borderRadius: KurumiBorderRadius.sm,
         color: selected
             ? Theme.of(context).colorScheme.secondary
             : Colors.transparent,
@@ -112,7 +113,7 @@ class _NavigationContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       hoverColor: Theme.of(context).hoverColor.withAlpha(25),
-      borderRadius: BorderRadius.circular(4),
+      borderRadius: KurumiBorderRadius.sm,
       onTap: switch (onTap) {
         final callback? => () => callback(value),
         null => null,

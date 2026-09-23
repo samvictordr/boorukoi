@@ -79,7 +79,7 @@ class DesktopVideoOptionButton extends StatelessWidget {
           constraints: BoxConstraints(
             maxWidth: min(constraints.maxWidth, 300),
           ),
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: KurumiBorderRadius.md,
           padding: const EdgeInsets.symmetric(
             vertical: 4,
           ),
@@ -112,7 +112,7 @@ class DesktopVideoOptionButton extends StatelessWidget {
             duration: const Duration(milliseconds: 150),
             decoration: BoxDecoration(
               color: isOpen ? colorScheme.surfaceContainer : Colors.transparent,
-              borderRadius: BorderRadius.circular(6),
+              borderRadius: KurumiBorderRadius.xs,
             ),
             child: AnimatedRotation(
               duration: const Duration(milliseconds: 150),
@@ -158,7 +158,7 @@ class MobileVideoOptionsButton extends ConsumerWidget {
             builder: (_) => VideoOptionContainer(
               padding: const EdgeInsets.symmetric(horizontal: 4),
               borderRadius: const BorderRadius.vertical(
-                top: Radius.circular(12),
+                top: Radius.circular(KurumiRadius.md),
               ),
               child: MobileVideoOptionSheet(
                 value: speed,

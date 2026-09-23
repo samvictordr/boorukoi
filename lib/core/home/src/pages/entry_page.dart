@@ -218,7 +218,7 @@ class _Boorus extends ConsumerWidget {
                           );
                     },
                     leading: ClipRRect(
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: KurumiBorderRadius.md,
                       child: ConfigAwareWebsiteLogo(url: config.url),
                     ),
                   );

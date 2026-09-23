@@ -282,6 +282,9 @@ class _PostDetailPageScaffoldState<T extends Post>
     );
 
     return Scaffold(
+      // The page view paints its own background so it can fade out while
+      // being dragged to dismiss.
+      backgroundColor: Colors.transparent,
       body: PostDetailsPageView(
         viewMode: switch (swipeMode) {
           PostDetailsSwipeMode.horizontal => ViewMode.horizontal,
@@ -445,17 +448,6 @@ class _PostDetailPageScaffoldState<T extends Post>
       hasPremium: hasPremium,
     );
 
-    final colorScheme = Kurumi.themeOf(context).colorScheme;
-    final decoration = BoxDecoration(
-      color: colorScheme.surface,
-      border: Border(
-        top: BorderSide(
-          color: colorScheme.hintColor,
-          width: 0.2,
-        ),
-      ),
-    );
-
     return CustomScrollView(
       shrinkWrap: true,
       slivers: [
@@ -463,11 +455,8 @@ class _PostDetailPageScaffoldState<T extends Post>
           valueListenable: widget.controller.currentPost,
           builder: (_, post, _) => post.isVideo
               ? SliverToBoxAdapter(
-                  child: DecoratedBox(
-                    decoration: decoration,
-                    child: PostDetailsVideoControlsMobile(
-                      controller: widget.controller,
-                    ),
+                  child: PostDetailsVideoControlsMobile(
+                    controller: widget.controller,
                   ),
                 )
               : const SliverSizedBox.shrink(),
@@ -483,12 +472,9 @@ class _PostDetailPageScaffoldState<T extends Post>
             );
 
             return !post.isVideo
-                ? DecoratedSliver(
-                    decoration: decoration,
-                    sliver: SliverPadding(
-                      padding: const EdgeInsets.only(top: 8),
-                      sliver: multiSliver,
-                    ),
+                ? SliverPadding(
+                    padding: const EdgeInsets.only(top: 8),
+                    sliver: multiSliver,
                   )
                 : multiSliver;
           },

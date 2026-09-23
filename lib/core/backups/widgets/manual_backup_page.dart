@@ -198,7 +198,7 @@ class _SelectableBackupTile extends ConsumerWidget {
                       : Colors.transparent,
                   width: 2,
                 ),
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: KurumiBorderRadius.sm,
               ),
               child: source.buildTile(context),
             ),

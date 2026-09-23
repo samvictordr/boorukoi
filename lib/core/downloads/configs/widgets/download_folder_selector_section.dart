@@ -75,12 +75,12 @@ class _DownloadFolderSelectorSectionState
         const SizedBox(height: 4),
         Material(
           color: widget.backgroundColor ?? colorScheme.surfaceContainer,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
+          shape: const RoundedRectangleBorder(
+            borderRadius: KurumiBorderRadius.md,
           ),
           child: InkWell(
-            customBorder: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
+            customBorder: const RoundedRectangleBorder(
+              borderRadius: KurumiBorderRadius.md,
             ),
             onTap: () => _pickFolder(),
             child: Row(

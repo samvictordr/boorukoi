@@ -26,7 +26,9 @@ class BookmarkAppBar extends ConsumerWidget {
     final auth = ref.watchConfigAuth;
     final download = ref.watchConfigDownload;
 
-    return AppBar(
+    // Large title that collapses into the toolbar, like an iOS tab root.
+    return SliverAppBar.large(
+      backgroundColor: Kurumi.themeOf(context).colorScheme.surface,
       title: Text(context.t.bookmark.title),
       automaticallyImplyLeading: !edit,
       leading: edit

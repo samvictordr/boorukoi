@@ -235,7 +235,7 @@ class PostListPrevewTooltip extends ConsumerWidget {
       ),
       placement: Placement.top,
       offset: const Offset(0, -4),
-      borderRadius: BorderRadius.circular(8),
+      borderRadius: KurumiBorderRadius.sm,
       backgroundColor: colorScheme.surfaceContainerHigh,
       arrowSize: const Size(16, 8),
       border: BorderSide(

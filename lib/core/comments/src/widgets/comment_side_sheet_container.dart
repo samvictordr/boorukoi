@@ -24,7 +24,7 @@ class CommentSideSheetContainer extends StatelessWidget {
             decoration: BoxDecoration(
               color: Kurumi.themeOf(context).colorScheme.surface,
               borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(6),
+                topLeft: Radius.circular(KurumiRadius.xs),
               ),
             ),
             child: Row(
@@ -39,7 +39,9 @@ class CommentSideSheetContainer extends StatelessWidget {
                 Material(
                   color: Colors.transparent,
                   child: InkWell(
-                    borderRadius: const BorderRadius.all(Radius.circular(20)),
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(KurumiRadius.lg),
+                    ),
                     onTap: Navigator.of(context).pop,
                     child: const Icon(Symbols.close),
                   ),

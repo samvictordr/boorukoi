@@ -182,8 +182,8 @@ class DiscountChip extends StatelessWidget {
             fontSize: 12,
           ),
         ),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(4),
+        shape: const RoundedRectangleBorder(
+          borderRadius: KurumiBorderRadius.xs,
         ),
         backgroundColor: colorScheme.primaryContainer,
       ),

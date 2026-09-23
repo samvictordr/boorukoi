@@ -23,7 +23,7 @@ class TagListPreview extends StatelessWidget {
       ),
       decoration: BoxDecoration(
         color: colorScheme.surfaceContainer.withValues(alpha: 0.6),
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: KurumiBorderRadius.sm,
         border: Border.all(
           color: colorScheme.outlineVariant.withValues(alpha: 0.6),
           width: 0.5,

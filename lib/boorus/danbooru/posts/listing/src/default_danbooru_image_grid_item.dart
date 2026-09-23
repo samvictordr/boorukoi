@@ -60,7 +60,7 @@ class DefaultDanbooruImageGridItem extends ConsumerWidget {
 
           return HeroMode(
             enabled: useHero,
-            child: KurumiHero(
+            child: _GridItemHero(
               tag: '${post.id}_hero',
               child: ExplicitContentBlockOverlay(
                 rating: post.rating,
@@ -217,8 +217,8 @@ class DefaultDanbooruImageGridItem extends ConsumerWidget {
                         backgroundColor: Kurumi.themeOf(
                           context,
                         ).colorScheme.errorContainer,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: KurumiBorderRadius.md,
                         ),
                         onTap: () {
                           AppClipboard.copyAndToast(
@@ -276,6 +276,29 @@ class DefaultDanbooruImageGridItem extends ConsumerWidget {
           placeholderFit: media.placeholderFit,
         );
       },
+    );
+  }
+}
+
+class _GridItemHero extends ConsumerWidget {
+  const _GridItemHero({
+    required this.tag,
+    required this.child,
+  });
+
+  final String tag;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final imageBorderRadius = ref.watch(
+      imageListingSettingsProvider.select((v) => v.imageBorderRadius),
+    );
+
+    return KurumiHero(
+      tag: tag,
+      borderRadius: BorderRadius.circular(imageBorderRadius),
+      child: child,
     );
   }
 }

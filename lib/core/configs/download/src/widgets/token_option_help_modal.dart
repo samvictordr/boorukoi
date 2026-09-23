@@ -124,7 +124,7 @@ class TokenOptionHelpModal extends StatelessWidget {
   Widget _buildOptionChip(BuildContext context, String label) {
     return KurumiCompactChip(
       label: label,
-      borderRadius: BorderRadius.circular(12),
+      borderRadius: KurumiBorderRadius.md,
       backgroundColor: Kurumi.themeOf(context).colorScheme.secondaryContainer,
       padding: const EdgeInsets.symmetric(
         horizontal: 10,

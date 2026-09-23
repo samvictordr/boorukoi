@@ -235,8 +235,8 @@ class _RelatedExpansionTileState extends ConsumerState<_RelatedExpansionTile> {
               children: [
                 if (_expanded)
                   DecoratedBox(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
+                    decoration: const BoxDecoration(
+                      borderRadius: KurumiBorderRadius.sm,
                     ),
                     child: TagEditWikiView(
                       tag: selectedTagValue,

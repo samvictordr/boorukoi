@@ -116,7 +116,7 @@ class SearchHistoryQueryWidget extends StatelessWidget {
               (e) => IgnorePointer(
                 child: KurumiCompactChip(
                   label: e,
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: KurumiBorderRadius.sm,
                   padding: const EdgeInsets.symmetric(
                     vertical: 2,
                     horizontal: 8,

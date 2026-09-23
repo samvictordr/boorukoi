@@ -41,8 +41,8 @@ class BlacklistedTagPage extends ConsumerWidget {
                       routeSettings: const RouteSettings(
                         name: 'blacklisted_tag_sort',
                       ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: KurumiBorderRadius.md,
                       ),
                       builder: (context) => BlacklistedTagConfigSheet(
                         onSorted: (value) {
@@ -76,7 +76,10 @@ class BlacklistedTagPage extends ConsumerWidget {
                 );
 
                 if (oldBlacklistedTag == null) {
-                  Kurumi.showErrorToast(context, 'Cannot find tag $oldTag');
+                  Kurumi.showErrorToast(
+                    context,
+                    context.t.blacklist.manage.tag_not_found(tag: oldTag),
+                  );
                   return;
                 }
 
@@ -93,7 +96,10 @@ class BlacklistedTagPage extends ConsumerWidget {
                 );
 
                 if (blacklistedTag == null) {
-                  Kurumi.showErrorToast(context, 'Cannot find tag $tag');
+                  Kurumi.showErrorToast(
+                    context,
+                    context.t.blacklist.manage.tag_not_found(tag: tag),
+                  );
                   return;
                 }
 

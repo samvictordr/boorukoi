@@ -13,7 +13,6 @@ import '../../../../configs/config/widgets.dart';
 import '../../../../premiums/providers.dart';
 import '../../../../premiums/types.dart';
 import '../../../../themes/colors/providers.dart';
-import '../../../../themes/theme/types.dart';
 import '../../../../themes/viewers/widgets.dart';
 import '../../providers/settings_notifier.dart';
 import '../../providers/settings_provider.dart';
@@ -21,6 +20,7 @@ import '../../types/settings.dart';
 import '../../widgets/settings_interaction_blocker.dart';
 import '../../widgets/settings_page_scaffold.dart';
 import 'image_listing_settings_section.dart';
+import 'appearance_mode_picker.dart';
 
 class AppearancePage extends ConsumerStatefulWidget {
   const AppearancePage({
@@ -41,38 +41,45 @@ class _AppearancePageState extends ConsumerState<AppearancePage> {
     return SettingsPageScaffold(
       title: Text(context.t.settings.appearance.appearance),
       children: [
-        KurumiSettingsHeader(label: context.t.settings.general),
-        if (!hasPremium)
-          _buildSimpleTheme(settings)
-        else
-          ThemeSettingsInteractionBlocker(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                ThemeListTile(
-                  updateMethod: ThemeUpdateMethod.applyDirectly,
-                  colorSettings: settings.colors,
-                  onThemeUpdated: (colors) {
-                    notifier.updateSettings(
-                      settings.copyWith(
-                        colors: colors,
-                      ),
-                    );
-                  },
+        const AppearanceModePicker(),
+        KurumiSettingsSection(
+          header: context.t.settings.general,
+          children: [
+            if (!hasPremium)
+              _buildSimpleTheme(settings)
+            else
+              ThemeSettingsInteractionBlocker(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ThemeListTile(
+                      updateMethod: ThemeUpdateMethod.applyDirectly,
+                      colorSettings: settings.colors,
+                      onThemeUpdated: (colors) {
+                        notifier.updateSettings(
+                          settings.copyWith(
+                            colors: colors,
+                          ),
+                        );
+                      },
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          ),
-        const Divider(thickness: 1),
-        KurumiSettingsHeader(label: context.t.settings.image_grid.image_grid),
-        ListingSettingsInteractionBlocker(
-          child: ImageListingSettingsSection(
-            listing: settings.listing,
-            onUpdate: (value) =>
-                notifier.updateSettings(settings.copyWith(listing: value)),
-          ),
+              ),
+          ],
         ),
-        const Divider(thickness: 1),
+        KurumiSettingsSection(
+          header: context.t.settings.image_grid.image_grid,
+          children: [
+            ListingSettingsInteractionBlocker(
+              child: ImageListingSettingsSection(
+                listing: settings.listing,
+                onUpdate: (value) =>
+                    notifier.updateSettings(settings.copyWith(listing: value)),
+              ),
+            ),
+          ],
+        ),
         const LayoutSection(),
         if (ref.watch(showPremiumFeatsProvider))
           const BooruConfigMoreSettingsRedirectCard.appearance(),
@@ -89,14 +96,6 @@ class _AppearancePageState extends ConsumerState<AppearancePage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        KurumiSettingsTile(
-          title: Text(context.t.settings.theme.theme),
-          selectedOption: settings.themeMode,
-          items: KurumiThemeMode.values,
-          onChanged: (value) =>
-              notifier.updateSettings(settings.copyWith(themeMode: value)),
-          optionBuilder: (value) => Text(value.localize(context)),
-        ),
         Builder(
           builder: (context) {
             return KurumiSwitchListTile(
@@ -140,7 +139,7 @@ class _AppearancePageState extends ConsumerState<AppearancePage> {
             ),
             decoration: BoxDecoration(
               color: colorScheme.surfaceContainerHigh.withValues(alpha: 0.6),
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: KurumiBorderRadius.sm,
               border: Border.all(
                 color: colorScheme.outlineVariant.withValues(alpha: 0.6),
                 width: 0.5,

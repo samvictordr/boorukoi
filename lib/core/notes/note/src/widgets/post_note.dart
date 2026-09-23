@@ -73,7 +73,7 @@ class _PostNoteState extends State<PostNote> {
           ),
           decoration: BoxDecoration(
             color: colorScheme.surface,
-            borderRadius: BorderRadius.circular(4),
+            borderRadius: KurumiBorderRadius.md,
             border: Border.all(
               color: colorScheme.outlineVariant,
             ),

@@ -13,7 +13,7 @@ const _kOverscrollSheetSnapToFullThreshold = _kOverscrollSheetCloseThreshold;
 const _kOverscrollFullSheetCloseThreshold = _kOverscrollSheetCloseThreshold * 2;
 const _kFullSheetSize = 0.9;
 const _kMinSheetSize = 0.0;
-const _kSnapAnimationDuration = Duration(milliseconds: 200);
+const _kSnapAnimationDuration = Duration(milliseconds: 300);
 
 class DragSheet extends StatefulWidget {
   const DragSheet({
@@ -60,7 +60,7 @@ class _DragSheetState extends State<DragSheet> {
     sheetController.animateTo(
       widget.pageViewController.maxSize,
       duration: _kSnapAnimationDuration,
-      curve: Curves.easeInOut,
+      curve: KurumiMotion.emphasizedCurve,
     );
   }
 
@@ -68,7 +68,7 @@ class _DragSheetState extends State<DragSheet> {
     sheetController.animateTo(
       _kFullSheetSize,
       duration: _kSnapAnimationDuration,
-      curve: Curves.easeInOut,
+      curve: KurumiMotion.emphasizedCurve,
     );
   }
 
@@ -146,25 +146,28 @@ class _DragSheetState extends State<DragSheet> {
               ],
               snap: true,
               snapAnimationDuration: _kSnapAnimationDuration,
-              builder: (context, scrollController) => Scaffold(
-                floatingActionButton: _buildScrollToTop(),
-                body: Stack(
-                  children: [
-                    Positioned.fill(
-                      child: Column(
-                        children: [
-                          _buildDivider(),
-                          Expanded(
-                            child: _buildSheetContent(),
-                          ),
-                        ],
+              builder: (context, scrollController) => ClipRSuperellipse(
+                borderRadius: KurumiBorderRadius.sheet,
+                child: Scaffold(
+                  floatingActionButton: _buildScrollToTop(),
+                  body: Stack(
+                    children: [
+                      Positioned.fill(
+                        child: Column(
+                          children: [
+                            _buildDivider(),
+                            Expanded(
+                              child: _buildSheetContent(),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    Align(
-                      alignment: Alignment.topCenter,
-                      child: _buildDrag(scrollController),
-                    ),
-                  ],
+                      Align(
+                        alignment: Alignment.topCenter,
+                        child: _buildDrag(scrollController),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             );

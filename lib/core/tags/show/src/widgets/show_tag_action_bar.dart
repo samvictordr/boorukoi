@@ -186,8 +186,8 @@ class _TagPreviewContainer extends ConsumerWidget {
       ),
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(12),
-          topRight: Radius.circular(12),
+          topLeft: Radius.circular(KurumiRadius.md),
+          topRight: Radius.circular(KurumiRadius.md),
         ),
         color: Kurumi.themeOf(context).colorScheme.surfaceContainer,
       ),

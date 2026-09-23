@@ -182,7 +182,7 @@ class _DesktopSearchbarState extends ConsumerState<DesktopSearchbar> {
                     ),
                     decoration: BoxDecoration(
                       color: colorScheme.surfaceContainer,
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: KurumiBorderRadius.sm,
                     ),
                     child: SearchLandingView(
                       disableAnimation: true,

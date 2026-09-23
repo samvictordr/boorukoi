@@ -215,8 +215,8 @@ class _TagTileState extends State<_TagTile> {
       onExit: (_) => _hover.value = false,
       child: Consumer(
         builder: (_, ref, _) => ListTile(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
+          shape: const RoundedRectangleBorder(
+            borderRadius: KurumiBorderRadius.sm,
           ),
           visualDensity: VisualDensity.compact,
           dense: true,

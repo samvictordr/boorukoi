@@ -85,7 +85,7 @@ class EshuushuuAuthView extends ConsumerWidget {
         border: Border.all(
           color: Kurumi.themeOf(context).colorScheme.primary,
         ),
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: KurumiBorderRadius.sm,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

@@ -1,4 +1,5 @@
 import 'package:material_ui/material_ui.dart';
+import '../theme/shapes.dart';
 
 class KurumiHoverAwareContainer extends StatefulWidget {
   const KurumiHoverAwareContainer({
@@ -30,7 +31,7 @@ class _KurumiHoverAwareContainerState extends State<KurumiHoverAwareContainer> {
           color: isHovered
               ? Theme.of(context).colorScheme.surfaceContainer
               : Colors.transparent,
-          borderRadius: widget.borderRadius ?? BorderRadius.circular(6),
+          borderRadius: widget.borderRadius ?? KurumiBorderRadius.xs,
         ),
         child: widget.child,
       ),

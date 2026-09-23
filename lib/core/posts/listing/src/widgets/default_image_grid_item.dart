@@ -59,7 +59,7 @@ class DefaultImageGridItem<T extends Post> extends StatelessWidget {
           final post = posts[index];
           return HeroMode(
             enabled: useHero,
-            child: KurumiHero(
+            child: _GridItemHero(
               tag: '${post.id}_hero',
               child: ExplicitContentBlockOverlay(
                 rating: post.rating,
@@ -183,6 +183,29 @@ class _Image<T extends Post> extends ConsumerWidget {
       placeholderAspectRatio: media.placeholderAspectRatio,
       placeholderFit: media.placeholderFit,
       imageCacheManager: imageCacheManager,
+    );
+  }
+}
+
+class _GridItemHero extends ConsumerWidget {
+  const _GridItemHero({
+    required this.tag,
+    required this.child,
+  });
+
+  final String tag;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final imageBorderRadius = ref.watch(
+      imageListingSettingsProvider.select((v) => v.imageBorderRadius),
+    );
+
+    return KurumiHero(
+      tag: tag,
+      borderRadius: BorderRadius.circular(imageBorderRadius),
+      child: child,
     );
   }
 }

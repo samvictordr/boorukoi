@@ -41,8 +41,8 @@ class AutoBackupSection extends ConsumerWidget {
       padding: const EdgeInsets.symmetric(horizontal: 12),
       child: Material(
         color: colorScheme.surfaceContainer,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
+        shape: const RoundedRectangleBorder(
+          borderRadius: KurumiBorderRadius.lg,
         ),
         child: Column(
           children: [
@@ -179,7 +179,7 @@ class _SelectLocationRequestBanner extends StatelessWidget {
       ),
       decoration: BoxDecoration(
         color: colorScheme.primaryContainer.withValues(alpha: 0.2),
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: KurumiBorderRadius.md,
         border: Border.all(
           color: colorScheme.primary.withValues(alpha: 0.2),
         ),
@@ -261,8 +261,8 @@ class _StatusTile extends ConsumerWidget {
                   horizontal: 16,
                   vertical: 8,
                 ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
+                shape: const RoundedRectangleBorder(
+                  borderRadius: KurumiBorderRadius.md,
                 ),
               ),
               child: Text(context.t.settings.auto_backup.backup_now),

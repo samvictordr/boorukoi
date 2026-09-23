@@ -1,4 +1,5 @@
 // Package imports:
+import 'package:kurumi/kurumi.dart';
 import 'package:kurumi/material.dart';
 
 class ForumVoteChip extends StatelessWidget {
@@ -27,7 +28,8 @@ class ForumVoteChip extends StatelessWidget {
         ),
         color: color,
         borderRadius:
-            borderRadius ?? const BorderRadius.all(Radius.circular(4)),
+            borderRadius ??
+            const BorderRadius.all(Radius.circular(KurumiRadius.xs)),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,

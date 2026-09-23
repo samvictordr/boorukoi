@@ -8,6 +8,7 @@ import 'package:material_symbols_icons/symbols.dart';
 import '../foundation/platform.dart';
 import '../theme/theme.dart';
 import 'anchor.dart';
+import '../theme/shapes.dart';
 
 class KurumiOptionDropDownButton<T> extends StatefulWidget {
   const KurumiOptionDropDownButton({
@@ -146,7 +147,7 @@ class _KurumiOptionDropDownButtonState<T>
           child: Scrollbar(
             controller: _scrollController,
             thickness: 4,
-            radius: const Radius.circular(12),
+            radius: const Radius.circular(KurumiRadius.md),
             child: SingleChildScrollView(
               controller: _scrollController,
               child: Column(
@@ -191,12 +192,12 @@ class _KurumiOptionDropDownButtonState<T>
           shape: widget.borderSide == null
               ? null
               : RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: KurumiBorderRadius.sm,
                   side: widget.borderSide!,
                 ),
           child: InkWell(
             onTap: handleTap,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: KurumiBorderRadius.sm,
             child: Padding(
               padding:
                   widget.padding ??
@@ -278,7 +279,7 @@ class _OptionDropDownItem<T> extends StatelessWidget {
         color: Colors.transparent,
         child: InkWell(
           onTap: onTap,
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: KurumiBorderRadius.sm,
           child: Container(
             margin: const EdgeInsets.symmetric(
               vertical: 2,
@@ -290,7 +291,7 @@ class _OptionDropDownItem<T> extends StatelessWidget {
             decoration: isSelected && !showSelectedCheckmark
                 ? BoxDecoration(
                     color: colorScheme.primaryContainer.withValues(alpha: 0.3),
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: KurumiBorderRadius.sm,
                   )
                 : null,
             child: Row(

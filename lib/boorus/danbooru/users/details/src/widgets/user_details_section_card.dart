@@ -38,7 +38,7 @@ class UserDetailsSectionCard extends StatelessWidget {
       ),
       decoration: BoxDecoration(
         color: Kurumi.themeOf(context).colorScheme.surfaceContainerLow,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: KurumiBorderRadius.md,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

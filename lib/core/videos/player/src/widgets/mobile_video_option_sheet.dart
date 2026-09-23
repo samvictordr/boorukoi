@@ -87,7 +87,7 @@ class PlaybackSpeedActionSheet extends StatelessWidget {
       decoration: BoxDecoration(
         color: Kurumi.themeOf(context).colorScheme.surfaceContainer,
         borderRadius: const BorderRadius.vertical(
-          top: Radius.circular(12),
+          top: Radius.circular(KurumiRadius.md),
         ),
       ),
       child: Column(

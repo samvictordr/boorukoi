@@ -91,7 +91,7 @@ class QuickSearchTextField extends ConsumerWidget {
     return Material(
       color: colorScheme.surfaceContainerHigh,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: KurumiBorderRadius.xl,
         side: BorderSide(color: colorScheme.outlineVariant),
       ),
       clipBehavior: Clip.antiAlias,

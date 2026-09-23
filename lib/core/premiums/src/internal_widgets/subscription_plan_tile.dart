@@ -23,7 +23,7 @@ class SubscriptionPlanTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Kurumi.themeOf(context).colorScheme;
-    final borderRadius = BorderRadius.circular(16);
+    const borderRadius = KurumiBorderRadius.lg;
 
     return Padding(
       padding: const EdgeInsets.symmetric(
@@ -32,7 +32,7 @@ class SubscriptionPlanTile extends StatelessWidget {
       ),
       child: InkWell(
         onTap: onTap,
-        customBorder: RoundedRectangleBorder(
+        customBorder: const RoundedRectangleBorder(
           borderRadius: borderRadius,
         ),
         child: Container(

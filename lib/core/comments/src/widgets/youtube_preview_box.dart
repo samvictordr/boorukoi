@@ -75,7 +75,7 @@ class YoutubePreviewBox extends ConsumerWidget {
                           children: [
                             ClipRRect(
                               borderRadius: const BorderRadius.all(
-                                Radius.circular(8),
+                                Radius.circular(KurumiRadius.sm),
                               ),
                               child: ExtendedImage.network(
                                 data.previewImage!,
@@ -89,7 +89,7 @@ class YoutubePreviewBox extends ConsumerWidget {
                                 child: DecoratedBox(
                                   decoration: const BoxDecoration(
                                     borderRadius: BorderRadius.all(
-                                      Radius.circular(8),
+                                      Radius.circular(KurumiRadius.sm),
                                     ),
                                     color: Colors.black87,
                                   ),

@@ -206,7 +206,7 @@ class _KurumiRawInteractiveViewerState extends State<KurumiRawInteractiveViewer>
     super.initState();
     _animationController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 350),
     )..addListener(_onAnimationChanged);
 
     _controller.addListener(_onChanged);
@@ -384,6 +384,7 @@ class _KurumiRawInteractiveViewerState extends State<KurumiRawInteractiveViewer>
     return _calcZoomMatrixFromZoomValue(
       focalPoint: tapPosition,
       zoomValue: _kDoubleTapScale,
+      viewport: viewport,
     );
   }
 
@@ -398,7 +399,9 @@ class _KurumiRawInteractiveViewerState extends State<KurumiRawInteractiveViewer>
           begin: _controller.value,
           end: endMatrix,
         ).animate(
-          CurveTween(curve: Curves.easeInOut).animate(_animationController),
+          CurveTween(
+            curve: Curves.fastEaseInToSlowEaseOut,
+          ).animate(_animationController),
         );
     _animationController.forward(from: 0);
   }
@@ -435,17 +438,31 @@ Matrix4 _calcZoomMatrixFromSize({
   return _calcZoomMatrixFromZoomValue(
     focalPoint: focalPoint,
     zoomValue: zoomFactor,
+    viewport: viewport,
   );
 }
 
 Matrix4 _calcZoomMatrixFromZoomValue({
   required Offset focalPoint,
   required double zoomValue,
+  required Size? viewport,
 }) {
+  // Zooming around a point near the edge would push the content away from
+  // that edge, so keep the zoomed content covering the whole viewport.
+  double clampTranslation(double focal, double extent) {
+    final translation = focal - focal * zoomValue;
+
+    return extent > 0 && zoomValue >= 1
+        ? translation.clamp(extent - extent * zoomValue, 0.0)
+        : translation;
+  }
+
+  final dx = clampTranslation(focalPoint.dx, viewport?.width ?? 0);
+  final dy = clampTranslation(focalPoint.dy, viewport?.height ?? 0);
+
   return Matrix4.identity()
-    ..translateByDouble(focalPoint.dx, focalPoint.dy, 0, 1)
-    ..scaleByDouble(zoomValue, zoomValue, zoomValue, 1)
-    ..translateByDouble(-focalPoint.dx, -focalPoint.dy, 0, 1);
+    ..translateByDouble(dx, dy, 0, 1)
+    ..scaleByDouble(zoomValue, zoomValue, zoomValue, 1);
 }
 
 double _calcMaxScale(Size? contentSize, Size? containerSize) {

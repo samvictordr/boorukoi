@@ -43,7 +43,7 @@ class BooruSelectorItem extends StatelessWidget {
     return Material(
       key: ValueKey(config.id),
       color: Colors.transparent,
-      borderRadius: BorderRadius.circular(8),
+      borderRadius: KurumiBorderRadius.sm,
       child: Container(
         margin: direction == Axis.vertical
             ? EdgeInsets.symmetric(
@@ -55,8 +55,8 @@ class BooruSelectorItem extends StatelessWidget {
               ),
         child: InkWell(
           hoverColor: Kurumi.themeOf(context).hoverColor.withValues(alpha: 0.1),
-          customBorder: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
+          customBorder: const RoundedRectangleBorder(
+            borderRadius: KurumiBorderRadius.sm,
           ),
           onSecondaryTap: () => show(),
           onTap: onTap,
@@ -86,8 +86,8 @@ class BooruSelectorItem extends StatelessWidget {
               height: 4,
               decoration: BoxDecoration(
                 borderRadius: const BorderRadius.only(
-                  bottomLeft: Radius.circular(4),
-                  bottomRight: Radius.circular(4),
+                  bottomLeft: Radius.circular(KurumiRadius.xs),
+                  bottomRight: Radius.circular(KurumiRadius.xs),
                 ),
                 border: Border(
                   top: BorderSide(
@@ -108,8 +108,8 @@ class BooruSelectorItem extends StatelessWidget {
               height: 48,
               decoration: BoxDecoration(
                 borderRadius: const BorderRadius.only(
-                  topRight: Radius.circular(4),
-                  bottomRight: Radius.circular(4),
+                  topRight: Radius.circular(KurumiRadius.xs),
+                  bottomRight: Radius.circular(KurumiRadius.xs),
                 ),
                 border: Border(
                   top: BorderSide(
@@ -152,7 +152,7 @@ class BooruSelectorItem extends StatelessWidget {
                       )
                     : null,
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: KurumiBorderRadius.sm,
                   child: ConfigAwareWebsiteLogo.fromConfig(
                     config.auth,
                     width: logoSize,

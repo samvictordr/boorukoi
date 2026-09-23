@@ -1,4 +1,5 @@
 import 'package:material_ui/material_ui.dart';
+import '../theme/shapes.dart';
 
 class KurumiImageErrorPlaceholder extends StatelessWidget {
   const KurumiImageErrorPlaceholder({
@@ -15,8 +16,7 @@ class KurumiImageErrorPlaceholder extends StatelessWidget {
     return DecoratedBox(
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surfaceContainerLow,
-        borderRadius:
-            borderRadius ?? const BorderRadius.all(Radius.circular(8)),
+        borderRadius: borderRadius ?? KurumiBorderRadius.sm,
       ),
       child: LayoutBuilder(
         builder: (context, constraints) => Container(

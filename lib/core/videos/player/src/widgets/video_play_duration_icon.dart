@@ -32,7 +32,9 @@ class VideoPlayDurationIcon extends StatelessWidget {
         height: 24,
         decoration: BoxDecoration(
           color: background,
-          borderRadius: const BorderRadius.all(Radius.circular(4)),
+          borderRadius: const BorderRadius.all(
+            Radius.circular(KurumiRadius.xs),
+          ),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,

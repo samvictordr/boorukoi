@@ -2,9 +2,10 @@
 import 'package:flutter/services.dart';
 
 // Package imports:
+import 'package:i18n/i18n.dart';
 import 'package:kurumi/kurumi.dart';
 import 'package:kurumi/material.dart';
-import 'package:oktoast/oktoast.dart';
+import 'package:material_symbols_icons/symbols.dart';
 import 'package:pasteboard/pasteboard.dart';
 
 // Project imports:
@@ -27,10 +28,11 @@ abstract class AppClipboard {
     required String message,
   }) async {
     await copy(text);
-    showToast(
+    if (!context.mounted) return;
+    Kurumi.showSuccessToast(
+      context,
       message,
-      position: ToastPosition.bottom,
-      textPadding: const EdgeInsets.all(8),
+      icon: Symbols.content_copy,
       duration: KurumiDurations.shortToast,
     );
   }
@@ -41,6 +43,6 @@ abstract class AppClipboard {
   ) => copyAndToast(
     context,
     text,
-    message: 'Copied',
+    message: context.t.generic.copied,
   );
 }

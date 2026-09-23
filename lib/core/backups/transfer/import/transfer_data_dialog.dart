@@ -174,7 +174,7 @@ class ImportingStep extends ConsumerWidget {
                   color: colorScheme.errorContainer.withValues(
                     alpha: 0.2,
                   ),
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: KurumiBorderRadius.sm,
                 ),
                 child: Row(
                   children: [

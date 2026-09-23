@@ -78,7 +78,7 @@ class UserDetailsViewScaffold extends StatelessWidget {
     return DecoratedBox(
       decoration: BoxDecoration(
         color: Kurumi.themeOf(context).colorScheme.surface,
-        borderRadius: const BorderRadius.all(Radius.circular(8)),
+        borderRadius: const BorderRadius.all(Radius.circular(KurumiRadius.sm)),
       ),
       child: CustomScrollView(
         slivers: [

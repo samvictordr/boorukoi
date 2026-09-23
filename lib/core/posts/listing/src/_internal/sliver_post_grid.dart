@@ -3,6 +3,7 @@ import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:i18n/i18n.dart';
 import 'package:kurumi/kurumi.dart';
 import 'package:kurumi/material.dart';
+import 'package:material_symbols_icons/symbols.dart';
 import 'package:sliver_masonry_grid/sliver_masonry_grid.dart';
 
 // Project imports:
@@ -59,8 +60,6 @@ class SliverPostGrid<T extends Post> extends StatelessWidget {
         valueListenable: postController.errors,
         builder: (_, error, _) {
           if (error != null) {
-            final theme = Kurumi.themeOf(context);
-
             return SliverToBoxAdapter(
               child: switch (error) {
                 final AppError e => ErrorBox(
@@ -79,65 +78,28 @@ class SliverPostGrid<T extends Post> extends StatelessWidget {
                     _ => null,
                   },
                 ),
-                final ServerError e => Column(
-                  children: [
-                    const SizedBox(height: 24),
-                    Text(
-                      e.httpStatusCode.toString(),
-                      style: theme.textTheme.headlineMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
+                final ServerError e => KurumiEmptyState(
+                  icon: Symbols.cloud_off,
+                  tone: KurumiEmptyStateTone.error,
+                  title:
+                      e.httpStatusCode?.toString() ??
+                      context.t.generic.errors.unknown,
+                  message: errorTranslator.translateServerError(context, e),
+                  action: switch ((
+                    httpErrorActionBuilder,
+                    e.httpStatusCode,
+                  )) {
+                    (final builder?, final int statusCode) => builder(
+                      context,
+                      statusCode,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 8,
-                      ),
-                      child: Text(
-                        errorTranslator.translateServerError(context, e),
-                      ),
+                    _ when e.isServerError => FilledButton.tonal(
+                      onPressed: _onErrorRetry,
+                      child: Text(context.t.generic.action.retry),
                     ),
-                    if (httpErrorActionBuilder != null &&
-                        e.httpStatusCode != null)
-                      httpErrorActionBuilder!(context, e.httpStatusCode!),
-                    Container(
-                      padding: EdgeInsets.symmetric(
-                        vertical: e.isServerError ? 4 : 24,
-                      ),
-                      child: Builder(
-                        builder: (context) {
-                          try {
-                            final data = wrapIntoJsonToCodeBlock(
-                              prettyPrintJson(e.message),
-                            );
-
-                            return MarkdownBody(
-                              styleSheet: MarkdownStyleSheet(
-                                codeblockPadding: const EdgeInsets.symmetric(
-                                  vertical: 8,
-                                  horizontal: 8,
-                                ),
-                                codeblockDecoration: BoxDecoration(
-                                  color: theme.colorScheme.surfaceContainerLow,
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                              ),
-                              data: data,
-                            );
-                          } catch (err) {
-                            return Text(
-                              e.message,
-                              textAlign: TextAlign.center,
-                            );
-                          }
-                        },
-                      ),
-                    ),
-                    if (e.isServerError)
-                      FilledButton(
-                        onPressed: _onErrorRetry,
-                        child: Text(context.t.generic.action.retry),
-                      ),
-                  ],
+                    _ => null,
+                  },
+                  details: _ServerErrorDetails(message: e.message),
                 ),
                 final UnknownError e => ErrorBox(
                   errorMessage: e.error.toString(),
@@ -227,3 +189,71 @@ String? translateServerError(BuildContext context, ServerError error) =>
         _ => null,
       },
     };
+
+class _ServerErrorDetails extends StatefulWidget {
+  const _ServerErrorDetails({
+    required this.message,
+  });
+
+  final String message;
+
+  @override
+  State<_ServerErrorDetails> createState() => _ServerErrorDetailsState();
+}
+
+class _ServerErrorDetailsState extends State<_ServerErrorDetails> {
+  var _expanded = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Kurumi.themeOf(context);
+
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        TextButton(
+          onPressed: () => setState(() => _expanded = !_expanded),
+          child: Text(
+            _expanded
+                ? context.t.generic.action.hide_details
+                : context.t.generic.action.show_details,
+          ),
+        ),
+        AnimatedSize(
+          duration: context.kurumiBehavior.effectiveDuration(
+            KurumiMotion.standard,
+          ),
+          curve: KurumiMotion.standardCurve,
+          alignment: Alignment.topCenter,
+          child: !_expanded
+              ? const SizedBox(width: double.infinity)
+              : Builder(
+                  builder: (context) {
+                    try {
+                      return MarkdownBody(
+                        styleSheet: MarkdownStyleSheet(
+                          codeblockPadding: const EdgeInsets.all(
+                            KurumiSpacing.md,
+                          ),
+                          codeblockDecoration: BoxDecoration(
+                            color: theme.colorScheme.surfaceContainerLow,
+                            borderRadius: KurumiBorderRadius.md,
+                          ),
+                        ),
+                        data: wrapIntoJsonToCodeBlock(
+                          prettyPrintJson(widget.message),
+                        ),
+                      );
+                    } catch (_) {
+                      return Text(
+                        widget.message,
+                        textAlign: TextAlign.center,
+                      );
+                    }
+                  },
+                ),
+        ),
+      ],
+    );
+  }
+}

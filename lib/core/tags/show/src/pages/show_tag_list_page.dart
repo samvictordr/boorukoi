@@ -51,7 +51,6 @@ class _ShowTagListPageState extends ConsumerState<ShowTagListPage> {
   Widget build(BuildContext context) {
     final theme = Kurumi.themeOf(context);
     final textTheme = theme.textTheme;
-    final colorScheme = theme.colorScheme;
     final globalNotifier = ref.watch(globalBlacklistedTagsProvider.notifier);
     final favoriteNotifier = ref.watch(favoriteTagsProvider.notifier);
     final params = (widget.auth, widget.post);
@@ -71,10 +70,6 @@ class _ShowTagListPageState extends ConsumerState<ShowTagListPage> {
       Kurumi.showSuccessToast(
         context,
         context.t.tags.added,
-        backgroundColor: colorScheme.onSurface,
-        textStyle: TextStyle(
-          color: colorScheme.surface,
-        ),
       );
     }
 

@@ -62,13 +62,13 @@ class _ProfileIconUrlFieldState extends ConsumerState<ProfileIconUrlField> {
             children: [
               DecoratedBox(
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: KurumiBorderRadius.sm,
                   border: Border.all(
                     color: Kurumi.themeOf(context).colorScheme.outlineVariant,
                   ),
                 ),
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: KurumiBorderRadius.sm,
                   child: SizedBox(
                     width: 48,
                     height: 48,

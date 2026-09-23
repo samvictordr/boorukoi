@@ -11,7 +11,6 @@ import 'package:i18n/i18n.dart';
 import 'package:kurumi/kurumi.dart';
 import 'package:kurumi/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
-import 'package:oktoast/oktoast.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:selection_mode/selection_mode.dart';
 import 'package:sliver_tools/sliver_tools.dart';
@@ -337,24 +336,11 @@ class _RawPostGridState<T extends Post> extends State<RawPostGrid<T>>
 
   Widget _buildLoadMore(ColorScheme colorScheme) {
     void showNoMoreDataMessage() {
-      showToast(
+      Kurumi.showSuccessToast(
+        context,
         context.t.infinite_scroll.nore_more_data,
-        position: ToastPosition.bottom,
-        margin: const EdgeInsets.symmetric(
-          horizontal: 20,
-          vertical: 60,
-        ),
-        textPadding: const EdgeInsets.symmetric(
-          horizontal: 8,
-          vertical: 4,
-        ),
+        icon: Symbols.done_all,
         duration: const Duration(seconds: 2),
-        backgroundColor: colorScheme.surfaceContainerHigh,
-        textStyle: TextStyle(
-          color: colorScheme.onSurfaceVariant,
-          fontSize: 14,
-          fontWeight: FontWeight.w500,
-        ),
       );
     }
 
@@ -645,8 +631,10 @@ class _CustomScrollViewState extends State<_CustomScrollView> {
               controller: widget.controller,
               anchorBuilder: (context) => const SingleDirectionAnchor(),
               child: CustomScrollView(
-                physics: const AlwaysScrollableScrollPhysics(
-                  parent: ClampingScrollPhysics(),
+                physics: AlwaysScrollableScrollPhysics(
+                  parent: context.kurumiBehavior.reduceMotion
+                      ? const ClampingScrollPhysics()
+                      : const BouncingScrollPhysics(),
                 ),
                 controller: widget.controller,
                 scrollCacheExtent: switch (options.cacheExtent) {
@@ -674,7 +662,8 @@ class _SliverBottomGridPadding extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bottomPadding = MediaQuery.viewPaddingOf(context).bottom;
+    // Includes floating chrome such as the navigation pill.
+    final bottomPadding = MediaQuery.paddingOf(context).bottom;
 
     return ListenableBuilder(
       listenable: selectionModeController,
@@ -684,7 +673,8 @@ class _SliverBottomGridPadding extends StatelessWidget {
           height: switch (pageMode) {
             PageMode.infinite =>
               multiSelect ? bottomPadding + 72 : bottomPadding,
-            PageMode.paginated => multiSelect ? 36 : 0,
+            PageMode.paginated =>
+              multiSelect ? bottomPadding + 36 : bottomPadding,
           },
         );
       },

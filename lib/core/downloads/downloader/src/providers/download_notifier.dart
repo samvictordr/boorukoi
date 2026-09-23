@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:i18n/i18n.dart';
 import 'package:kurumi/kurumi.dart';
 import 'package:kurumi/material.dart';
-import 'package:oktoast/oktoast.dart';
+import 'package:material_symbols_icons/symbols.dart';
 
 // Project imports:
 import '../../../../../foundation/loggers.dart';
@@ -333,26 +333,11 @@ void showDownloadErrorToast(
 }
 
 void showDownloadStartToast(BuildContext context, {String? message}) {
-  final colorScheme = Theme.of(context).colorScheme;
-
-  showToast(
+  Kurumi.showSuccessToast(
+    context,
     message ?? context.t.download.notification.started,
-    position: ToastPosition.bottom,
-    margin: const EdgeInsets.symmetric(
-      horizontal: 20,
-      vertical: 60,
-    ),
-    textPadding: const EdgeInsets.symmetric(
-      horizontal: 8,
-      vertical: 4,
-    ),
+    icon: Symbols.download,
     duration: const Duration(seconds: 2),
-    backgroundColor: colorScheme.surfaceContainerHigh,
-    textStyle: TextStyle(
-      color: colorScheme.onSurfaceVariant,
-      fontSize: 14,
-      fontWeight: FontWeight.w500,
-    ),
   );
 }
 

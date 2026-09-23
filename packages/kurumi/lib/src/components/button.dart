@@ -30,11 +30,6 @@ class KurumiButton extends StatelessWidget {
                 )),
       child: FilledButton(
         style: FilledButton.styleFrom(
-          shape: dense
-              ? RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                )
-              : null,
           minimumSize: dense ? const Size(0, 36) : const Size(0, 48),
           padding: dense
               ? const EdgeInsets.symmetric(

@@ -24,3 +24,6 @@ abstract final class KurumiColorTokens {
   static const onErrorLight = Colors.white;
   static const hintLight = Color.fromARGB(255, 79, 86, 96);
 }
+
+/// Dimming behind modal sheets and dialogs.
+const kKurumiScrimColor = Color(0x73000000);

@@ -144,7 +144,8 @@ class _SliverHomeSearchBarState
     // Mobile variant
     return SliverAppBar(
       primary: widget.primary ?? true,
-      backgroundColor: colorScheme.surface,
+      backgroundColor: Colors.transparent,
+      flexibleSpace: const KurumiGlassBar(),
       title: const HomeSearchBar(),
       floating: true,
       snap: true,

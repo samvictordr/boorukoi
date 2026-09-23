@@ -99,21 +99,16 @@ void main() {
       addTearDown(() => harness.teardown(tester));
 
       await harness.pump(tester);
-      await harness.pumpUntilFound(
-        tester,
-        find.byType(SliverPostGridImageGridItem),
-      );
-
-      await tester.tap(find.byType(SliverPostGridImageGridItem).first);
-      await tester.pump();
-      await harness.pumpUntilFound(
-        tester,
-        find.byType(PostDetailsPageScaffold),
-      );
+      await harness.openFirstPost(tester);
 
       expect(find.byType(PostDetailsPageScaffold), findsOneWidget);
 
-      await tester.tap(find.byIcon(Symbols.home).last);
+      await tester.tap(
+        find.descendant(
+          of: find.byType(PostDetailsPageScaffold),
+          matching: find.byIcon(Symbols.home),
+        ),
+      );
       await tester.pump();
       await harness.pumpUntilFound(
         tester,

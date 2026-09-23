@@ -48,8 +48,8 @@ class SettingsSelector<T> extends StatelessWidget {
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          customBorder: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
+          customBorder: const RoundedRectangleBorder(
+            borderRadius: KurumiBorderRadius.md,
           ),
           onTap: openSheet,
           child: Container(
@@ -149,7 +149,7 @@ class SettingsOptionTile<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Kurumi.themeOf(context).colorScheme;
-    final borderRadius = BorderRadius.circular(12);
+    const borderRadius = KurumiBorderRadius.md;
 
     return Padding(
       padding: const EdgeInsets.symmetric(
@@ -166,7 +166,7 @@ class SettingsOptionTile<T> extends StatelessWidget {
         excludeSemantics: true,
         child: InkWell(
           onTap: onTap,
-          customBorder: RoundedRectangleBorder(
+          customBorder: const RoundedRectangleBorder(
             borderRadius: borderRadius,
           ),
           child: Container(

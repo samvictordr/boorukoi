@@ -93,14 +93,16 @@ class _DownloadFormatCardState extends ConsumerState<DownloadFormatCard> {
     return DecoratedBox(
       decoration: BoxDecoration(
         color: Kurumi.themeOf(context).colorScheme.surfaceContainer,
-        borderRadius: const BorderRadius.all(Radius.circular(8)),
+        borderRadius: const BorderRadius.all(Radius.circular(KurumiRadius.sm)),
       ),
       child: ExpandablePanel(
         theme: ExpandableThemeData(
           headerAlignment: ExpandablePanelHeaderAlignment.center,
           tapBodyToCollapse: true,
           iconColor: Kurumi.themeOf(context).iconTheme.color,
-          inkWellBorderRadius: const BorderRadius.all(Radius.circular(8)),
+          inkWellBorderRadius: const BorderRadius.all(
+            Radius.circular(KurumiRadius.sm),
+          ),
         ),
         header: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8),

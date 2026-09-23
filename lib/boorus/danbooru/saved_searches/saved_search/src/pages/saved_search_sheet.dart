@@ -150,7 +150,9 @@ class _SavedSearchSheetState extends ConsumerState<SavedSearchSheet> {
                     foregroundColor: colorScheme.onSurface,
                     backgroundColor: colorScheme.surfaceContainerHighest,
                     shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(16)),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(KurumiRadius.lg),
+                      ),
                     ),
                   ),
                   onPressed: () {
@@ -164,7 +166,9 @@ class _SavedSearchSheetState extends ConsumerState<SavedSearchSheet> {
                     style: FilledButton.styleFrom(
                       foregroundColor: colorScheme.onPrimary,
                       shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(16)),
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(KurumiRadius.lg),
+                        ),
                       ),
                     ),
                     onPressed: enable

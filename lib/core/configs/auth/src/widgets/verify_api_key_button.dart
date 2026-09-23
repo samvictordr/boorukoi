@@ -45,8 +45,8 @@ class VerifyApiKeyButton extends StatelessWidget {
             foregroundColor: isEnabled
                 ? colorScheme.onPrimaryContainer
                 : colorScheme.onSurfaceVariant.withValues(alpha: 0.6),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
+            shape: const RoundedRectangleBorder(
+              borderRadius: KurumiBorderRadius.sm,
             ),
             label: Text(
               context.t.generic.action.verify,

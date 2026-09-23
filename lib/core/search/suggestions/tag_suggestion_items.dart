@@ -49,7 +49,8 @@ class TagSuggestionItems extends ConsumerWidget {
             color:
                 backgroundColor ?? Kurumi.themeOf(context).colorScheme.surface,
             borderRadius:
-                borderRadius ?? const BorderRadius.all(Radius.circular(8)),
+                borderRadius ??
+                const BorderRadius.all(Radius.circular(KurumiRadius.sm)),
             child: ListView.builder(
               reverse: reverse ?? false,
               padding:

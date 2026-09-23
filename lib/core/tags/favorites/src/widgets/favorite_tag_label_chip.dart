@@ -38,7 +38,7 @@ class FavoriteTagLabelChip extends ConsumerWidget {
               )
             : null,
         shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(8)),
+          borderRadius: BorderRadius.all(Radius.circular(KurumiRadius.sm)),
         ),
         label: ConstrainedBox(
           constraints: BoxConstraints(

@@ -20,15 +20,15 @@ class DataTransferCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Kurumi.themeOf(context);
     final iconTheme = theme.iconTheme;
-    final borderRadius = BorderRadius.circular(16);
+    const borderRadius = KurumiBorderRadius.lg;
 
     return Material(
       color: Kurumi.themeOf(context).colorScheme.surfaceContainer,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: borderRadius,
       ),
       child: InkWell(
-        customBorder: RoundedRectangleBorder(
+        customBorder: const RoundedRectangleBorder(
           borderRadius: borderRadius,
         ),
         onTap: onPressed,

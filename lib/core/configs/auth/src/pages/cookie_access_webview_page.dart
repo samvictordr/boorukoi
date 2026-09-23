@@ -5,6 +5,7 @@ import 'dart:async';
 import 'package:coreutils/coreutils.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:i18n/i18n.dart';
+import 'package:kurumi/kurumi.dart';
 import 'package:kurumi/material.dart';
 
 // Project imports:
@@ -152,7 +153,7 @@ class _CookieAccessWebViewPageState
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
       decoration: BoxDecoration(
-        borderRadius: const BorderRadius.all(Radius.circular(4)),
+        borderRadius: const BorderRadius.all(Radius.circular(KurumiRadius.xs)),
         border: Border.all(color: Colors.white),
       ),
       width: MediaQuery.widthOf(context),

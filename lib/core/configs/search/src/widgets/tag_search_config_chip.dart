@@ -43,8 +43,8 @@ class TagSearchConfigChip extends StatelessWidget {
         ),
       ),
       backgroundColor: backgroundColor ?? colorScheme.secondaryContainer,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(4),
+      shape: const RoundedRectangleBorder(
+        borderRadius: KurumiBorderRadius.xs,
       ),
     );
   }

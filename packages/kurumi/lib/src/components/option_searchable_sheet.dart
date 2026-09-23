@@ -3,6 +3,7 @@ import 'package:material_ui/material_ui.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../foundation/platform.dart';
+import '../theme/shapes.dart';
 
 class KurumiOptionSearchableSheet<T extends Object> extends StatefulWidget {
   const KurumiOptionSearchableSheet({
@@ -72,7 +73,7 @@ class _KurumiOptionSearchableSheetState<T extends Object>
                 hintText: widget.searchHint,
                 suffixIcon: const Icon(Icons.search),
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: KurumiBorderRadius.sm,
                 ),
               ),
             ),
@@ -139,7 +140,7 @@ class KurumiOptionSingleSearchableField<T extends Object>
             ),
             decoration: BoxDecoration(
               color: backgroundColor,
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: KurumiBorderRadius.sm,
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min,

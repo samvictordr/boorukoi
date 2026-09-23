@@ -321,7 +321,7 @@ class _DanbooruUploadGridState extends ConsumerState<DanbooruUploadGrid> {
                               decoration: BoxDecoration(
                                 color: Colors.black.withValues(alpha: 0.7),
                                 borderRadius: const BorderRadius.all(
-                                  Radius.circular(4),
+                                  Radius.circular(KurumiRadius.xs),
                                 ),
                               ),
                               child: ConfigAwareWebsiteLogo(
@@ -336,7 +336,7 @@ class _DanbooruUploadGridState extends ConsumerState<DanbooruUploadGrid> {
                             decoration: BoxDecoration(
                               color: Colors.black.withValues(alpha: 0.7),
                               borderRadius: const BorderRadius.all(
-                                Radius.circular(4),
+                                Radius.circular(KurumiRadius.xs),
                               ),
                             ),
                             child: Text(
@@ -353,7 +353,7 @@ class _DanbooruUploadGridState extends ConsumerState<DanbooruUploadGrid> {
                             decoration: BoxDecoration(
                               color: Colors.black.withValues(alpha: 0.7),
                               borderRadius: const BorderRadius.all(
-                                Radius.circular(4),
+                                Radius.circular(KurumiRadius.xs),
                               ),
                             ),
                             child: Text(
@@ -382,7 +382,9 @@ class _DanbooruUploadGridState extends ConsumerState<DanbooruUploadGrid> {
         padding: const EdgeInsets.all(4),
         decoration: BoxDecoration(
           color: Colors.black.withValues(alpha: 0.7),
-          borderRadius: const BorderRadius.all(Radius.circular(4)),
+          borderRadius: const BorderRadius.all(
+            Radius.circular(KurumiRadius.xs),
+          ),
         ),
         child: Row(
           children: [
@@ -459,7 +461,7 @@ class _DanbooruUploadGridState extends ConsumerState<DanbooruUploadGrid> {
         ),
         decoration: BoxDecoration(
           color: theme.colorScheme.surface.withValues(alpha: 0.8),
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: KurumiBorderRadius.sm,
         ),
         child: Builder(
           builder: (context) {

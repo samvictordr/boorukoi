@@ -1,5 +1,6 @@
 // Dart imports:
 import 'dart:async';
+import 'dart:math' as math;
 
 // Flutter imports:
 import 'package:flutter/services.dart';
@@ -7,6 +8,7 @@ import 'package:flutter/services.dart';
 // Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:i18n/i18n.dart';
+import 'package:kurumi/kurumi.dart';
 import 'package:kurumi/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
@@ -151,12 +153,12 @@ class _PinSetupPanelState extends State<PinSetupPanel> {
   void _appendDigit(String digit) {
     if (!_controller.canEdit) return;
 
-    unawaited(HapticFeedback.selectionClick());
+    final behavior = context.kurumiBehavior..provideSelectionFeedback();
 
     unawaited(
       _controller.enterDigit(digit, widget.onSubmit).then((result) {
         if (result == PinSetupResult.mismatch) {
-          unawaited(HapticFeedback.heavyImpact());
+          behavior.provideErrorFeedback();
         }
       }),
     );
@@ -164,7 +166,7 @@ class _PinSetupPanelState extends State<PinSetupPanel> {
 
   void _deleteDigit() {
     if (_controller.deleteDigit() != PinSetupResult.ignored) {
-      unawaited(HapticFeedback.selectionClick());
+      context.kurumiBehavior.provideSelectionFeedback();
     }
   }
 
@@ -245,7 +247,7 @@ class _PinUnlockPanelState extends State<PinUnlockPanel> {
   void _appendDigit(String digit) {
     if (!_controller.canEdit) return;
 
-    unawaited(HapticFeedback.selectionClick());
+    context.kurumiBehavior.provideSelectionFeedback();
 
     unawaited(
       _controller.enterDigit(digit, widget.onSubmit).then((result) {
@@ -255,7 +257,7 @@ class _PinUnlockPanelState extends State<PinUnlockPanel> {
           case PinUnlockResult.unlocked:
             widget.onUnlocked();
           case PinUnlockResult.incorrect || PinUnlockResult.retryLocked:
-            unawaited(HapticFeedback.heavyImpact());
+            context.kurumiBehavior.provideErrorFeedback();
             _scheduleErrorClear();
           case PinUnlockResult.ignored || PinUnlockResult.digitEntered:
             break;
@@ -266,7 +268,7 @@ class _PinUnlockPanelState extends State<PinUnlockPanel> {
 
   void _deleteDigit() {
     if (_controller.deleteDigit() != PinUnlockResult.ignored) {
-      unawaited(HapticFeedback.selectionClick());
+      context.kurumiBehavior.provideSelectionFeedback();
     }
   }
 
@@ -489,7 +491,7 @@ class _PinPadSurface extends StatelessWidget {
   }
 }
 
-class _PinDots extends StatelessWidget {
+class _PinDots extends StatefulWidget {
   const _PinDots({
     required this.length,
     required this.enteredLength,
@@ -503,33 +505,72 @@ class _PinDots extends StatelessWidget {
   final bool errorState;
 
   @override
-  Widget build(BuildContext context) {
-    final outlineColor = errorState
-        ? color
-        : Theme.of(context).colorScheme.outlineVariant;
+  State<_PinDots> createState() => _PinDotsState();
+}
 
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        for (var i = 0; i < length; i++) ...[
-          AnimatedContainer(
-            duration: const Duration(milliseconds: 120),
-            width: 16,
-            height: 16,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: i < enteredLength
-                  ? color
-                  : Theme.of(context).colorScheme.surface.withAlpha(0),
-              border: Border.all(
-                color: i < enteredLength ? color : outlineColor,
-                width: 1.5,
+class _PinDotsState extends State<_PinDots>
+    with SingleTickerProviderStateMixin {
+  late final _shake = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 450),
+  );
+
+  @override
+  void didUpdateWidget(covariant _PinDots oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (widget.errorState &&
+        !oldWidget.errorState &&
+        !context.kurumiBehavior.reduceMotion) {
+      _shake.forward(from: 0);
+    }
+  }
+
+  @override
+  void dispose() {
+    _shake.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final color = widget.color;
+    final outlineColor = widget.errorState ? color : colorScheme.outlineVariant;
+
+    return AnimatedBuilder(
+      animation: _shake,
+      // A decaying horizontal wobble, like the iOS passcode screen.
+      builder: (context, child) => Transform.translate(
+        offset: Offset(
+          math.sin(_shake.value * math.pi * 6) * 12 * (1 - _shake.value),
+          0,
+        ),
+        child: child,
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          for (var i = 0; i < widget.length; i++) ...[
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 120),
+              width: 16,
+              height: 16,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: i < widget.enteredLength
+                    ? color
+                    : colorScheme.surface.withAlpha(0),
+                border: Border.all(
+                  color: i < widget.enteredLength ? color : outlineColor,
+                  width: 1.5,
+                ),
               ),
             ),
-          ),
-          if (i != length - 1) const SizedBox(width: 34),
+            if (i != widget.length - 1) const SizedBox(width: 34),
+          ],
         ],
-      ],
+      ),
     );
   }
 }

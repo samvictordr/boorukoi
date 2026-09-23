@@ -5,6 +5,7 @@ import 'package:material_ui/material_ui.dart';
 
 import '../theme/theme.dart';
 import 'anchor.dart';
+import '../theme/shapes.dart';
 
 class KurumiPopupMenuButton extends StatefulWidget {
   const KurumiPopupMenuButton({
@@ -121,7 +122,7 @@ class KurumiPopupMenuItem extends StatelessWidget {
         color: Colors.transparent,
         child: InkWell(
           onTap: handleTap,
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: KurumiBorderRadius.md,
           child: Padding(
             padding: const EdgeInsets.symmetric(
               horizontal: 8,

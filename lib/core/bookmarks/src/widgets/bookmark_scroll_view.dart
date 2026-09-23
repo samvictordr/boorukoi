@@ -198,16 +198,8 @@ class _BookmarkScrollViewState extends ConsumerState<BookmarkScrollView> {
                   controller,
                 ),
             sliverHeaders: [
-              SliverAppBar(
-                floating: true,
-                snap: true,
-                pinned: true,
-                automaticallyImplyLeading: false,
-                titleSpacing: 0,
-                backgroundColor: Kurumi.themeOf(context).colorScheme.surface,
-                title: BookmarkAppBar(
-                  controller: controller,
-                ),
+              BookmarkAppBar(
+                controller: controller,
               ),
               SliverToBoxAdapter(
                 child: BookmarkSearchBar(
@@ -280,7 +272,7 @@ class _BookmarkScrollViewState extends ConsumerState<BookmarkScrollView> {
                     ?.auth,
                 leadingIcons: [
                   ClipRRect(
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: KurumiBorderRadius.sm,
                     child: ConfigAwareWebsiteLogo(url: post.bookmark.sourceUrl),
                   ),
                 ],

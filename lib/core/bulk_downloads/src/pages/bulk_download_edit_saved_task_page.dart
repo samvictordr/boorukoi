@@ -46,8 +46,8 @@ class BulkDownloadEditSavedTaskPage extends ConsumerWidget {
               Expanded(
                 child: ElevatedButton(
                   style: FilledButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: KurumiBorderRadius.lg,
                     ),
                   ),
                   onPressed: () {
@@ -65,7 +65,9 @@ class BulkDownloadEditSavedTaskPage extends ConsumerWidget {
                       context,
                     ).colorScheme.onPrimary,
                     shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(16)),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(KurumiRadius.lg),
+                      ),
                     ),
                   ),
                   onPressed: validOptions

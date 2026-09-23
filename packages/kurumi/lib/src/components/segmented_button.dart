@@ -5,6 +5,7 @@ import 'package:flutter/rendering.dart';
 
 import '../accessibility/behavior.dart';
 import '../theme/theme.dart';
+import '../theme/shapes.dart';
 
 class KurumiSegmentedButton<T> extends StatefulWidget {
   const KurumiSegmentedButton({
@@ -63,11 +64,11 @@ class _KurumiSegmentedButtonState<T> extends State<KurumiSegmentedButton<T>> {
       fixedWidth: widget.fixedWidth,
       thumbDecoration: BoxDecoration(
         color: widget.selectedColor ?? colorScheme.primary,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: KurumiBorderRadius.full,
       ),
       innerPadding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: KurumiBorderRadius.full,
         color: widget.unselectedColor ?? colorScheme.surfaceContainerHighest,
       ),
       onValueChanged: (value) {

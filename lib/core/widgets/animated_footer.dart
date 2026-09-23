@@ -3,8 +3,6 @@ import 'package:kurumi/kurumi.dart';
 import 'package:kurumi/material.dart';
 import 'package:selection_mode/selection_mode.dart';
 
-const _kAnimDuration = Duration(milliseconds: 100);
-
 class SelectionModeAnimatedFooter extends StatelessWidget {
   const SelectionModeAnimatedFooter({
     required this.child,
@@ -15,24 +13,39 @@ class SelectionModeAnimatedFooter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Kurumi.themeOf(context).colorScheme;
+    final behavior = context.kurumiBehavior;
 
     return SelectionConsumer(
       builder: (context, controller, _) {
         final enable = controller.isActive;
 
-        return Material(
-          color: enable ? colorScheme.surface : Colors.transparent,
-          child: SafeArea(
-            top: false,
-            child: AnimatedSlide(
-              duration: _kAnimDuration,
-              curve: Curves.easeInOut,
-              offset: enable ? Offset.zero : const Offset(0, 1),
-              child: AnimatedOpacity(
-                duration: _kAnimDuration,
-                opacity: enable ? 1.0 : 0.0,
-                child: enable ? child : const SizedBox.shrink(),
+        return SafeArea(
+          top: false,
+          minimum: const EdgeInsets.only(bottom: KurumiSpacing.sm),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: KurumiSpacing.floatingInset,
+            ),
+            child: IgnorePointer(
+              ignoring: !enable,
+              child: AnimatedSlide(
+                duration: behavior.effectiveDuration(KurumiMotion.standard),
+                curve: enable
+                    ? KurumiMotion.standardCurve
+                    : KurumiMotion.exitCurve,
+                offset: enable ? Offset.zero : const Offset(0, 1.5),
+                child: AnimatedOpacity(
+                  duration: behavior.effectiveDuration(KurumiMotion.fast),
+                  opacity: enable ? 1.0 : 0.0,
+                  child: KurumiGlass(
+                    shape: KurumiShapes.xl,
+                    elevated: true,
+                    child: Material(
+                      type: MaterialType.transparency,
+                      child: child,
+                    ),
+                  ),
+                ),
               ),
             ),
           ),

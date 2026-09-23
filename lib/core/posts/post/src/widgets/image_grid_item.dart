@@ -165,7 +165,9 @@ class ImageGridItem extends StatelessWidget {
                 height: 24,
                 decoration: BoxDecoration(
                   color: context.extendedColorScheme.surfaceContainerOverlayDim,
-                  borderRadius: const BorderRadius.all(Radius.circular(4)),
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(KurumiRadius.xs),
+                  ),
                 ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -224,7 +226,7 @@ class ImageScoreWidget extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
       decoration: const BoxDecoration(
         color: Colors.black54,
-        borderRadius: BorderRadius.all(Radius.circular(8)),
+        borderRadius: BorderRadius.all(Radius.circular(KurumiRadius.sm)),
       ),
       child: Text(
         NumberFormat.compact().format(score),
@@ -297,7 +299,9 @@ class _ImageInkWellWithBorderOnFocusState
                       decoration: BoxDecoration(
                         borderRadius:
                             widget.borderRadius ??
-                            const BorderRadius.all(Radius.circular(8)),
+                            const BorderRadius.all(
+                              Radius.circular(KurumiRadius.sm),
+                            ),
                         border: Border.all(
                           color: Kurumi.themeOf(context).colorScheme.primary,
                           width: 6,

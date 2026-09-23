@@ -322,7 +322,7 @@ class _SheetFrame extends StatelessWidget {
         child: Container(
           margin: const EdgeInsets.symmetric(horizontal: 16),
           decoration: const BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(8)),
+            borderRadius: BorderRadius.all(Radius.circular(KurumiRadius.sm)),
           ),
           child: child,
         ),

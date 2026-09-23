@@ -147,7 +147,7 @@ class PreviewColorContainer extends StatelessWidget {
         height: 52,
         decoration: BoxDecoration(
           color: followSystem ? null : primary,
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: KurumiBorderRadius.sm,
           border: Border.all(
             color: followSystem ? colorScheme.onSurface : primary,
           ),

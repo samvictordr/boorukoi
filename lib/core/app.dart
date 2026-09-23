@@ -89,6 +89,12 @@ class BoorusamaCoreApp extends ConsumerWidget {
                         segmentedSelectionFeedback: hapticFeedbackLevel.isFull
                             ? HapticFeedback.selectionClick
                             : null,
+                        successFeedback: hapticFeedbackLevel.isBalanceAndAbove
+                            ? HapticFeedback.lightImpact
+                            : null,
+                        errorFeedback: hapticFeedbackLevel.isReducedOrAbove
+                            ? HapticFeedback.heavyImpact
+                            : null,
                       ),
                       child: Theme(
                         data: Kurumi.themeOf(context).copyWith(

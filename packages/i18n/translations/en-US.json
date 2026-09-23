@@ -25,6 +25,8 @@
       "apply": "Apply",
       "show_all": "Show all",
       "show_less": "Show less",
+      "show_details": "Show details",
+      "hide_details": "Hide details",
       "search": "Search",
       "view_all": "View all",
       "copy_path": "Copy path"
@@ -460,6 +462,8 @@
       "dynamic_color_mobile_description": "Sync theme color with wallpaper",
       "dynamic_color_desktop_description": "Sync theme color with OS's accent color",
       "dynamic_color_unsupported_description": "This device does not support dynamic color.",
+      "appearance": "Appearance",
+      "fixed_appearance": "Your current theme has a fixed appearance. Pick a basic or accent theme to switch between light and dark.",
       "viewer": {
         "colors": "Colors",
         "color_variants": "Color Variants",
@@ -758,6 +762,7 @@
     "downloads": "Downloads",
     "retry_all": "Retry all",
     "nothing_to_clear": "Nothing to clear",
+    "clear_confirmation": "Remove all downloads from this list? Downloaded files won't be deleted.",
     "no_active_sessions": "No active download sessions",
     "nothing_to_show": "Nothing to show, download updates are empty",
     "notification": {
@@ -1147,7 +1152,8 @@
   "blacklist": {
     "manage": {
       "title": "Blacklist",
-      "empty_blacklist": "No blacklisted tags"
+      "empty_blacklist": "No blacklisted tags",
+      "tag_not_found": "Cannot find tag $tag"
     }
   },
   "bookmark": {

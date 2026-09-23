@@ -1,6 +1,3 @@
-// Flutter imports:
-import 'package:flutter/services.dart';
-
 // Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:i18n/i18n.dart';
@@ -175,7 +172,7 @@ class _List extends ConsumerWidget {
               color: isSelected
                   ? colorScheme.surfaceContainerLow
                   : colorScheme.surfaceContainerLowest,
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: KurumiBorderRadius.sm,
             ),
             child: ListTile(
               leading: Icon(
@@ -203,7 +200,7 @@ class _List extends ConsumerWidget {
               ),
               onTap: () {
                 notifier.toggle(part);
-                HapticFeedback.selectionClick();
+                context.kurumiBehavior.provideSelectionFeedback();
               },
             ),
           );

@@ -20,8 +20,8 @@ class MetatagContainer extends StatelessWidget {
       decoration: BoxDecoration(
         color: colorScheme.surfaceContainerLow,
         borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(4),
-          bottomLeft: Radius.circular(4),
+          topLeft: Radius.circular(KurumiRadius.xs),
+          bottomLeft: Radius.circular(KurumiRadius.xs),
         ),
       ),
     );

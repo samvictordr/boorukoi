@@ -47,7 +47,7 @@ class RawTagChip extends StatelessWidget {
       foregroundColor: foregroundColor,
       backgroundColor: backgroundColor,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: KurumiBorderRadius.sm,
         side: borderColor != null
             ? BorderSide(color: borderColor!)
             : BorderSide.none,

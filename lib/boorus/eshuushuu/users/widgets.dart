@@ -80,7 +80,7 @@ class EshuushuuUserDetailsPage extends ConsumerWidget {
                   color: Kurumi.themeOf(
                     context,
                   ).colorScheme.surfaceContainerHighest,
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: KurumiBorderRadius.sm,
                 ),
               ),
               const SizedBox(width: 12),
@@ -183,7 +183,7 @@ class _EshuushuuUserOverview extends ConsumerWidget {
           height: 72,
           decoration: BoxDecoration(
             color: colorScheme.surfaceContainerHighest,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: KurumiBorderRadius.sm,
             image: switch ((
               automaticMediaLoadingEnabled,
               user.avatarUrl,
@@ -351,7 +351,7 @@ class _StatCard extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
       decoration: BoxDecoration(
         color: Kurumi.themeOf(context).colorScheme.surfaceContainerLow,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: KurumiBorderRadius.md,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

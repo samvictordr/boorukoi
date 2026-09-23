@@ -106,7 +106,7 @@ class BooruConfigsBackupSource extends JsonBackupSource<List<BooruConfig>> {
                     children: [
                       ...first5Configs.map(
                         (e) => ClipRRect(
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: KurumiBorderRadius.md,
                           child: ConfigAwareWebsiteLogo.fromConfig(e.auth),
                         ),
                       ),

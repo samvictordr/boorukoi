@@ -4,6 +4,7 @@ import 'dart:math' as math;
 // Package imports:
 import 'package:i18n/i18n.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:kurumi/kurumi.dart';
 
 // Project imports:
 import 'l10n.dart';
@@ -12,7 +13,9 @@ class BlockedMediaPlaceholder extends StatelessWidget {
   const BlockedMediaPlaceholder({
     super.key,
     this.aspectRatio,
-    this.borderRadius = const BorderRadius.all(Radius.circular(8)),
+    this.borderRadius = const BorderRadius.all(
+      Radius.circular(KurumiRadius.sm),
+    ),
     this.isVideo = false,
     this.width,
     this.height,

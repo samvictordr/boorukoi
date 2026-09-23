@@ -1,4 +1,5 @@
 import 'package:material_ui/material_ui.dart';
+import '../theme/shapes.dart';
 
 class KurumiCompactChip extends StatelessWidget {
   const KurumiCompactChip({
@@ -39,7 +40,7 @@ class KurumiCompactChip extends StatelessWidget {
       backgroundColor: backgroundColor,
       foregroundColor: textColor,
       shape: RoundedRectangleBorder(
-        borderRadius: borderRadius ?? BorderRadius.circular(4),
+        borderRadius: borderRadius ?? KurumiBorderRadius.xs,
       ),
     );
   }

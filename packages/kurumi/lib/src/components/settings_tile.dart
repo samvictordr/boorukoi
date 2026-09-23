@@ -35,7 +35,10 @@ class KurumiSettingsTile<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      contentPadding: padding ?? EdgeInsets.zero,
+      contentPadding:
+          padding ??
+          ListTileTheme.of(context).contentPadding ??
+          EdgeInsets.zero,
       leading: leading,
       subtitle: subtitle,
       title: title,

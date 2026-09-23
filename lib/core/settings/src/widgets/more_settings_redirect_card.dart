@@ -38,7 +38,7 @@ class MoreSettingsRedirectCard extends ConsumerWidget {
       ),
       decoration: BoxDecoration(
         color: colorScheme.surfaceContainer,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: KurumiBorderRadius.md,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

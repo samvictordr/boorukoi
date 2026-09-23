@@ -1,11 +1,9 @@
 // Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:foundation/widgets.dart';
+import 'package:kurumi/kurumi.dart';
 import 'package:kurumi/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
-
-// Project imports:
-import '../../themes/theme/types.dart';
 
 class PoolGridItem extends ConsumerWidget {
   const PoolGridItem({
@@ -69,7 +67,9 @@ class PoolGridItem extends ConsumerWidget {
               height: 28,
               decoration: BoxDecoration(
                 color: context.extendedColorScheme.surfaceContainerOverlayDim,
-                borderRadius: const BorderRadius.all(Radius.circular(4)),
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(KurumiRadius.xs),
+                ),
               ),
               child: Row(
                 mainAxisSize: MainAxisSize.min,

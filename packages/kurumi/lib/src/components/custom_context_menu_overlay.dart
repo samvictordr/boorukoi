@@ -3,6 +3,7 @@ import 'package:material_ui/material_ui.dart';
 
 import '../accessibility/behavior.dart';
 import '../theme/theme.dart';
+import '../theme/shapes.dart';
 
 class KurumiCustomContextMenuOverlay extends StatelessWidget {
   const KurumiCustomContextMenuOverlay({
@@ -25,7 +26,7 @@ class KurumiCustomContextMenuOverlay extends StatelessWidget {
       cardBuilder: (context, children) => Material(
         color:
             backgroundColor ?? Theme.of(context).colorScheme.surfaceContainer,
-        borderRadius: BorderRadius.circular(4),
+        borderRadius: KurumiBorderRadius.md,
         elevation: 4,
         child: Container(
           padding: const EdgeInsets.all(8),
@@ -137,7 +138,7 @@ class _KurumiContextMenuTileSurface extends StatelessWidget {
         hoverColor: hoverColor,
         onTap: onTap,
         customBorder: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(4),
+          borderRadius: KurumiBorderRadius.xs,
         ),
         child: Padding(
           padding: EdgeInsets.symmetric(

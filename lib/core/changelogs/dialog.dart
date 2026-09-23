@@ -115,7 +115,7 @@ class _ChanglogBox extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           color: Kurumi.themeOf(context).colorScheme.surfaceContainer,
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: KurumiBorderRadius.sm,
         ),
         margin: const EdgeInsets.symmetric(
           horizontal: 4,
@@ -353,7 +353,7 @@ class _SupportBanner extends ConsumerWidget {
         ),
         child: InkWell(
           customBorder: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(8)),
+            borderRadius: BorderRadius.all(Radius.circular(KurumiRadius.sm)),
           ),
           onTap: () {
             goToPremiumPage(ref);

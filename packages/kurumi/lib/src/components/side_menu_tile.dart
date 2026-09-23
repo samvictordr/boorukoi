@@ -1,4 +1,5 @@
 import 'package:material_ui/material_ui.dart';
+import '../theme/shapes.dart';
 
 class KurumiSideMenuTile extends StatelessWidget {
   const KurumiSideMenuTile({
@@ -22,7 +23,7 @@ class KurumiSideMenuTile extends StatelessWidget {
         child: InkWell(
           onTap: onTap,
           customBorder: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: KurumiBorderRadius.sm,
           ),
           child: DefaultTextStyle(
             style: Theme.of(context).textTheme.titleSmall ?? const TextStyle(),

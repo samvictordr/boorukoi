@@ -99,7 +99,9 @@ class SelectedTagList extends StatelessWidget {
                         color: Colors.transparent,
                         child: InkWell(
                           customBorder: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(12)),
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(KurumiRadius.md),
+                            ),
                           ),
                           onTap: onOtherTagsCountTap,
                           child: Container(

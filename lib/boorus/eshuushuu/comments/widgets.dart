@@ -106,7 +106,7 @@ class _EshuushuuCommentItem extends ConsumerWidget {
                     height: 32,
                     decoration: BoxDecoration(
                       color: colorScheme.surfaceContainerHighest,
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: KurumiBorderRadius.xs,
                       image: switch ((
                         automaticMediaLoadingEnabled,
                         comment.creatorAvatarUrl,

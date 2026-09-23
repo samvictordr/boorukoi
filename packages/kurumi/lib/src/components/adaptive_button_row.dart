@@ -5,6 +5,7 @@ import 'package:material_ui/material_ui.dart';
 
 import '../foundation/platform.dart';
 import 'anchor.dart';
+import '../theme/shapes.dart';
 
 const double _kMinButtonWidth = 40;
 const double _kMaxButtonWidth = 150;
@@ -432,7 +433,7 @@ class _KurumiAdaptiveButtonRowState extends State<KurumiAdaptiveButtonRow> {
                   color: Colors.transparent,
                   child: InkWell(
                     onTap: handleTap,
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: KurumiBorderRadius.md,
                     child: Padding(
                       padding: EdgeInsets.symmetric(
                         horizontal: 8,

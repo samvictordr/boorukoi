@@ -66,7 +66,7 @@ class PreviewFrame extends StatelessWidget {
           color: colorScheme.outlineVariant,
           width: 1.5,
         ),
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: KurumiBorderRadius.lg,
       ),
       child: child,
     );

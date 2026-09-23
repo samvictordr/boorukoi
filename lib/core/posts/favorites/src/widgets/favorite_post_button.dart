@@ -43,6 +43,8 @@ class FavoritePostButton extends StatelessWidget {
 
                   return;
                 }
+                context.kurumiBehavior.provideSelectionFeedback();
+
                 if (isFaved!) {
                   unawaited(removeFavorite());
                 } else {
@@ -50,17 +52,30 @@ class FavoritePostButton extends StatelessWidget {
                 }
               }
             : null,
-        icon: (isFaved ?? false)
-            ? Icon(
-                Symbols.favorite,
-                fill: 1,
-                color: context.colors.upvoteColor,
-                size: 20,
-              )
-            : const Icon(
-                Symbols.favorite,
-                size: 20,
-              ),
+        icon: AnimatedSwitcher(
+          duration: context.kurumiBehavior.effectiveDuration(
+            KurumiMotion.emphasized,
+          ),
+          switchInCurve: Curves.easeOutBack,
+          switchOutCurve: KurumiMotion.exitCurve,
+          transitionBuilder: (child, animation) => ScaleTransition(
+            scale: animation,
+            child: child,
+          ),
+          child: (isFaved ?? false)
+              ? Icon(
+                  Symbols.favorite,
+                  key: const ValueKey(true),
+                  fill: 1,
+                  color: context.colors.upvoteColor,
+                  size: 20,
+                )
+              : const Icon(
+                  Symbols.favorite,
+                  key: ValueKey(false),
+                  size: 20,
+                ),
+        ),
       ),
     );
   }

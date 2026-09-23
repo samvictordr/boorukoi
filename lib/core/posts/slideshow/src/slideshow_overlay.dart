@@ -2,11 +2,11 @@
 import 'dart:async';
 
 // Package imports:
+import 'package:kurumi/kurumi.dart';
 import 'package:kurumi/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
 // Project imports:
-import '../../../themes/theme/types.dart';
 import 'slideshow_controller.dart';
 
 const _kFadeDuration = Duration(milliseconds: 300);
@@ -197,7 +197,7 @@ class _SlideshowOverlayState extends State<SlideshowOverlay>
                       ),
                       child: LinearProgressIndicator(
                         value: _progressController.value,
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: KurumiBorderRadius.sm,
                         minHeight: 4,
                         color: context
                             .extendedColorScheme

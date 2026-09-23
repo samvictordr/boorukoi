@@ -76,7 +76,7 @@ class DefaultBackupTile extends ConsumerWidget {
                   context,
                 ).colorScheme.primaryContainer.withValues(alpha: 0.3)
               : Kurumi.themeOf(context).colorScheme.surfaceContainer,
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: KurumiBorderRadius.sm,
           border: isSelected
               ? Border.all(
                   color: Kurumi.themeOf(context).colorScheme.primary,

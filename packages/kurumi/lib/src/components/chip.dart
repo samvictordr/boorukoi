@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:material_ui/material_ui.dart';
+import '../theme/shapes.dart';
 
 @immutable
 class KurumiChipColors extends Equatable {
@@ -61,8 +62,7 @@ class KurumiChip extends StatelessWidget {
                         : Colors.transparent
                   : Colors.transparent,
               shape: RoundedRectangleBorder(
-                borderRadius:
-                    borderRadius ?? const BorderRadius.all(Radius.circular(8)),
+                borderRadius: borderRadius ?? KurumiBorderRadius.sm,
               ),
               side: showBorder
                   ? BorderSide(
@@ -89,8 +89,7 @@ class KurumiChip extends StatelessWidget {
                         : Colors.transparent
                   : Colors.transparent,
               shape: RoundedRectangleBorder(
-                borderRadius:
-                    borderRadius ?? const BorderRadius.all(Radius.circular(16)),
+                borderRadius: borderRadius ?? KurumiBorderRadius.full,
               ),
               side: showBorder
                   ? BorderSide(

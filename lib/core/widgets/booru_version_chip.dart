@@ -27,7 +27,7 @@ class BooruVersionChip extends StatelessWidget {
           left: 4,
         ),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: KurumiBorderRadius.md,
           color: Kurumi.themeOf(context).colorScheme.surfaceContainer,
         ),
         child: Text(

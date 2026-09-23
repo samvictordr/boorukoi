@@ -9,6 +9,7 @@ import 'package:i18n/i18n.dart';
 import 'package:kurumi/cupertino.dart';
 import 'package:kurumi/kurumi.dart';
 import 'package:kurumi/material.dart';
+import 'package:material_symbols_icons/symbols.dart';
 
 // Project imports:
 import '../../../../foundation/info/app_info.dart';
@@ -52,63 +53,63 @@ List<SettingEntry> _entries(
     id: 'appearance',
     name: '/settings/appearance',
     title: context.t.settings.appearance.appearance,
-    icon: FontAwesomeIcons.paintRoller,
+    icon: Symbols.palette,
     content: const AppearancePage(),
   ),
   SettingEntry(
     id: 'language',
     name: '/settings/language',
     title: context.t.settings.language.language,
-    icon: FontAwesomeIcons.language,
+    icon: Symbols.translate,
     content: const LanguagePage(),
   ),
   SettingEntry(
     id: 'download',
     name: '/settings/download',
     title: context.t.settings.download.title,
-    icon: FontAwesomeIcons.download,
+    icon: Symbols.download,
     content: const DownloadPage(),
   ),
   SettingEntry(
     id: 'data_and_storage',
     name: '/settings/data_and_storage',
     title: context.t.settings.data_and_storage.data_and_storage,
-    icon: FontAwesomeIcons.database,
+    icon: Symbols.database,
     content: const DataAndStoragePage(),
   ),
   SettingEntry(
     id: 'backup_and_restore',
     name: '/settings/backup_and_restore',
     title: context.t.settings.backup_and_restore.backup_and_restore,
-    icon: FontAwesomeIcons.cloudArrowDown,
+    icon: Symbols.backup,
     content: const BackupAndRestorePage(),
   ),
   SettingEntry(
     id: 'search',
     name: '/settings/search',
     title: context.t.settings.search.search,
-    icon: FontAwesomeIcons.magnifyingGlass,
+    icon: Symbols.search,
     content: const SearchSettingsPage(),
   ),
   SettingEntry(
     id: 'accessibility',
     name: '/settings/accessibility',
     title: context.t.settings.accessibility.accessibility,
-    icon: FontAwesomeIcons.universalAccess,
+    icon: Symbols.accessibility_new,
     content: const AccessibilityPage(),
   ),
   SettingEntry(
     id: 'viewer',
     name: '/settings/image_viewer',
     title: context.t.settings.image_viewer.image_viewer,
-    icon: FontAwesomeIcons.image,
+    icon: Symbols.image,
     content: const ImageViewerPage(),
   ),
   SettingEntry(
     id: 'privacy',
     name: '/settings/privacy',
     title: context.t.settings.privacy.privacy,
-    icon: FontAwesomeIcons.shieldHalved,
+    icon: Symbols.shield,
     content: const PrivacyPage(),
   ),
   if (showDeveloperOptions)
@@ -116,7 +117,7 @@ List<SettingEntry> _entries(
       id: 'developer_options',
       name: '/settings/developer_options',
       title: context.t.developerOptions.title,
-      icon: FontAwesomeIcons.code,
+      icon: Symbols.code,
       content: const DeveloperOptionsPage(),
     ),
 ];
@@ -519,18 +520,22 @@ class _SettingsNavigationList extends StatelessWidget {
   Widget build(BuildContext context) => ListView(
     key: storageKey,
     controller: scrollController,
-    padding: EdgeInsets.zero,
+    padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
     children: [
-      _SettingsSection(label: context.t.settings.app_settings),
-      for (final entry in entries)
-        SettingTile(
-          title: entry.title,
-          leading: SettingEntryIcon(icon: entry.icon),
-          selected: selectedId == entry.id,
-          onTap: () => onSelected(entry),
-        ),
+      KurumiSettingsSection(
+        separatorIndent: KurumiSettingsSection.entryTileSeparatorIndent,
+        header: context.t.settings.app_settings,
+        children: [
+          for (final entry in entries)
+            SettingTile(
+              title: entry.title,
+              leading: SettingEntryIcon(icon: entry.icon),
+              selected: selectedId == entry.id,
+              onTap: () => onSelected(entry),
+            ),
+        ],
+      ),
       const SettingsPageOtherSection(),
-      const _Divider(),
       const _Footer(),
     ],
   );
@@ -685,169 +690,175 @@ class SettingsPageOtherSection extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (booruBuilder != null) ...[
-          const Divider(),
-          _SettingsSection(
-            label: context.t.settings.booru_settings.booru_settings,
+        if (booruBuilder != null)
+          KurumiSettingsSection(
+            separatorIndent: KurumiSettingsSection.entryTileSeparatorIndent,
+            header: context.t.settings.booru_settings.booru_settings,
+            children: [
+              SettingTile(
+                title: context.t.settings.booru_settings.edit_current_profile,
+                leading: const Icon(
+                  Symbols.manage_accounts,
+                ),
+                onTap: () => goToUpdateBooruConfigPage(
+                  ref,
+                  config: ref.watchConfig,
+                ),
+              ),
+            ],
           ),
-          SettingTile(
-            title: context.t.settings.booru_settings.edit_current_profile,
-            leading: const FaIcon(
-              FontAwesomeIcons.gear,
-            ),
-            onTap: () => goToUpdateBooruConfigPage(
-              ref,
-              config: ref.watchConfig,
-            ),
-          ),
-        ],
-        const Divider(),
-        _SettingsSection(
-          label: context.t.settings.other_settings,
-        ),
-        if (ref.watch(hasPremiumProvider))
-          ref
-              .watch(premiumManagementURLProvider)
-              .maybeWhen(
-                data: (url) => SettingTile(
-                  title: 'Manage Subscription',
-                  leading: const FaIcon(
-                    FontAwesomeIcons.solidStar,
-                  ),
-                  onTap: () => url != null
-                      ? launchExternalUrl(
-                          Uri.parse(url),
-                          launcher: ref.read(externalUrlLauncherProvider),
-                        )
-                      : Kurumi.showErrorToast(
+        KurumiSettingsSection(
+          separatorIndent: KurumiSettingsSection.entryTileSeparatorIndent,
+          header: context.t.settings.other_settings,
+          children: [
+            if (ref.watch(hasPremiumProvider))
+              ref
+                  .watch(premiumManagementURLProvider)
+                  .maybeWhen(
+                    data: (url) => SettingTile(
+                      title: 'Manage Subscription',
+                      leading: const Icon(
+                        Symbols.star,
+                      ),
+                      onTap: () => url != null
+                          ? launchExternalUrl(
+                              Uri.parse(url),
+                              launcher: ref.read(externalUrlLauncherProvider),
+                            )
+                          : Kurumi.showErrorToast(
+                              context,
+                              'Failed to open subscription management',
+                            ),
+                    ),
+                    orElse: () => SettingTile(
+                      title: 'Manage Subscription',
+                      leading: const Icon(
+                        Symbols.star,
+                      ),
+                      onTap: () {
+                        Kurumi.showErrorToast(
                           context,
                           'Failed to open subscription management',
-                        ),
+                        );
+                      },
+                    ),
+                  )
+            else if (ref.watch(showPremiumFeatsProvider) && !kForcePremium)
+              SettingTile(
+                title: kPremiumBrandNameFull,
+                leading: const Icon(
+                  Symbols.star,
                 ),
-                orElse: () => SettingTile(
-                  title: 'Manage Subscription',
-                  leading: const FaIcon(
-                    FontAwesomeIcons.solidStar,
-                  ),
-                  onTap: () {
-                    Kurumi.showErrorToast(
-                      context,
-                      'Failed to open subscription management',
-                    );
-                  },
-                ),
-              )
-        else if (ref.watch(showPremiumFeatsProvider) && !kForcePremium)
-          SettingTile(
-            title: kPremiumBrandNameFull,
-            leading: const FaIcon(
-              FontAwesomeIcons.solidStar,
+                onTap: () => goToPremiumPage(ref),
+              ),
+            SettingTile(
+              title: context.t.settings.changelog,
+              leading: const Icon(
+                Symbols.news,
+              ),
+              onTap: () => goToChangelogPage(ref),
             ),
-            onTap: () => goToPremiumPage(ref),
-          ),
-        SettingTile(
-          title: context.t.settings.changelog,
-          leading: const FaIcon(
-            FontAwesomeIcons.solidNoteSticky,
-          ),
-          onTap: () => goToChangelogPage(ref),
-        ),
-        SettingTile(
-          title: context.t.settings.debug_logs.debug_logs,
-          leading: const FaIcon(
-            FontAwesomeIcons.bug,
-          ),
-          onTap: () => goToDebuglogPage(ref),
-        ),
-        Builder(
-          builder: (context) {
-            final buildInfo = ref.watch(buildInfoProvider);
-            final packageInfo = ref.watch(packageInfoProvider);
-            final versionString = context.t.generic.version(
-              version: packageInfo.version,
-            );
+            SettingTile(
+              title: context.t.settings.debug_logs.debug_logs,
+              leading: const Icon(
+                Symbols.bug_report,
+              ),
+              onTap: () => goToDebuglogPage(ref),
+            ),
+            Builder(
+              builder: (context) {
+                final buildInfo = ref.watch(buildInfoProvider);
+                final packageInfo = ref.watch(packageInfoProvider);
+                final versionString = context.t.generic.version(
+                  version: packageInfo.version,
+                );
 
-            return SettingTile(
-              title: context.t.settings.information,
-              subtitle: switch (buildInfo) {
-                final info? => info.toInfoString(
-                  versionString,
-                  formatTimestamp: (timestamp) =>
-                      '${context.t.comment.list.last_updated}: ${timestamp.fuzzify(
-                        locale: Localizations.localeOf(context),
-                      )}',
-                ),
-                null => versionString,
+                return SettingTile(
+                  title: context.t.settings.information,
+                  subtitle: switch (buildInfo) {
+                    final info? => info.toInfoString(
+                      versionString,
+                      formatTimestamp: (timestamp) =>
+                          '${context.t.comment.list.last_updated}: ${timestamp.fuzzify(
+                            locale: Localizations.localeOf(context),
+                          )}',
+                    ),
+                    null => versionString,
+                  },
+                  leading: const Icon(
+                    Symbols.info,
+                  ),
+                  onTap: () => showDialog(
+                    context: SettingsPageNavigationScope.applicationNavigatorOf(
+                      context,
+                    ).context,
+                    useRootNavigator: false,
+                    builder: (context) => const AboutPage(),
+                  ),
+                );
               },
-              leading: const FaIcon(
-                FontAwesomeIcons.circleInfo,
+            ),
+          ],
+        ),
+        KurumiSettingsSection(
+          separatorIndent: KurumiSettingsSection.entryTileSeparatorIndent,
+          header: context.t.settings.contribute,
+          children: [
+            SettingTile(
+              title: context.t.settings.help_us_translate,
+              leading: const Icon(
+                Symbols.translate,
               ),
-              onTap: () => showDialog(
-                context: SettingsPageNavigationScope.applicationNavigatorOf(
-                  context,
-                ).context,
-                useRootNavigator: false,
-                builder: (context) => const AboutPage(),
+              onTap: () =>
+                  SettingsPageNavigationScope.applicationNavigatorOf(
+                    context,
+                  ).push(
+                    CupertinoPageRoute(
+                      builder: (_) => const HelpUseTranslatePage(),
+                    ),
+                  ),
+            ),
+            SettingTile(
+              title: context.t.settings.source_code,
+              leading: const Icon(
+                Symbols.code,
               ),
-            );
-          },
-        ),
-        const Divider(),
-        _SettingsSection(
-          label: context.t.settings.contribute,
-        ),
-        SettingTile(
-          title: context.t.settings.help_us_translate,
-          leading: const FaIcon(
-            FontAwesomeIcons.language,
-          ),
-          onTap: () =>
-              SettingsPageNavigationScope.applicationNavigatorOf(
-                context,
-              ).push(
-                CupertinoPageRoute(
-                  builder: (_) => const HelpUseTranslatePage(),
-                ),
+              onTap: () => launchExternalUrl(
+                Uri.parse(appInfo.githubUrl),
+                launcher: ref.read(externalUrlLauncherProvider),
               ),
+            ),
+          ],
         ),
-        SettingTile(
-          title: context.t.settings.source_code,
-          leading: const FaIcon(
-            FontAwesomeIcons.code,
-          ),
-          onTap: () => launchExternalUrl(
-            Uri.parse(appInfo.githubUrl),
-            launcher: ref.read(externalUrlLauncherProvider),
-          ),
+        KurumiSettingsSection(
+          separatorIndent: KurumiSettingsSection.entryTileSeparatorIndent,
+          header: context.t.settings.support,
+          children: [
+            SettingTile(
+              title: context.t.settings.contact_developer,
+              subtitle: context.t.settings.contact_developer_description,
+              leading: const Icon(
+                Symbols.mail,
+              ),
+              onTap: () => launchExternalUrl(
+                Uri.parse('mailto:${appInfo.supportEmail}'),
+                launcher: ref.read(externalUrlLauncherProvider),
+              ),
+            ),
+            SettingTile(
+              title: context.t.settings.feature_request_and_bug_report,
+              subtitle:
+                  context.t.settings.feature_request_and_bug_report_description,
+              leading: const Icon(
+                Symbols.bug_report,
+              ),
+              onTap: () => launchExternalUrl(
+                Uri.parse('${appInfo.githubUrl}/issues'),
+                launcher: ref.read(externalUrlLauncherProvider),
+              ),
+            ),
+          ],
         ),
-        const Divider(),
-        _SettingsSection(
-          label: context.t.settings.support,
-        ),
-        SettingTile(
-          title: context.t.settings.contact_developer,
-          subtitle: context.t.settings.contact_developer_description,
-          leading: const FaIcon(
-            FontAwesomeIcons.envelope,
-          ),
-          onTap: () => launchExternalUrl(
-            Uri.parse('mailto:${appInfo.supportEmail}'),
-            launcher: ref.read(externalUrlLauncherProvider),
-          ),
-        ),
-        SettingTile(
-          title: context.t.settings.feature_request_and_bug_report,
-          subtitle:
-              context.t.settings.feature_request_and_bug_report_description,
-          leading: const FaIcon(
-            FontAwesomeIcons.bug,
-          ),
-          onTap: () => launchExternalUrl(
-            Uri.parse('${appInfo.githubUrl}/issues'),
-            launcher: ref.read(externalUrlLauncherProvider),
-          ),
-        ),
-        const SizedBox(height: 16),
       ],
     );
   }
@@ -889,20 +900,6 @@ class SettingTile extends StatelessWidget {
   }
 }
 
-class _Divider extends StatelessWidget {
-  const _Divider();
-
-  @override
-  Widget build(BuildContext context) {
-    return const Divider(
-      height: 4,
-      indent: 8,
-      endIndent: 8,
-      thickness: 1,
-    );
-  }
-}
-
 class _Footer extends ConsumerWidget {
   const _Footer();
 
@@ -930,30 +927,6 @@ class _Footer extends ConsumerWidget {
             icon: const FaIcon(FontAwesomeIcons.discord),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class _SettingsSection extends StatelessWidget {
-  const _SettingsSection({
-    required this.label,
-  });
-
-  final String label;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 16,
-        vertical: 8,
-      ),
-      child: Text(
-        label.toUpperCase(),
-        style: Kurumi.themeOf(context).textTheme.titleSmall?.copyWith(
-          color: Kurumi.themeOf(context).colorScheme.hintColor,
-        ),
       ),
     );
   }

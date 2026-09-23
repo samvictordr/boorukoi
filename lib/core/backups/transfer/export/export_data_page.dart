@@ -137,7 +137,7 @@ class _ExportDataPageState extends ConsumerState<ExportDataPage> {
                   color: colorScheme.errorContainer.withValues(
                     alpha: 0.2,
                   ),
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: KurumiBorderRadius.sm,
                 ),
                 child: Row(
                   children: [
@@ -174,7 +174,7 @@ class _ExportDataPageState extends ConsumerState<ExportDataPage> {
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: colorScheme.surfaceContainerLow,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: KurumiBorderRadius.md,
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,

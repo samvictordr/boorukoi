@@ -25,13 +25,44 @@ class DefaultSelectionBar extends StatelessWidget {
     return SelectionConsumer(
       builder: (context, controller, _) {
         final isSelectionMode = controller.isActive;
+        final duration = context.kurumiBehavior.effectiveDuration(
+          KurumiMotion.standard,
+        );
 
-        return !isSelectionMode
-            ? appBar
-            : _SelectionAppBar(
-                controller: controller,
-                itemsCount: itemsCount,
-              );
+        return AnimatedSize(
+          duration: duration,
+          curve: KurumiMotion.standardCurve,
+          alignment: Alignment.topCenter,
+          child: AnimatedSwitcher(
+            duration: duration,
+            switchInCurve: KurumiMotion.standardCurve,
+            switchOutCurve: KurumiMotion.exitCurve,
+            layoutBuilder: (current, previous) => Stack(
+              alignment: Alignment.topCenter,
+              children: [...previous, ?current],
+            ),
+            transitionBuilder: (child, animation) => FadeTransition(
+              opacity: animation,
+              child: SlideTransition(
+                position: Tween(
+                  begin: const Offset(0, -0.25),
+                  end: Offset.zero,
+                ).animate(animation),
+                child: child,
+              ),
+            ),
+            child: !isSelectionMode
+                ? KeyedSubtree(
+                    key: const ValueKey(false),
+                    child: appBar,
+                  )
+                : _SelectionAppBar(
+                    key: const ValueKey(true),
+                    controller: controller,
+                    itemsCount: itemsCount,
+                  ),
+          ),
+        );
       },
     );
   }
@@ -79,6 +110,7 @@ class _SelectionAppBar extends StatelessWidget implements PreferredSizeWidget {
   const _SelectionAppBar({
     required this.itemsCount,
     required this.controller,
+    super.key,
   });
 
   final int? itemsCount;

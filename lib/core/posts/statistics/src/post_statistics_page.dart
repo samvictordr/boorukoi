@@ -391,7 +391,9 @@ class PostStatsTile extends StatelessWidget {
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
               color: Kurumi.themeOf(context).colorScheme.surfaceContainerHigh,
-              borderRadius: const BorderRadius.all(Radius.circular(4)),
+              borderRadius: const BorderRadius.all(
+                Radius.circular(KurumiRadius.xs),
+              ),
             ),
             child: Text(
               value,

@@ -70,8 +70,8 @@ class SliverRelatedPostsSection<T extends Post> extends ConsumerWidget {
                   child: onViewAll != null
                       ? InkWell(
                           onTap: onViewAll,
-                          customBorder: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
+                          customBorder: const RoundedRectangleBorder(
+                            borderRadius: KurumiBorderRadius.sm,
                           ),
                           child: listTile,
                         )
@@ -108,7 +108,7 @@ class SliverRelatedPostsSection<T extends Post> extends ConsumerWidget {
                                     .extendedColorScheme
                                     .surfaceContainerOverlay,
                                 borderRadius: const BorderRadius.all(
-                                  Radius.circular(4),
+                                  Radius.circular(KurumiRadius.xs),
                                 ),
                               ),
                               child: ConfigAwareWebsiteLogo(
@@ -126,7 +126,7 @@ class SliverRelatedPostsSection<T extends Post> extends ConsumerWidget {
                                     .extendedColorScheme
                                     .surfaceContainerOverlay,
                                 borderRadius: const BorderRadius.all(
-                                  Radius.circular(4),
+                                  Radius.circular(KurumiRadius.xs),
                                 ),
                               ),
                               child: Text(
@@ -147,7 +147,7 @@ class SliverRelatedPostsSection<T extends Post> extends ConsumerWidget {
                                   .extendedColorScheme
                                   .surfaceContainerOverlay,
                               borderRadius: const BorderRadius.all(
-                                Radius.circular(4),
+                                Radius.circular(KurumiRadius.xs),
                               ),
                             ),
                             child: Text(

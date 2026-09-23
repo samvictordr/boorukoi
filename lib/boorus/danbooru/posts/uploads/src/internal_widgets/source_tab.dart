@@ -52,7 +52,9 @@ class TagEditUploadSource extends ConsumerWidget {
               minHeight: 80,
             ),
             decoration: BoxDecoration(
-              borderRadius: const BorderRadius.all(Radius.circular(8)),
+              borderRadius: const BorderRadius.all(
+                Radius.circular(KurumiRadius.sm),
+              ),
               border: Border.all(
                 color: Kurumi.themeOf(context).colorScheme.onSecondaryContainer,
               ),
@@ -141,8 +143,8 @@ class TagEditUploadSource extends ConsumerWidget {
                             const Spacer(),
                             FilledButton(
                               style: FilledButton.styleFrom(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8),
+                                shape: const RoundedRectangleBorder(
+                                  borderRadius: KurumiBorderRadius.sm,
                                 ),
                               ),
                               onPressed: () {

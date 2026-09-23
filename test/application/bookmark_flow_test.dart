@@ -32,7 +32,7 @@ void main() {
         await harness.settle(tester);
 
         expect(repository.bookmarks, hasLength(1));
-        expect(find.byIcon(Symbols.bookmark), findsOneWidget);
+        expect(bookmarkButton, findsOneWidget);
 
         await tester.tap(bookmarkButton);
         await harness.settle(tester);

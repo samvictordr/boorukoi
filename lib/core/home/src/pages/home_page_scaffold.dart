@@ -27,6 +27,7 @@ import '../../../widgets/widgets.dart';
 import '../../constants.dart';
 import '../controllers/home_page_controller.dart';
 import '../types/custom_home.dart';
+import '../types/home_tab.dart';
 import '../widgets/booru_scope.dart';
 import '../widgets/home_navigation_tile.dart';
 import '../widgets/sidebar_keyboard_listener.dart';
@@ -116,7 +117,9 @@ class HomeContent extends ConsumerWidget {
       valueListenable: controller,
       builder: (context, value, child) => Column(
         children: [
-          if (!context.isLargeScreen && value > 0)
+          if (!context.isLargeScreen &&
+              value > 0 &&
+              HomeTab.fromViewIndex(value) == null)
             SafeArea(
               child: Row(
                 children: [
@@ -242,17 +245,13 @@ class CustomHomePage extends ConsumerWidget {
   }
 }
 
-const _kPlaceholderOffset = 100;
-
-int _v(int value) => _kPlaceholderOffset + value;
-
 List<Widget> coreDesktopViewBuilder({
   required int previousItemCount,
   required CustomHomeViewKey? viewKey,
 }) {
   // skip previousItemCount to prevent access the wrong index
   final totalPlaceholder =
-      _kPlaceholderOffset -
+      kHomeCoreViewOffset -
       previousItemCount +
       (viewKey != null && viewKey.isAlt ? 1 : 2);
 
@@ -282,42 +281,42 @@ List<Widget> coreDesktopTabBuilder(
     const Divider(),
     if (viewKey != null && viewKey.isAlt)
       HomeNavigationTile(
-        value: _v(1),
+        value: homeCoreViewIndex(1),
         constraints: constraints,
         selectedIcon: Symbols.search,
         icon: Symbols.search,
         title: 'Search',
       ),
     HomeNavigationTile(
-      value: _v(2),
+      value: homeCoreViewIndex(2),
       constraints: constraints,
       selectedIcon: Symbols.bookmark,
       icon: Symbols.bookmark,
       title: context.t.sideMenu.your_bookmarks,
     ),
     HomeNavigationTile(
-      value: _v(3),
+      value: homeCoreViewIndex(3),
       constraints: constraints,
       selectedIcon: Symbols.list_alt,
       icon: Symbols.list_alt,
       title: context.t.sideMenu.your_blacklist,
     ),
     HomeNavigationTile(
-      value: _v(4),
+      value: homeCoreViewIndex(4),
       constraints: constraints,
       selectedIcon: Symbols.tag,
       icon: Symbols.tag,
       title: context.t.favorite_tags.title,
     ),
     HomeNavigationTile(
-      value: _v(5),
+      value: homeCoreViewIndex(5),
       constraints: constraints,
       selectedIcon: Symbols.sim_card_download,
       icon: Symbols.sim_card_download,
       title: context.t.sideMenu.bulk_download,
     ),
     HomeNavigationTile(
-      value: _v(6),
+      value: homeCoreViewIndex(6),
       constraints: constraints,
       selectedIcon: Symbols.download,
       icon: Symbols.download,

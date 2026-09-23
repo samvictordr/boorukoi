@@ -1,5 +1,6 @@
 import 'package:material_ui/material_ui.dart';
 
+import '../theme/shapes.dart';
 import 'drag_line.dart';
 
 class KurumiBottomSheet extends StatelessWidget {
@@ -22,9 +23,7 @@ class KurumiBottomSheet extends StatelessWidget {
 
     return Material(
       color: backgroundColor ?? colorScheme.surfaceContainer,
-      borderRadius: const BorderRadius.vertical(
-        top: Radius.circular(16),
-      ),
+      shape: KurumiShapes.sheet,
       clipBehavior: Clip.antiAlias,
       child: SafeArea(
         top: useSafeArea,

@@ -29,8 +29,8 @@ class MultiSelectButton extends StatelessWidget {
       excludeSemantics: true,
       child: InkWell(
         hoverColor: Kurumi.themeOf(context).hoverColor.withValues(alpha: 0.1),
-        customBorder: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
+        customBorder: const RoundedRectangleBorder(
+          borderRadius: KurumiBorderRadius.sm,
         ),
         onTap: onPressed,
         child: Column(

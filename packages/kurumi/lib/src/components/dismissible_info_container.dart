@@ -2,6 +2,7 @@ import 'package:material_ui/material_ui.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
 import 'chip.dart';
+import '../theme/shapes.dart';
 
 class KurumiDismissibleInfoContainer extends StatefulWidget {
   const KurumiDismissibleInfoContainer({
@@ -73,7 +74,7 @@ class _KurumiDismissibleInfoContainerState
         horizontal: 4,
       ),
       decoration: BoxDecoration(
-        borderRadius: const BorderRadius.all(Radius.circular(4)),
+        borderRadius: KurumiBorderRadius.md,
         color: colors?.backgroundColor,
         border: colors != null
             ? Border.all(

@@ -33,7 +33,7 @@ class SliverPostGridPlaceHolder extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final imageListType = listType ?? ImageListType.standard;
     final imageGridSpacing = spacing ?? 4;
-    final imageBorderRadius = borderRadius ?? BorderRadius.zero;
+    final imageBorderRadius = borderRadius ?? KurumiBorderRadius.sm;
     final imageGridAspectRatio = aspectRatio ?? 1;
     final perPage = postsPerPage ?? 20;
     final constraints = PostGridConstraints.of(context);

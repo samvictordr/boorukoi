@@ -2,6 +2,7 @@ import 'dart:math' as math;
 
 import 'package:material_ui/material_ui.dart';
 
+import '../theme/theme.dart';
 import 'shadow_gradient_overlay.dart';
 
 const _kurumiSelectableItemAnimationDuration = Duration(milliseconds: 200);
@@ -153,6 +154,10 @@ class _KurumiSelectableItemState extends State<KurumiSelectableItem>
   }
 
   void _handleSelectionChanged(bool selected) {
+    if (widget.isInSelectionMode) {
+      KurumiTheme.maybeBehaviorOf(context)?.provideSelectionFeedback();
+    }
+
     if (selected) {
       if (_kurumiSelectableItemAnimationDuration != Duration.zero) {
         _scaleController.forward().then(

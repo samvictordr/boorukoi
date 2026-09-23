@@ -64,7 +64,7 @@ class SourceSection extends ConsumerWidget {
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
           child: Material(
             color: Colors.transparent,
-            borderRadius: BorderRadius.circular(4),
+            borderRadius: KurumiBorderRadius.xs,
             child: InkWell(
               onTap: () => ref
                   .read(externalUrlLauncherProvider)
@@ -74,7 +74,7 @@ class SourceSection extends ConsumerWidget {
                   border: Border.all(
                     color: Kurumi.themeOf(context).colorScheme.hintColor,
                   ),
-                  borderRadius: BorderRadius.circular(4),
+                  borderRadius: KurumiBorderRadius.xs,
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(8),

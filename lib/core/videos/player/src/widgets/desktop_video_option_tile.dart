@@ -57,7 +57,7 @@ class _DesktopVideoOptionTileState extends State<DesktopVideoOptionTile> {
                 color: _isHovered
                     ? colorScheme.onSurface.withValues(alpha: 0.08)
                     : Colors.transparent,
-                borderRadius: BorderRadius.circular(6),
+                borderRadius: KurumiBorderRadius.xs,
               ),
               child: Row(
                 children: [

@@ -1,5 +1,6 @@
 // Package imports:
 import 'package:i18n/i18n.dart';
+import 'package:kurumi/kurumi.dart';
 import 'package:kurumi/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:sliver_tools/sliver_tools.dart';
@@ -168,12 +169,12 @@ class _ExpandCollapseButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       color: Colors.transparent,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8),
+      shape: const RoundedRectangleBorder(
+        borderRadius: KurumiBorderRadius.sm,
       ),
       child: InkWell(
-        customBorder: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
+        customBorder: const RoundedRectangleBorder(
+          borderRadius: KurumiBorderRadius.sm,
         ),
         onTap: onTap,
         child: Padding(

@@ -48,8 +48,8 @@ class SliverDetailsPostList extends ConsumerWidget {
                 ),
                 child: InkWell(
                   onTap: onTap,
-                  customBorder: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
+                  customBorder: const RoundedRectangleBorder(
+                    borderRadius: KurumiBorderRadius.sm,
                   ),
                   child: RemoveLeftPaddingOnLargeScreen(
                     child: ListTile(
@@ -181,7 +181,9 @@ class SliverPreviewPostGridPlaceholder extends StatelessWidget {
         itemBuilder: (context, index) => Container(
           decoration: BoxDecoration(
             color: colorScheme.surfaceContainerHigh.withValues(alpha: 0.5),
-            borderRadius: const BorderRadius.all(Radius.circular(8)),
+            borderRadius: const BorderRadius.all(
+              Radius.circular(KurumiRadius.sm),
+            ),
           ),
         ),
       ),
@@ -223,7 +225,9 @@ class SliverPreviewPostGridPlaceholder extends StatelessWidget {
       itemBuilder: (context, index) => Container(
         decoration: BoxDecoration(
           color: colorScheme.surfaceContainerHigh.withValues(alpha: 0.5),
-          borderRadius: const BorderRadius.all(Radius.circular(8)),
+          borderRadius: const BorderRadius.all(
+            Radius.circular(KurumiRadius.sm),
+          ),
         ),
       ),
     );

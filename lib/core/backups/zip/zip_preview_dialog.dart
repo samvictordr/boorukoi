@@ -149,7 +149,7 @@ class _ZipPreviewDialogState extends ConsumerState<ZipPreviewDialog> {
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: theme.colorScheme.surfaceContainer,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: KurumiBorderRadius.sm,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

@@ -66,6 +66,7 @@ class ExtendedImage extends StatefulWidget {
     this.controller,
     this.placeholderWidget,
     this.errorWidget,
+    this.fadeInDuration = Duration.zero,
   }) : assert(constraints == null || constraints.debugAssertIsValid()),
        constraints = (width != null || height != null)
            ? constraints?.tighten(width: width, height: height) ??
@@ -104,6 +105,7 @@ class ExtendedImage extends StatefulWidget {
     this.controller,
     this.placeholderWidget,
     this.errorWidget,
+    this.fadeInDuration = Duration.zero,
     TargetPlatform? platform,
     int? androidVersion,
     ImageCacheManager? cacheManager,
@@ -271,6 +273,10 @@ class ExtendedImage extends StatefulWidget {
   final Widget? placeholderWidget;
   final Widget? errorWidget;
 
+  /// Cross-fades from [placeholderWidget] to the image when it finishes
+  /// loading. Images already in memory appear immediately.
+  final Duration fadeInDuration;
+
   @override
   State<ExtendedImage> createState() => _ExtendedImageState();
   @override
@@ -310,25 +316,33 @@ class _ExtendedImageState extends State<ExtendedImage>
 
   ImageStreamListener? _imageStreamListener;
   late final VoidCallback _reloadCallback;
+  var _fadeIn = false;
+
+  Widget _buildPlaceholder(BuildContext context) =>
+      widget.placeholderWidget ??
+      Container(
+        width: widget.width,
+        height: widget.height,
+        decoration: BoxDecoration(
+          color: Theme.of(
+            context,
+          ).colorScheme.surfaceContainerHigh.withValues(alpha: 0.5),
+          borderRadius: widget.borderRadius,
+        ),
+        child: const SizedBox.shrink(),
+      );
 
   @override
   Widget build(BuildContext context) {
     final current = ValueListenableBuilder(
       valueListenable: _controller.loadState,
-      builder: (_, state, _) => switch (state) {
-        LoadState.loading || LoadState.cancelled =>
-          widget.placeholderWidget ??
-              Container(
-                width: widget.width,
-                height: widget.height,
-                decoration: BoxDecoration(
-                  color: Theme.of(
-                    context,
-                  ).colorScheme.surfaceContainerHigh.withValues(alpha: 0.5),
-                  borderRadius: widget.borderRadius,
-                ),
-                child: const SizedBox.shrink(),
-              ),
+      builder: (context, state, _) => switch (state) {
+        LoadState.loading || LoadState.cancelled => _buildPlaceholder(context),
+        LoadState.completed when _fadeIn => _FadeInOverPlaceholder(
+          duration: widget.fadeInDuration,
+          placeholder: _buildPlaceholder(context),
+          child: _getCompletedWidget(),
+        ),
         LoadState.completed => _getCompletedWidget(),
         LoadState.failed =>
           widget.errorWidget ??
@@ -468,6 +482,9 @@ class _ExtendedImageState extends State<ExtendedImage>
   }
 
   void _handleImageFrame(ImageInfo imageInfo, bool synchronousCall) {
+    if (_controller.loadState.value != LoadState.completed) {
+      _fadeIn = !synchronousCall && widget.fadeInDuration > Duration.zero;
+    }
     _controller.replaceImage(info: imageInfo);
     _controller.changeLoadState(LoadState.completed);
   }
@@ -762,5 +779,35 @@ class _RawImage extends StatelessWidget {
 void _print(String message) {
   if (kDebugMode) {
     // debugPrint('[ExtendedImage] $message');
+  }
+}
+
+class _FadeInOverPlaceholder extends StatelessWidget {
+  const _FadeInOverPlaceholder({
+    required this.duration,
+    required this.placeholder,
+    required this.child,
+  });
+
+  final Duration duration;
+  final Widget placeholder;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return TweenAnimationBuilder<double>(
+      tween: Tween(begin: 0, end: 1),
+      duration: duration,
+      curve: Curves.easeOut,
+      builder: (context, opacity, child) => Stack(
+        children: [
+          Positioned.fill(
+            child: opacity < 1 ? placeholder : const SizedBox.shrink(),
+          ),
+          Opacity(opacity: opacity, child: child),
+        ],
+      ),
+      child: child,
+    );
   }
 }

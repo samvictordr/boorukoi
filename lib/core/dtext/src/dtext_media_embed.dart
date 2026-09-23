@@ -224,7 +224,7 @@ class _ImageEmbed extends StatelessWidget {
         imageWidth: width,
         imageHeight: height,
         fit: BoxFit.contain,
-        borderRadius: const BorderRadius.all(Radius.circular(4)),
+        borderRadius: const BorderRadius.all(Radius.circular(KurumiRadius.xs)),
       ),
     );
 
@@ -285,7 +285,9 @@ class _UnavailableEmbed extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
         decoration: BoxDecoration(
           border: Border.all(color: colorScheme.outlineVariant),
-          borderRadius: const BorderRadius.all(Radius.circular(4)),
+          borderRadius: const BorderRadius.all(
+            Radius.circular(KurumiRadius.xs),
+          ),
         ),
         child: Text(label),
       ),

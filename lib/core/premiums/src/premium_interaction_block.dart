@@ -49,8 +49,8 @@ class PremiumInteractionBlock extends ConsumerWidget {
                   ),
                   Container(
                     margin: padding,
-                    decoration: BoxDecoration(
-                      border: const GradientBoxBorder(
+                    decoration: const BoxDecoration(
+                      border: GradientBoxBorder(
                         gradient: LinearGradient(
                           colors: [
                             Colors.blue,
@@ -59,7 +59,7 @@ class PremiumInteractionBlock extends ConsumerWidget {
                         ),
                         width: 1.5,
                       ),
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: KurumiBorderRadius.sm,
                     ),
                     child: IgnorePointer(
                       child: Padding(

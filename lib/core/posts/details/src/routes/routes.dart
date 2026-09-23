@@ -174,28 +174,18 @@ class PostDetailsHeroPage<T> extends CustomTransitionPage<T> {
     super.name,
     super.key,
   }) : super(
-         transitionDuration: const Duration(milliseconds: 200),
-         reverseTransitionDuration: const Duration(milliseconds: 200),
+         transitionDuration: const Duration(milliseconds: 350),
+         reverseTransitionDuration: const Duration(milliseconds: 300),
          transitionsBuilder: postDetailsTransitionBuilder(),
        );
 }
 
 RouteTransitionsBuilder postDetailsTransitionBuilder() =>
     (context, animation, secondaryAnimation, child) => FadeTransition(
-      opacity:
-          Tween<double>(
-            begin: 0,
-            end: 1,
-          ).animate(
-            animation.status == AnimationStatus.reverse
-                ? CurvedAnimation(
-                    parent: animation,
-                    curve: Curves.easeInQuint,
-                  )
-                : CurvedAnimation(
-                    parent: animation,
-                    curve: Curves.easeOutQuint,
-                  ),
-          ),
+      opacity: CurvedAnimation(
+        parent: animation,
+        curve: Curves.easeOutCubic,
+        reverseCurve: Curves.easeInCubic,
+      ),
       child: child,
     );

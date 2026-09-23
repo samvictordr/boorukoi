@@ -26,7 +26,7 @@ class DanbooruUploadPostContextMenu extends ConsumerWidget {
         return Container(
           decoration: BoxDecoration(
             color: Kurumi.themeOf(context).colorScheme.surfaceContainer,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: KurumiBorderRadius.sm,
             boxShadow: kElevationToShadow[4],
           ),
           constraints: const BoxConstraints(

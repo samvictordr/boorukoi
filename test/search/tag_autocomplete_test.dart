@@ -13,80 +13,91 @@ final _defaultExtractor = DefaultMetatagExtractor(
   },
 );
 
+/// Renders highlighted runs as `[text]` so expectations stay readable.
+String _render(List<AutocompleteDisplaySegment> segments) =>
+    segments.map((s) => s.highlighted ? '[${s.text}]' : s.text).join();
+
 void main() {
-  group('HTML test', () {
-    // normal tag
-    test('normal tag', () {
-      expect(
-        autocompleteData('tag').toDisplayHtml('ta'),
-        '<p><b>ta</b>g</p>',
-      );
-    });
+  group('suggestion highlighting', () {
+    final cases = [
+      (
+        name: 'highlights the matching part of a tag',
+        data: autocompleteData('tag'),
+        query: 'ta',
+        extractor: null,
+        expected: '[ta]g',
+      ),
+      (
+        name: 'highlights the tag but not its alias',
+        data: autocompleteData('tag', 'alias'),
+        query: 'ta',
+        extractor: null,
+        expected: 'alias ➞ [ta]g',
+      ),
+      (
+        name: 'ignores the negation operator',
+        data: autocompleteData('tag'),
+        query: '-ta',
+        extractor: null,
+        expected: '[ta]g',
+      ),
+      (
+        name: 'ignores the or operator',
+        data: autocompleteData('tag'),
+        query: '~ta',
+        extractor: null,
+        expected: '[ta]g',
+      ),
+      (
+        name: 'ignores a known metatag prefix',
+        data: autocompleteData('tag'),
+        query: 'meta:ta',
+        extractor: _defaultExtractor,
+        expected: '[ta]g',
+      ),
+      (
+        name: 'keeps the original casing of the matched text',
+        data: const AutocompleteData(
+          value: 'meta:Sentence_Case',
+          label: 'Sentence Case',
+        ),
+        query: 'meta:sent',
+        extractor: _defaultExtractor,
+        expected: '[Sent]ence Case',
+      ),
+      (
+        name: 'does not highlight when the metatag is unknown',
+        data: const AutocompleteData(
+          value: 'foo:Unknown',
+          label: 'Unknown',
+        ),
+        query: 'foo:unk',
+        extractor: _defaultExtractor,
+        expected: 'Unknown',
+      ),
+      (
+        name: 'does not highlight when the query has leading syntax',
+        data: autocompleteData('tag'),
+        query: '(ta',
+        extractor: _defaultExtractor,
+        expected: 'tag',
+      ),
+      (
+        name: 'keeps markup characters in labels as plain text',
+        data: autocompleteData('<3_<b>'),
+        query: '<',
+        extractor: null,
+        expected: '[<]3 [<]b>',
+      ),
+    ];
 
-    // alias tag
-    test('alias tag', () {
-      expect(
-        autocompleteData('tag', 'alias').toDisplayHtml('ta'),
-        '<p>alias ➞ <b>ta</b>g</p>',
-      );
-    });
-
-    // negate tag
-    test('negate tag', () {
-      expect(
-        autocompleteData('tag').toDisplayHtml('-ta'),
-        '<p><b>ta</b>g</p>',
-      );
-    });
-
-    // or tag
-    test('or tag', () {
-      expect(
-        autocompleteData('tag').toDisplayHtml('~ta'),
-        '<p><b>ta</b>g</p>',
-      );
-    });
-
-    // metatag
-    group('metatag', () {
-      test('normal', () {
+    for (final c in cases) {
+      test(c.name, () {
         expect(
-          autocompleteData('tag').toDisplayHtml('meta:ta', _defaultExtractor),
-          '<p><b>ta</b>g</p>',
+          _render(c.data.toDisplaySegments(c.query, c.extractor)),
+          c.expected,
         );
       });
-
-      // case
-      test('case', () {
-        expect(
-          const AutocompleteData(
-            value: 'meta:Sentence_Case',
-            label: 'Sentence Case',
-          ).toDisplayHtml('meta:sent', _defaultExtractor),
-          '<p><b>Sent</b>ence Case</p>',
-        );
-      });
-
-      // unknown metatag
-      test('unknown metatag', () {
-        expect(
-          const AutocompleteData(
-            value: 'foo:Unknown',
-            label: 'Unknown',
-          ).toDisplayHtml('foo:unk', _defaultExtractor),
-          '<p>Unknown</p>',
-        );
-      });
-    });
-
-    group('complex queries', () {
-      // normal
-      test('parenthesis', () {
-        expect(
-          autocompleteData('tag').toDisplayHtml('(ta', _defaultExtractor),
-          '<p>tag</p>',
-        );
-      });
-    });
+    }
   });
 }

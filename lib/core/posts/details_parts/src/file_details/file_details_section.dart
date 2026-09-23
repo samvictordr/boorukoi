@@ -75,7 +75,7 @@ class FileDetailsSection extends StatelessWidget {
             title: 'ID',
             valueLabel: post.id.toString(),
             valueTrailing: FileDetailsInWell(
-              borderRadius: BorderRadius.circular(4),
+              borderRadius: KurumiBorderRadius.xs,
               child: Transform.scale(
                 scale: 0.8,
                 child: const FaIcon(
@@ -211,7 +211,7 @@ class FileDetailsActionIconButton extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(left: 8),
       child: FileDetailsInWell(
-        borderRadius: BorderRadius.circular(4),
+        borderRadius: KurumiBorderRadius.xs,
         onTap: onTap,
         child: Transform.scale(
           scale: 0.8,
@@ -240,7 +240,9 @@ class FileDetailsInWell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final shape = RoundedRectangleBorder(
-      borderRadius: borderRadius ?? const BorderRadius.all(Radius.circular(8)),
+      borderRadius:
+          borderRadius ??
+          const BorderRadius.all(Radius.circular(KurumiRadius.sm)),
     );
 
     return Material(

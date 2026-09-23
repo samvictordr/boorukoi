@@ -44,10 +44,10 @@ class SearchButton2 extends StatelessWidget {
                 context,
               ).colorScheme.onSurface.withValues(alpha: 0.1)
             : Kurumi.themeOf(context).colorScheme.primary,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: KurumiBorderRadius.sm,
         child: InkWell(
-          customBorder: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
+          customBorder: const RoundedRectangleBorder(
+            borderRadius: KurumiBorderRadius.sm,
           ),
           onTap: onTap,
           child: Container(

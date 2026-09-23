@@ -1,5 +1,11 @@
+import 'package:material_symbols_icons/symbols.dart';
 import 'package:material_ui/material_ui.dart';
 
+import '../theme/shapes.dart';
+import '../theme/spacing.dart';
+
+/// Row that opens a settings page. Meant to sit inside a
+/// `KurumiSettingsSection`, with its icon on a small tinted badge.
 class KurumiSettingsEntryTile extends StatelessWidget {
   const KurumiSettingsEntryTile({
     required this.title,
@@ -22,80 +28,98 @@ class KurumiSettingsEntryTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final foreground = selected ? colorScheme.onPrimaryContainer : null;
+
     return Semantics(
       button: true,
       enabled: onTap != null,
       selected: selected,
       onTap: onTap,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 8,
-          vertical: 2,
-        ),
-        child: Material(
-          color: selected
-              ? Theme.of(context).colorScheme.primaryContainer
-              : Colors.transparent,
-          borderRadius: BorderRadius.circular(8),
-          child: InkWell(
-            hoverColor: Theme.of(context).hoverColor.withValues(alpha: 0.1),
-            borderRadius: BorderRadius.circular(8),
-            onTap: onTap,
-            child: Container(
-              margin: EdgeInsets.symmetric(
-                vertical: dense
-                    ? 4
-                    : subtitle != null
-                    ? 6
-                    : 10,
-              ),
+      child: Material(
+        color: selected ? colorScheme.primaryContainer : Colors.transparent,
+        child: InkWell(
+          onTap: onTap,
+          child: ConstrainedBox(
+            constraints: BoxConstraints(minHeight: dense ? 40 : 48),
+            child: Padding(
               padding: EdgeInsets.symmetric(
-                horizontal: 8,
-                vertical: showLeading ? 4 : 6,
+                horizontal: KurumiSpacing.md,
+                vertical: subtitle != null
+                    ? KurumiSpacing.sm
+                    : KurumiSpacing.xs,
               ),
               child: Row(
                 children: [
-                  if (showLeading)
-                    Container(
-                      constraints: const BoxConstraints(
-                        minWidth: 32,
-                      ),
-                      margin: const EdgeInsets.only(
-                        left: 4,
-                      ),
-                      child: leading,
-                    ),
+                  if (showLeading) ...[
+                    _IconBadge(child: leading),
+                    const SizedBox(width: KurumiSpacing.md),
+                  ],
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
                           title,
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400,
-                            color: selected
-                                ? Theme.of(
-                                    context,
-                                  ).colorScheme.onPrimaryContainer
-                                : null,
+                          style: theme.textTheme.bodyLarge?.copyWith(
+                            color: foreground,
                           ),
                         ),
-                        if (subtitle != null) ...[
+                        if (subtitle case final subtitle?)
                           Text(
-                            subtitle!,
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Theme.of(context).colorScheme.outline,
+                            subtitle,
+                            style: theme.textTheme.bodySmall?.copyWith(
+                              color: colorScheme.onSurfaceVariant,
                             ),
                           ),
-                        ],
                       ],
                     ),
                   ),
+                  if (onTap != null && !dense)
+                    Icon(
+                      Symbols.chevron_right,
+                      size: 20,
+                      color: colorScheme.onSurfaceVariant.withValues(
+                        alpha: 0.6,
+                      ),
+                    ),
                 ],
               ),
             ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _IconBadge extends StatelessWidget {
+  const _IconBadge({
+    required this.child,
+  });
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
+    return DecoratedBox(
+      decoration: ShapeDecoration(
+        shape: KurumiShapes.radius(KurumiRadius.xs + 2),
+        color: colorScheme.primary.withValues(alpha: 0.15),
+      ),
+      child: SizedBox.square(
+        dimension: 30,
+        child: Center(
+          child: IconTheme.merge(
+            data: IconThemeData(
+              size: 18,
+              color: colorScheme.primary,
+            ),
+            child: child,
           ),
         ),
       ),

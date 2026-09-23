@@ -76,7 +76,7 @@ class PostDetailsOverlay extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Flexible(
-            child: OverflowBar(
+            child: _GlassGroup(
               children: [
                 KurumiCircularIconButton(
                   icon: const Padding(
@@ -87,18 +87,14 @@ class PostDetailsOverlay extends StatelessWidget {
                   ),
                   onPressed: Navigator.of(context).maybePop,
                 ),
-                const SizedBox(
-                  width: 4,
-                ),
                 ...leftActions,
               ],
             ),
           ),
           Flexible(
-            child: OverflowBar(
+            child: _GlassGroup(
               children: [
                 ...actions,
-                const SizedBox(width: 8),
                 _SheetControlButton(
                   controller: controller,
                   isLargeScreen: isLargeScreen,
@@ -195,6 +191,29 @@ class _SheetControlButton extends StatelessWidget {
         }
       },
       icon: const KurumiInfoCircleIcon(),
+    );
+  }
+}
+
+class _GlassGroup extends StatelessWidget {
+  const _GlassGroup({
+    required this.children,
+  });
+
+  final List<Widget> children;
+
+  @override
+  Widget build(BuildContext context) {
+    return KurumiGlass(
+      elevated: true,
+      child: Padding(
+        padding: const EdgeInsets.all(2),
+        child: OverflowBar(
+          spacing: 2,
+          overflowSpacing: 2,
+          children: children,
+        ),
+      ),
     );
   }
 }

@@ -16,6 +16,8 @@ class KurumiBehaviorData {
     this.contextMenuSelectionFeedback,
     this.contextMenuStartFeedbackEnabled = false,
     this.segmentedSelectionFeedback,
+    this.successFeedback,
+    this.errorFeedback,
     this.enableIMEPersonalizedLearning = true,
   });
 
@@ -30,10 +32,20 @@ class KurumiBehaviorData {
   final KurumiFeedbackCallback? contextMenuSelectionFeedback;
   final bool contextMenuStartFeedbackEnabled;
   final KurumiFeedbackCallback? segmentedSelectionFeedback;
+
+  /// A task finished, e.g. a download completed.
+  final KurumiFeedbackCallback? successFeedback;
+
+  /// Something was rejected, e.g. a wrong PIN.
+  final KurumiFeedbackCallback? errorFeedback;
   final bool enableIMEPersonalizedLearning;
 
   Duration effectiveDuration(Duration duration) =>
       reduceMotion ? Duration.zero : duration;
 
   void provideSelectionFeedback() => selectionFeedback?.call();
+
+  void provideSuccessFeedback() => successFeedback?.call();
+
+  void provideErrorFeedback() => errorFeedback?.call();
 }

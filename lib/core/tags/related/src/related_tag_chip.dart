@@ -33,7 +33,7 @@ class RelatedTagButton extends ConsumerWidget {
       margin: const EdgeInsets.symmetric(horizontal: 4),
       decoration: BoxDecoration(
         color: colors?.backgroundColor,
-        borderRadius: const BorderRadius.all(Radius.circular(8)),
+        borderRadius: const BorderRadius.all(Radius.circular(KurumiRadius.sm)),
         border: Border.all(
           color: colors?.borderColor ?? Colors.transparent,
         ),

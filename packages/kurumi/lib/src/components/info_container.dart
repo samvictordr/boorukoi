@@ -1,4 +1,5 @@
 import 'package:material_ui/material_ui.dart';
+import '../theme/shapes.dart';
 
 class KurumiInfoContainer extends StatelessWidget {
   const KurumiInfoContainer({
@@ -106,7 +107,7 @@ class _KurumiTemplateContainerState extends State<KurumiTemplateContainer> {
           ),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
-        borderRadius: const BorderRadius.all(Radius.circular(4)),
+        borderRadius: KurumiBorderRadius.md,
         border: widget.borderColor != null
             ? Border.all(
                 color: widget.borderColor!,

@@ -1,4 +1,5 @@
 import 'package:material_ui/material_ui.dart';
+import '../theme/shapes.dart';
 
 class KurumiBottomSheetActionButtons extends StatelessWidget {
   const KurumiBottomSheetActionButtons({
@@ -27,7 +28,7 @@ class KurumiBottomSheetActionButtons extends StatelessWidget {
             style: FilledButton.styleFrom(
               disabledBackgroundColor: Colors.transparent,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: KurumiBorderRadius.full,
                 side: BorderSide(color: colorScheme.outline),
               ),
             ),
@@ -41,7 +42,7 @@ class KurumiBottomSheetActionButtons extends StatelessWidget {
             style: FilledButton.styleFrom(
               foregroundColor: colorScheme.onPrimary,
               shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(16)),
+                borderRadius: KurumiBorderRadius.full,
               ),
             ),
             onPressed: onPrimaryPressed,

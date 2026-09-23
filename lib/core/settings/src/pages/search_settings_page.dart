@@ -30,69 +30,83 @@ class _SearchSettingsPageState extends ConsumerState<SearchSettingsPage> {
     return SettingsPageScaffold(
       title: Text(context.t.settings.search.search),
       children: [
-        KurumiSwitchListTile(
-          title: Text(context.t.settings.search.auto_focus_search_bar),
-          value: settings.autoFocusSearchBar,
-          onChanged: (value) {
-            notifer.updateSettings(
-              settings.copyWith(
-                autoFocusSearchBar: value,
+        KurumiSettingsSection(
+          children: [
+            KurumiSwitchListTile(
+              title: Text(context.t.settings.search.auto_focus_search_bar),
+              value: settings.autoFocusSearchBar,
+              onChanged: (value) {
+                notifer.updateSettings(
+                  settings.copyWith(
+                    autoFocusSearchBar: value,
+                  ),
+                );
+              },
+            ),
+            KurumiSwitchListTile(
+              title: Text(
+                context.t.settings.search.search_bar.scroll_behavior.persistent,
               ),
-            );
-          },
-        ),
-        KurumiSwitchListTile(
-          title: Text(
-            context.t.settings.search.search_bar.scroll_behavior.persistent,
-          ),
-          subtitle: Text(
-            context
-                .t
-                .settings
-                .search
-                .search_bar
-                .scroll_behavior
-                .persistent_description,
-          ),
-          value: settings.searchBarScrollBehavior.persistSearchBar,
-          onChanged: (value) {
-            notifer.updateSettings(
-              settings.copyWith(
-                searchBarScrollBehavior: value
-                    ? SearchBarScrollBehavior.persistent
-                    : SearchBarScrollBehavior.autoHide,
+              subtitle: Text(
+                context
+                    .t
+                    .settings
+                    .search
+                    .search_bar
+                    .scroll_behavior
+                    .persistent_description,
               ),
-            );
-          },
-        ),
-        KurumiSettingsTile(
-          title: Text(
-            context.t.settings.search.search_bar.position.search_bar_position,
-          ),
-          subtitle: Text('Only applies in portrait mode'.hc),
-          selectedOption: settings.searchBarPosition,
-          items: SearchBarPosition.values,
-          onChanged: (value) {
-            notifer.updateSettings(
-              settings.copyWith(searchBarPosition: value),
-            );
-          },
-          optionBuilder: (value) => Text(value.localize(context)),
-        ),
-        KurumiSwitchListTile(
-          title: Text(
-            context.t.settings.search.hide_bookmarked_posts_from_search_results,
-          ),
-          value: settings.bookmarkFilterType.shouldFilterBookmarks,
-          onChanged: (value) {
-            notifer.updateSettings(
-              settings.copyWith(
-                bookmarkFilterType: value
-                    ? BookmarkFilterType.hideAll
-                    : BookmarkFilterType.none,
+              value: settings.searchBarScrollBehavior.persistSearchBar,
+              onChanged: (value) {
+                notifer.updateSettings(
+                  settings.copyWith(
+                    searchBarScrollBehavior: value
+                        ? SearchBarScrollBehavior.persistent
+                        : SearchBarScrollBehavior.autoHide,
+                  ),
+                );
+              },
+            ),
+            KurumiSettingsTile(
+              title: Text(
+                context
+                    .t
+                    .settings
+                    .search
+                    .search_bar
+                    .position
+                    .search_bar_position,
               ),
-            );
-          },
+              subtitle: Text('Only applies in portrait mode'.hc),
+              selectedOption: settings.searchBarPosition,
+              items: SearchBarPosition.values,
+              onChanged: (value) {
+                notifer.updateSettings(
+                  settings.copyWith(searchBarPosition: value),
+                );
+              },
+              optionBuilder: (value) => Text(value.localize(context)),
+            ),
+            KurumiSwitchListTile(
+              title: Text(
+                context
+                    .t
+                    .settings
+                    .search
+                    .hide_bookmarked_posts_from_search_results,
+              ),
+              value: settings.bookmarkFilterType.shouldFilterBookmarks,
+              onChanged: (value) {
+                notifer.updateSettings(
+                  settings.copyWith(
+                    bookmarkFilterType: value
+                        ? BookmarkFilterType.hideAll
+                        : BookmarkFilterType.none,
+                  ),
+                );
+              },
+            ),
+          ],
         ),
         const BooruConfigMoreSettingsRedirectCard.search(),
       ],

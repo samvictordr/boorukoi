@@ -1,4 +1,5 @@
 // Package imports:
+import 'package:kurumi/kurumi.dart';
 import 'package:kurumi/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
@@ -56,8 +57,8 @@ class _BlacklistedTagSearchBarState extends State<BlacklistedTagSearchBar> {
                     ? Padding(
                         padding: const EdgeInsets.only(right: 8),
                         child: InkWell(
-                          customBorder: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
+                          customBorder: const RoundedRectangleBorder(
+                            borderRadius: KurumiBorderRadius.sm,
                           ),
                           child: const Icon(Symbols.clear),
                           onTap: () {

@@ -37,7 +37,9 @@ class FileDetailTile extends StatelessWidget {
           padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
             color: colorScheme.surfaceContainer,
-            borderRadius: const BorderRadius.all(Radius.circular(4)),
+            borderRadius: const BorderRadius.all(
+              Radius.circular(KurumiRadius.xs),
+            ),
           ),
           width: constrainst.maxWidth * 0.55,
           child: Row(

@@ -102,7 +102,7 @@ class SliverCharacterPostList extends ConsumerWidget {
             children: tags
                 .map(
                   (tag) => BooruChip(
-                    borderRadius: BorderRadius.circular(4),
+                    borderRadius: KurumiBorderRadius.xs,
                     color: ref.watch(
                       tagColorProvider((ref.watchConfigAuth, 'character')),
                     ),

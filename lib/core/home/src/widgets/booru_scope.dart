@@ -8,10 +8,10 @@ import 'package:multi_split_view/multi_split_view.dart';
 import '../../../../foundation/display.dart';
 import '../../../../foundation/platform.dart';
 import '../../../cache/providers.dart';
-import '../../../configs/manage/widgets.dart';
 import '../../../settings/providers.dart';
 import '../../constants.dart';
 import '../controllers/home_page_controller.dart';
+import 'home_navigation_pill.dart';
 import 'side_bar_menu.dart';
 
 const double _kDefaultMenuSize = 220;
@@ -113,14 +113,11 @@ class _BooruScopeState extends ConsumerState<BooruScope> {
       ),
     );
 
-    final position = ref.watch(
-      settingsProvider.select((value) => value.booruConfigSelectorPosition),
-    );
-
     return Scaffold(
       key: widget.controller.scaffoldKey,
-      bottomNavigationBar: !isDesktop && position.isBottom
-          ? const BooruSelectorWithBottomPadding()
+      extendBody: !isDesktop,
+      bottomNavigationBar: !isDesktop
+          ? HomeNavigationPill(controller: widget.controller)
           : null,
       drawer: !isDesktop
           ? SideBarMenu(
@@ -225,30 +222,6 @@ class _BooruScopeState extends ConsumerState<BooruScope> {
   }
 
   late final menuWidth = ValueNotifier(widget.menuWidth ?? _kDefaultMenuSize);
-}
-
-class BooruSelectorWithBottomPadding extends ConsumerWidget {
-  const BooruSelectorWithBottomPadding({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final hideLabel = ref.watch(
-      settingsProvider.select(
-        (value) => value.booruConfigLabelVisibility.hideBooruConfigLabel,
-      ),
-    );
-
-    return Container(
-      color: Colors.transparent,
-      height: kBottomNavigationBarHeight - (hideLabel ? 4 : -8),
-      margin: EdgeInsets.only(
-        bottom: MediaQuery.paddingOf(context).bottom,
-      ),
-      child: const BooruSelector(
-        direction: Axis.horizontal,
-      ),
-    );
-  }
 }
 
 double? _calculateDrawerEdgeDragWidth(

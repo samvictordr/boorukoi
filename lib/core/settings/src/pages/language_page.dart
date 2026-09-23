@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:i18n/i18n.dart';
 import 'package:kurumi/kurumi.dart';
 import 'package:kurumi/material.dart';
+import 'package:material_symbols_icons/symbols.dart';
 
 // Project imports:
 import '../../../../core/widgets/widgets.dart';
@@ -38,29 +39,33 @@ class LanguagePage extends ConsumerWidget {
         body: child,
       ),
       child: SafeArea(
-        child: ListView.builder(
-          itemCount: supportedLanguages.length,
-          itemBuilder: (context, index) {
-            final language = supportedLanguages[index];
+        child: ListView(
+          padding: const EdgeInsets.all(16),
+          children: [
+            KurumiSettingsSection(
+              children: [
+                for (final language in supportedLanguages)
+                  ListTile(
+                    title: Text(language.name),
+                    selected: language == selectedLanguage,
+                    trailing: language == selectedLanguage
+                        ? Icon(
+                            Symbols.check,
+                            color: Kurumi.themeOf(context).colorScheme.primary,
+                          )
+                        : null,
+                    onTap: () {
+                      final settings = ref.read(settingsProvider);
 
-            return RadioGroup(
-              groupValue: selectedLanguage,
-              onChanged: (value) {
-                if (value == null) return;
-                final settings = ref.read(settingsProvider);
-
-                notifer.updateSettings(
-                  settings.copyWith(language: value.locale),
-                );
-                context.setLocaleLanguage(value);
-              },
-              child: RadioListTile(
-                activeColor: Kurumi.themeOf(context).colorScheme.primary,
-                value: language,
-                title: Text(language.name),
-              ),
-            );
-          },
+                      notifer.updateSettings(
+                        settings.copyWith(language: language.locale),
+                      );
+                      context.setLocaleLanguage(language);
+                    },
+                  ),
+              ],
+            ),
+          ],
         ),
       ),
     );

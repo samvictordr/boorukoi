@@ -1,4 +1,5 @@
 // Package imports:
+import 'package:kurumi/kurumi.dart';
 import 'package:kurumi/material.dart';
 
 class ProgressStepper extends StatelessWidget {
@@ -16,7 +17,7 @@ class ProgressStepper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
-      borderRadius: BorderRadius.circular(8),
+      borderRadius: KurumiBorderRadius.sm,
       child: LinearProgressIndicator(
         value: current / max,
         color: color,

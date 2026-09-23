@@ -53,7 +53,7 @@ class SelectedTagChip extends StatelessWidget {
       child: KurumiMaterialChip(
         visualDensity: const ShrinkVisualDensity(),
         shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(8)),
+          borderRadius: BorderRadius.all(Radius.circular(KurumiRadius.sm)),
         ),
         backgroundColor: colorScheme.secondaryContainer,
         deleteIcon: Icon(

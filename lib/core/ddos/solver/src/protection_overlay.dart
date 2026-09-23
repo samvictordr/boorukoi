@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 
 // Package imports:
 import 'package:i18n/i18n.dart';
+import 'package:kurumi/kurumi.dart';
 import 'package:kurumi/material.dart';
 
 class ProtectionOverlay extends StatefulWidget {
@@ -40,7 +41,7 @@ class _ProtectionOverlayState extends State<ProtectionOverlay> {
                 const SizedBox(height: 16),
                 Expanded(
                   child: ClipRRect(
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: KurumiBorderRadius.sm,
                     child: widget.browser,
                   ),
                 ),

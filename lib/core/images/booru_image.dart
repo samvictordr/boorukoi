@@ -18,7 +18,7 @@ import '../settings/providers.dart';
 import 'image_quality.dart';
 import 'providers.dart';
 
-const _defaultRadius = BorderRadius.all(Radius.circular(8));
+const _defaultRadius = BorderRadius.all(Radius.circular(KurumiRadius.sm));
 const _placeholderAspectRatioMismatchThreshold = 0.05;
 
 class BooruImage extends ConsumerWidget {
@@ -218,6 +218,9 @@ class BooruRawImage extends StatelessWidget {
                   gaplessPlayback: gaplessPlayback,
                   fetchStrategy: _fetchStrategy,
                   controller: controller,
+                  fadeInDuration: context.kurumiBehavior.effectiveDuration(
+                    KurumiMotion.standard,
+                  ),
                   platform: Kurumi.themeOf(context).platform,
                   androidVersion: androidVersion,
                   cacheManager: imageCacheManager,

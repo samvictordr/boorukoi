@@ -2,6 +2,7 @@ import 'package:material_ui/material_ui.dart';
 
 import '../theme/semantic_tokens.dart';
 import '../theme/theme.dart';
+import 'glass.dart';
 
 class KurumiCircularIconButton extends StatelessWidget {
   const KurumiCircularIconButton({
@@ -28,6 +29,8 @@ class KurumiCircularIconButton extends StatelessWidget {
     final semanticColors =
         KurumiTheme.maybeOf(context)?.data.semanticColors ??
         KurumiSemanticColors.fromMaterial(Theme.of(context));
+    final onGlass = KurumiGlassScope.isInside(context);
+    final colorScheme = Theme.of(context).colorScheme;
 
     return Semantics(
       button: true,
@@ -41,10 +44,11 @@ class KurumiCircularIconButton extends StatelessWidget {
               minHeight: 40,
             ),
         child: Material(
-          color: backgroundColor ?? semanticColors.overlay,
+          color:
+              backgroundColor ??
+              (onGlass ? Colors.transparent : semanticColors.overlay),
           shape: const CircleBorder(),
           child: InkWell(
-            splashFactory: InkRipple.splashFactory,
             customBorder: const CircleBorder(),
             onTap: onPressed,
             child: Padding(
@@ -52,7 +56,11 @@ class KurumiCircularIconButton extends StatelessWidget {
               child: Theme(
                 data: Theme.of(context).copyWith(
                   iconTheme: Theme.of(context).iconTheme.copyWith(
-                    color: iconColor ?? semanticColors.onOverlay,
+                    color:
+                        iconColor ??
+                        (onGlass
+                            ? colorScheme.onSurface
+                            : semanticColors.onOverlay),
                   ),
                 ),
                 child: icon,

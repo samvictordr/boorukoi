@@ -1,8 +1,11 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 
+import 'color_tokens.dart';
 import 'extended_color_scheme.dart';
+import 'shapes.dart';
 import 'slider_shapes.dart';
+import 'typography.dart';
 
 class KurumiMaterialTheme {
   KurumiMaterialTheme._();
@@ -50,6 +53,9 @@ class KurumiMaterialTheme {
     required ColorScheme colorScheme,
     bool isDesktop = false,
   }) => ThemeData(
+    textTheme: KurumiTypography.textTheme,
+    splashFactory: NoSplash.splashFactory,
+    highlightColor: colorScheme.onSurface.withValues(alpha: 0.08),
     appBarTheme: AppBarTheme(
       scrolledUnderElevation: 0,
       surfaceTintColor: Colors.transparent,
@@ -59,16 +65,45 @@ class KurumiMaterialTheme {
           : SystemUiOverlayStyle.light,
       shadowColor: Colors.transparent,
       titleSpacing: isDesktop ? 4 : null,
+      centerTitle: !isDesktop,
       titleTextStyle: TextStyle(
-        fontWeight: FontWeight.w700,
-        fontSize: 22,
+        fontWeight: FontWeight.w600,
+        fontSize: 17,
+        letterSpacing: -0.4,
         color: colorScheme.onSurface,
       ),
     ),
-    checkboxTheme: CheckboxThemeData(
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(6)),
+    bottomSheetTheme: BottomSheetThemeData(
+      shape: KurumiShapes.sheet,
+      clipBehavior: Clip.antiAlias,
+      backgroundColor: colorScheme.surfaceContainer,
+      surfaceTintColor: Colors.transparent,
+      dragHandleColor: colorScheme.onSurfaceVariant.withValues(alpha: 0.4),
+    ),
+    drawerTheme: const DrawerThemeData(
+      shape: RoundedSuperellipseBorder(
+        borderRadius: BorderRadiusDirectional.horizontal(
+          end: Radius.circular(KurumiRadius.xl),
+        ),
       ),
+    ),
+    menuTheme: const MenuThemeData(
+      style: MenuStyle(
+        shape: WidgetStatePropertyAll(KurumiShapes.md),
+      ),
+    ),
+    snackBarTheme: const SnackBarThemeData(
+      behavior: SnackBarBehavior.floating,
+      shape: KurumiShapes.md,
+    ),
+    tooltipTheme: TooltipThemeData(
+      decoration: ShapeDecoration(
+        color: colorScheme.inverseSurface,
+        shape: KurumiShapes.xs,
+      ),
+    ),
+    checkboxTheme: CheckboxThemeData(
+      shape: KurumiShapes.xs,
       checkColor: WidgetStateProperty.all(colorScheme.onPrimary),
     ),
     chipTheme: const ChipThemeData(
@@ -77,15 +112,18 @@ class KurumiMaterialTheme {
     ),
     cardTheme: const CardThemeData(
       elevation: 0,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(8)),
-      ),
+      shape: KurumiShapes.md,
     ),
     dialogTheme: DialogThemeData(
       surfaceTintColor: Colors.transparent,
       backgroundColor: colorScheme.surfaceContainer,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(8)),
+      shape: KurumiShapes.lg,
+      barrierColor: kKurumiScrimColor,
+      titleTextStyle: KurumiTypography.textTheme.titleMedium?.copyWith(
+        color: colorScheme.onSurface,
+      ),
+      contentTextStyle: KurumiTypography.textTheme.bodyMedium?.copyWith(
+        color: colorScheme.onSurfaceVariant,
       ),
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
@@ -108,24 +146,24 @@ class KurumiMaterialTheme {
       floatingLabelBehavior: FloatingLabelBehavior.always,
       filled: true,
       enabledBorder: const OutlineInputBorder(
-        borderRadius: BorderRadius.all(Radius.circular(8)),
+        borderRadius: KurumiBorderRadius.sm,
         borderSide: BorderSide.none,
       ),
       focusedBorder: OutlineInputBorder(
-        borderRadius: const BorderRadius.all(Radius.circular(8)),
+        borderRadius: KurumiBorderRadius.sm,
         borderSide: BorderSide(
           color: colorScheme.primary,
           width: 2,
         ),
       ),
       errorBorder: const OutlineInputBorder(
-        borderRadius: BorderRadius.all(Radius.circular(8)),
+        borderRadius: KurumiBorderRadius.sm,
         borderSide: BorderSide(
           width: 2,
         ),
       ),
       focusedErrorBorder: const OutlineInputBorder(
-        borderRadius: BorderRadius.all(Radius.circular(8)),
+        borderRadius: KurumiBorderRadius.sm,
         borderSide: BorderSide(
           width: 2,
         ),
@@ -134,8 +172,10 @@ class KurumiMaterialTheme {
     ),
     popupMenuTheme: const PopupMenuThemeData(
       surfaceTintColor: Colors.transparent,
+      shape: KurumiShapes.md,
     ),
     listTileTheme: ListTileThemeData(
+      shape: KurumiShapes.sm,
       subtitleTextStyle: TextStyle(
         color: colorScheme.outline,
       ),
@@ -148,6 +188,7 @@ class KurumiMaterialTheme {
     ),
     scrollbarTheme: ScrollbarThemeData(
       thickness: WidgetStateProperty.all(4),
+      radius: const Radius.circular(2),
     ),
     sliderTheme: SliderThemeData(
       trackHeight: 1,
@@ -184,15 +225,24 @@ class KurumiMaterialTheme {
     tabBarTheme: TabBarThemeData(
       tabAlignment: TabAlignment.start,
       indicatorColor: colorScheme.onSurface,
+      indicator: UnderlineTabIndicator(
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(3)),
+        borderSide: BorderSide(
+          color: colorScheme.onSurface,
+          width: 3,
+        ),
+      ),
       labelStyle: TextStyle(
         color: colorScheme.onSurface,
-        fontWeight: FontWeight.bold,
-        fontSize: 14,
+        fontWeight: FontWeight.w600,
+        fontSize: 15,
+        letterSpacing: -0.2,
       ),
       unselectedLabelStyle: TextStyle(
         color: colorScheme.onSurface.withAlpha(127),
-        fontWeight: FontWeight.bold,
-        fontSize: 14,
+        fontWeight: FontWeight.w600,
+        fontSize: 15,
+        letterSpacing: -0.2,
       ),
       dividerHeight: 0.1,
     ),

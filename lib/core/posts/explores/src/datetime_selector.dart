@@ -48,7 +48,9 @@ class DateTimeSelector extends StatelessWidget {
                   backgroundColor ??
                   Kurumi.themeOf(context).colorScheme.surfaceContainerHighest,
               shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(18)),
+                borderRadius: BorderRadius.all(
+                  Radius.circular(KurumiRadius.lg),
+                ),
               ),
             ),
             onPressed: () async {

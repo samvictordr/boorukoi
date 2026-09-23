@@ -22,14 +22,12 @@ class PostDetailsVideoControlsMobile<T extends Post> extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return _VideoControls(
-      child: LayoutBuilder(
-        builder: (context, constraints) => _VideoControlsContent(
-          controller: controller,
-          constraints: constraints,
-          playPausePadding: const EdgeInsets.all(8),
-          popoverController: null,
-        ),
+    return LayoutBuilder(
+      builder: (context, constraints) => _VideoControlsContent(
+        controller: controller,
+        constraints: constraints,
+        playPausePadding: const EdgeInsets.all(8),
+        popoverController: null,
       ),
     );
   }

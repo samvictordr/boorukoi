@@ -1,4 +1,6 @@
 import 'package:material_ui/material_ui.dart';
+import '../theme/shapes.dart';
+import 'settings_section.dart';
 
 enum KurumiSettingsCardSurface {
   standard,
@@ -57,13 +59,9 @@ class KurumiSettingsCard extends StatelessWidget {
                 KurumiSettingsCardSurface.high =>
                   colorScheme.surfaceContainerHigh,
               },
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
+              shape: KurumiShapes.md,
+              clipBehavior: Clip.antiAlias,
               child: InkWell(
-                customBorder: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
                 onTap: onTap,
                 child: Container(
                   padding:
@@ -94,22 +92,9 @@ class KurumiSettingsCardTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
-      child: Row(
-        children: [
-          Text(
-            title.toUpperCase(),
-            style: theme.textTheme.titleSmall?.copyWith(
-              color: theme.colorScheme.outline,
-              fontWeight: FontWeight.w800,
-            ),
-          ),
-          ?trailing,
-        ],
-      ),
+    return KurumiSettingsSectionHeader(
+      label: title,
+      trailing: trailing,
     );
   }
 }

@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:i18n/i18n.dart';
 import 'package:kurumi/kurumi.dart';
 import 'package:kurumi/material.dart';
-import 'package:oktoast/oktoast.dart';
+import 'package:material_symbols_icons/symbols.dart';
 
 // Project imports:
 import '../providers/always_on_top_provider.dart';
@@ -30,10 +30,10 @@ class PinWindowButton extends ConsumerWidget {
           final message = isPinned
               ? context.t.window.pin.pin_toast
               : context.t.window.pin.unpin_toast;
-          showToast(
+          Kurumi.showSuccessToast(
+            context,
             message,
-            position: ToastPosition.top,
-            textPadding: const EdgeInsets.all(8),
+            icon: isPinned ? Symbols.keep : Symbols.keep_off,
             duration: KurumiDurations.shortToast,
           );
         });

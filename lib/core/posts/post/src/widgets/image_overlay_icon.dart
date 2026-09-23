@@ -21,7 +21,7 @@ class ImageOverlayIcon extends StatelessWidget {
       height: 24,
       decoration: BoxDecoration(
         color: colors.overlayDim,
-        borderRadius: const BorderRadius.all(Radius.circular(4)),
+        borderRadius: const BorderRadius.all(Radius.circular(KurumiRadius.xs)),
       ),
       child: Icon(
         icon,

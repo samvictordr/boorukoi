@@ -29,80 +29,103 @@ class _AccessibilityPageState extends ConsumerState<AccessibilityPage> {
     return SettingsPageScaffold(
       title: Text(context.t.settings.accessibility.accessibility),
       children: [
-        KurumiSwitchListTile(
-          title: Text(
-            context
-                .t
-                .settings
-                .accessibility
-                .reverseBooruConfigSelectorScrollDirection,
-          ),
-          value: settings.booruConfigSelectorScrollDirection.isReversed,
-          onChanged: (value) => notifer.updateSettings(
-            settings.copyWith(
-              booruConfigSelectorScrollDirection: value
-                  ? BooruConfigScrollDirection.reversed
-                  : BooruConfigScrollDirection.normal,
+        KurumiSettingsSection(
+          children: [
+            KurumiSwitchListTile(
+              title: Text(
+                context
+                    .t
+                    .settings
+                    .accessibility
+                    .reverseBooruConfigSelectorScrollDirection,
+              ),
+              value: settings.booruConfigSelectorScrollDirection.isReversed,
+              onChanged: (value) => notifer.updateSettings(
+                settings.copyWith(
+                  booruConfigSelectorScrollDirection: value
+                      ? BooruConfigScrollDirection.reversed
+                      : BooruConfigScrollDirection.normal,
+                ),
+              ),
             ),
-          ),
-        ),
-        KurumiSettingsTile(
-          title: Text(context.t.settings.accessibility.swipeAreaToOpenSidebar),
-          subtitle: Text(
-            context.t.settings.accessibility.swipeAreaToOpenSidebarDescription,
-            style: TextStyle(
-              color: Kurumi.themeOf(context).colorScheme.hintColor,
+            KurumiSettingsTile(
+              title: Text(
+                context.t.settings.accessibility.swipeAreaToOpenSidebar,
+              ),
+              subtitle: Text(
+                context
+                    .t
+                    .settings
+                    .accessibility
+                    .swipeAreaToOpenSidebarDescription,
+                style: TextStyle(
+                  color: Kurumi.themeOf(context).colorScheme.hintColor,
+                ),
+              ),
+              selectedOption: settings.swipeAreaToOpenSidebarPercentage,
+              items: getSwipeAreaPossibleValue(),
+              onChanged: (newValue) {
+                notifer.updateSettings(
+                  settings.copyWith(swipeAreaToOpenSidebarPercentage: newValue),
+                );
+              },
+              optionBuilder: (value) => Text(
+                '$value%',
+              ),
             ),
-          ),
-          selectedOption: settings.swipeAreaToOpenSidebarPercentage,
-          items: getSwipeAreaPossibleValue(),
-          onChanged: (newValue) {
-            notifer.updateSettings(
-              settings.copyWith(swipeAreaToOpenSidebarPercentage: newValue),
-            );
-          },
-          optionBuilder: (value) => Text(
-            '$value%',
-          ),
+          ],
         ),
-        KurumiSwitchListTile(
-          title: Text(context.t.settings.accessibility.reduce_animations),
-          subtitle: Text(
-            context.t.settings.accessibility.reduce_animations_description,
-          ),
-          value: settings.reduceAnimations,
-          onChanged: (value) => notifer.updateSettings(
-            settings.copyWith(
-              reduceAnimations: value,
+        KurumiSettingsSection(
+          children: [
+            KurumiSwitchListTile(
+              title: Text(context.t.settings.accessibility.reduce_animations),
+              subtitle: Text(
+                context.t.settings.accessibility.reduce_animations_description,
+              ),
+              value: settings.reduceAnimations,
+              onChanged: (value) => notifer.updateSettings(
+                settings.copyWith(
+                  reduceAnimations: value,
+                ),
+              ),
             ),
-          ),
+          ],
         ),
-        KurumiSwitchListTile(
-          title: Text(context.t.settings.accessibility.volume_navigation),
-          subtitle: Text(
-            context.t.settings.accessibility.volume_navigation_description,
-          ),
-          value: settings.volumeKeyViewerNavigation,
-          onChanged: (value) => notifer.updateSettings(
-            settings.copyWith(
-              volumeKeyViewerNavigation: value,
+        KurumiSettingsSection(
+          children: [
+            KurumiSwitchListTile(
+              title: Text(context.t.settings.accessibility.volume_navigation),
+              subtitle: Text(
+                context.t.settings.accessibility.volume_navigation_description,
+              ),
+              value: settings.volumeKeyViewerNavigation,
+              onChanged: (value) => notifer.updateSettings(
+                settings.copyWith(
+                  volumeKeyViewerNavigation: value,
+                ),
+              ),
             ),
-          ),
-        ),
-        KurumiSettingsTile(
-          title: Text(
-            context.t.settings.accessibility.haptic_feedback.haptic_feedback,
-          ),
-          selectedOption: settings.hapticFeedbackLevel,
-          items: HapticFeedbackLevel.values,
-          onChanged: (newValue) {
-            notifer.updateSettings(
-              settings.copyWith(hapticFeedbackLevel: newValue),
-            );
-          },
-          optionBuilder: (value) => Text(
-            value.localize(context),
-          ),
+            KurumiSettingsTile(
+              title: Text(
+                context
+                    .t
+                    .settings
+                    .accessibility
+                    .haptic_feedback
+                    .haptic_feedback,
+              ),
+              selectedOption: settings.hapticFeedbackLevel,
+              items: HapticFeedbackLevel.values,
+              onChanged: (newValue) {
+                notifer.updateSettings(
+                  settings.copyWith(hapticFeedbackLevel: newValue),
+                );
+              },
+              optionBuilder: (value) => Text(
+                value.localize(context),
+              ),
+            ),
+          ],
         ),
       ],
     );

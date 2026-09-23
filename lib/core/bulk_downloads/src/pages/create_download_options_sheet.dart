@@ -96,7 +96,10 @@ class CreateDownloadOptionsSheet extends ConsumerWidget {
                 );
 
                 if (navigatorContext != null && navigatorContext.mounted) {
-                  showSnackBar(navigatorContext, 'Created');
+                  showSnackBar(
+                    navigatorContext,
+                    navigatorContext.t.bulk_downloads.created,
+                  );
                 }
 
                 navigator.pop();

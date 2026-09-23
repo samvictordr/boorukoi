@@ -125,8 +125,8 @@ class _SelectedTagEditDialogState extends ConsumerState<SelectedTagEditDialog> {
                     },
                     currentQuery: currentQuery,
                     borderRadius: const BorderRadius.only(
-                      bottomLeft: Radius.circular(8),
-                      bottomRight: Radius.circular(8),
+                      bottomLeft: Radius.circular(KurumiRadius.sm),
+                      bottomRight: Radius.circular(KurumiRadius.sm),
                     ),
                     elevation: 0,
                   ),

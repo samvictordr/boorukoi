@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:i18n/i18n.dart';
 import 'package:kurumi/kurumi.dart';
 import 'package:kurumi/material.dart';
-import 'package:oktoast/oktoast.dart';
+import 'package:material_symbols_icons/symbols.dart';
 
 // Project imports:
 import '../../../../../foundation/clipboard.dart';
@@ -96,7 +96,7 @@ class _PostCopySheetState extends ConsumerState<PostCopySheet> {
         decoration: BoxDecoration(
           color: theme.colorScheme.surfaceContainerLow,
           borderRadius: const BorderRadius.vertical(
-            top: Radius.circular(16),
+            top: Radius.circular(KurumiRadius.lg),
           ),
         ),
         child: SingleChildScrollView(
@@ -306,10 +306,10 @@ class _CopyOptionTile extends StatelessWidget {
       color: enabled
           ? colorScheme.surfaceContainerHigh
           : colorScheme.surfaceContainerHighest.withValues(alpha: 0.45),
-      borderRadius: BorderRadius.circular(8),
+      borderRadius: KurumiBorderRadius.sm,
       child: InkWell(
         onTap: enabled ? onTap : null,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: KurumiBorderRadius.sm,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
           child: Row(
@@ -381,7 +381,7 @@ Future<void> _copyImage(
   try {
     await AppClipboard.copyImageBytes(bytes);
     if (context.mounted) {
-      _showCopiedToast();
+      _showCopiedToast(context);
     }
   } on Exception catch (e) {
     if (context.mounted) {
@@ -396,15 +396,15 @@ Future<void> _copyText(BuildContext context, String? value) async {
   await AppClipboard.copy(value);
 
   if (context.mounted) {
-    _showCopiedToast();
+    _showCopiedToast(context);
   }
 }
 
-void _showCopiedToast() {
-  showToast(
-    'Copied',
-    position: ToastPosition.bottom,
-    textPadding: const EdgeInsets.all(8),
+void _showCopiedToast(BuildContext context) {
+  Kurumi.showSuccessToast(
+    context,
+    context.t.generic.copied,
+    icon: Symbols.content_copy,
     duration: KurumiDurations.shortToast,
   );
 }

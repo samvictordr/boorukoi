@@ -1,10 +1,9 @@
 // Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kurumi/kurumi.dart';
 import 'package:kurumi/material.dart';
 
 // Project imports:
-import '../../../../../foundation/display.dart';
-import '../../../theme/types.dart';
 import '../providers/theme_previewer_notifier.dart';
 import 'color_selector_accent.dart';
 import 'color_selector_basic.dart';
@@ -30,7 +29,7 @@ class ThemePreviewerSheet extends ConsumerWidget {
       decoration: BoxDecoration(
         color: colorScheme.surfaceContainerLow,
         borderRadius: const BorderRadius.vertical(
-          top: Radius.circular(24),
+          top: Radius.circular(KurumiRadius.xl),
         ),
       ),
       child: Column(
@@ -51,7 +50,7 @@ class ThemePreviewerSheet extends ConsumerWidget {
                           decoration: BoxDecoration(
                             color: colorScheme.hintColor,
                             borderRadius: const BorderRadius.all(
-                              Radius.circular(10),
+                              Radius.circular(KurumiRadius.sm),
                             ),
                           ),
                           height: 4,

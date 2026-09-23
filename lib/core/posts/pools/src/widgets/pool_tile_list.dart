@@ -35,7 +35,7 @@ class PoolTileList<T> extends ConsumerWidget {
       child: Material(
         color: colorScheme.surfaceContainerLow,
         shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(8)),
+          borderRadius: BorderRadius.all(Radius.circular(KurumiRadius.sm)),
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(
@@ -59,7 +59,9 @@ class PoolTileList<T> extends ConsumerWidget {
               ...pools.map(
                 (pool) => ListTile(
                   shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(8)),
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(KurumiRadius.sm),
+                    ),
                   ),
                   contentPadding: const EdgeInsets.symmetric(horizontal: 4),
                   dense: true,

@@ -5,9 +5,9 @@ import 'package:kurumi/material.dart';
 class SheetDragline extends StatelessWidget {
   const SheetDragline({
     super.key,
-    this.maxWidth = 120,
-    this.minWidth = 80,
-    this.height = 4,
+    this.maxWidth = 48,
+    this.minWidth = 36,
+    this.height = 5,
     this.isHolding = false,
     this.padding,
   });
@@ -37,14 +37,15 @@ class SheetDragline extends StatelessWidget {
                   ),
               color: Colors.transparent,
               child: AnimatedContainer(
-                duration: const Duration(milliseconds: 200),
+                duration: KurumiMotion.standard,
+                curve: KurumiMotion.standardCurve,
                 width: isHolding ? maxWidth : minWidth,
                 height: height,
                 decoration: ShapeDecoration(
                   shape: const StadiumBorder(),
-                  color: isHolding
-                      ? colorScheme.primary
-                      : colorScheme.onSurface,
+                  color: colorScheme.onSurface.withValues(
+                    alpha: isHolding ? 0.5 : 0.3,
+                  ),
                 ),
               ),
             ),

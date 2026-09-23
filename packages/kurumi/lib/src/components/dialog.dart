@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
+import '../theme/shapes.dart';
 
 class KurumiDialog extends StatelessWidget {
   const KurumiDialog({
@@ -53,12 +54,13 @@ class KurumiDialog extends StatelessWidget {
               ),
             ),
             Material(
-              color: Theme.of(context).colorScheme.surface,
-              shape: RoundedRectangleBorder(
-                borderRadius: borderRadius ?? BorderRadius.circular(8),
+              color: Theme.of(context).colorScheme.surfaceContainer,
+              clipBehavior: Clip.antiAlias,
+              shape: RoundedSuperellipseBorder(
+                borderRadius: borderRadius ?? KurumiBorderRadius.lg,
                 side: BorderSide(
-                  color: Theme.of(context).colorScheme.outline,
-                  width: 0.25,
+                  color: Theme.of(context).colorScheme.outlineVariant,
+                  width: 0.5,
                 ),
               ),
               child: Container(
@@ -73,7 +75,7 @@ class KurumiDialog extends StatelessWidget {
                   ),
                 ),
                 decoration: BoxDecoration(
-                  borderRadius: borderRadius ?? BorderRadius.circular(8),
+                  borderRadius: borderRadius ?? KurumiBorderRadius.lg,
                   color: color,
                 ),
                 padding: padding ?? const EdgeInsets.all(16),

@@ -37,8 +37,8 @@ class CreateAnimePicturesConfigPage extends ConsumerWidget {
               decoration: BoxDecoration(
                 color: Kurumi.themeOf(context).colorScheme.secondaryContainer,
                 borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(12),
-                  topRight: Radius.circular(12),
+                  topLeft: Radius.circular(KurumiRadius.md),
+                  topRight: Radius.circular(KurumiRadius.md),
                 ),
               ),
               child: Row(

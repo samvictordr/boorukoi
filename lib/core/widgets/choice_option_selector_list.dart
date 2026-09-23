@@ -153,7 +153,7 @@ class _ChoiceOptionSelectorListState<T>
         index: index,
         key: ValueKey(index),
         child: BooruChip(
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: KurumiBorderRadius.sm,
           disabled: !selected,
           color: selected ? colorScheme.onSurface : colorScheme.hintColor,
           onPressed: select,

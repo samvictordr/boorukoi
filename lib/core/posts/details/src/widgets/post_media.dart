@@ -93,8 +93,9 @@ class PostMedia<T extends Post> extends ConsumerWidget {
                     final request = ref
                         .watch(networkSettingsProvider(config))
                         .resolveMedia(videoUrl, headers: headers);
+                    // No hero tag: flying the player itself would spin up a
+                    // second instance, so videos cross-fade instead.
                     return BooruVideo(
-                      heroTag: heroTag,
                       url: request.url,
                       aspectRatio:
                           videoAspectRatioBuilder?.call(post) ??

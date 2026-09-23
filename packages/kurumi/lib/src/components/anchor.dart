@@ -3,6 +3,7 @@ import 'package:material_ui/material_ui.dart';
 
 import '../foundation/platform.dart';
 import '../theme/theme.dart';
+import '../theme/shapes.dart';
 
 class KurumiAnchor extends StatefulWidget {
   const KurumiAnchor({
@@ -156,7 +157,7 @@ class _OverlayContainer extends StatelessWidget {
             (isDesktop
                 ? colorScheme.surfaceContainerHighest
                 : colorScheme.surface),
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: KurumiBorderRadius.md,
         border: Border.all(
           color: colorScheme.outlineVariant,
           width: 0.5,

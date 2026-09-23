@@ -4,6 +4,10 @@ import 'package:material_ui/material_ui.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 import '../foundation/screen.dart';
+import '../theme/color_tokens.dart';
+import '../theme/motion.dart';
+import '../theme/shapes.dart';
+import '../theme/spacing.dart';
 
 Future<T?> kurumiShowAdaptiveSheet<T>(
   BuildContext context, {
@@ -71,7 +75,7 @@ Future<T?> kurumiShowAdaptiveBottomSheet<T>(
       : kurumiShowAppModalBarBottomSheet<T>(
           context: context,
           settings: settings,
-          barrierColor: Colors.black45,
+          barrierColor: kKurumiScrimColor,
           backgroundColor: backgroundColor ?? Colors.transparent,
           builder: (context) {
             var child = builder(context);
@@ -87,7 +91,7 @@ Future<T?> kurumiShowAppModalBarBottomSheet<T>({
   required WidgetBuilder builder,
   Color? backgroundColor,
   ShapeBorder? shape,
-  Color barrierColor = Colors.black87,
+  Color barrierColor = kKurumiScrimColor,
   bool bounce = true,
   bool expand = false,
   Curve? animationCurve,
@@ -101,7 +105,7 @@ Future<T?> kurumiShowAppModalBarBottomSheet<T>({
   barrierColor: barrierColor,
   duration: duration ?? Durations.medium2,
   backgroundColor: backgroundColor,
-  shape: shape,
+  shape: shape ?? KurumiShapes.sheet,
   bounce: bounce,
   expand: expand,
   animationCurve: animationCurve,
@@ -116,8 +120,8 @@ Future<T?> kurumiShowSideSheetFromLeft<T>({
   double? width,
   String barrierLabel = 'Side Sheet',
   bool barrierDismissible = true,
-  Color barrierColor = const Color(0xFF66000000),
-  Duration transitionDuration = const Duration(milliseconds: 200),
+  Color barrierColor = kKurumiScrimColor,
+  Duration transitionDuration = KurumiMotion.standard,
   RouteSettings? settings,
 }) => _kurumiShowSheetSide<T>(
   body: body,
@@ -137,8 +141,8 @@ Future<T?> kurumiShowSideSheetFromRight<T>({
   double? width,
   String barrierLabel = 'Side Sheet',
   bool barrierDismissible = true,
-  Color barrierColor = const Color(0xFF66000000),
-  Duration transitionDuration = const Duration(milliseconds: 200),
+  Color barrierColor = kKurumiScrimColor,
+  Duration transitionDuration = KurumiMotion.standard,
   RouteSettings? settings,
 }) => _kurumiShowSheetSide<T>(
   body: body,
@@ -172,24 +176,37 @@ Future<T?> _kurumiShowSheetSide<T>({
   pageBuilder: (context, animation1, animation2) {
     return Align(
       alignment: rightSide ? Alignment.centerRight : Alignment.centerLeft,
-      child: Material(
-        shadowColor: Colors.transparent,
-        color: Colors.transparent,
-        child: Container(
-          color: Colors.transparent,
-          height: double.infinity,
-          width: width ?? MediaQuery.widthOf(context) / 1.4,
-          child: body,
+      // Floats as an inset card rather than a full-height panel.
+      child: SafeArea(
+        minimum: const EdgeInsets.all(KurumiSpacing.md),
+        child: Material(
+          color: Theme.of(context).colorScheme.surfaceContainer,
+          elevation: 8,
+          shadowColor: Colors.black.withValues(alpha: 0.4),
+          clipBehavior: Clip.antiAlias,
+          shape: KurumiShapes.xl,
+          child: SizedBox(
+            height: double.infinity,
+            width: width ?? MediaQuery.widthOf(context) / 1.4,
+            child: body,
+          ),
         ),
       ),
     );
   },
   transitionBuilder: (context, animation1, animation2, child) {
     return SlideTransition(
-      position: Tween(
-        begin: Offset(rightSide ? 1 : -1, 0),
-        end: Offset.zero,
-      ).animate(animation1),
+      position:
+          Tween(
+            begin: Offset(rightSide ? 1.1 : -1.1, 0),
+            end: Offset.zero,
+          ).animate(
+            CurvedAnimation(
+              parent: animation1,
+              curve: KurumiMotion.emphasizedCurve,
+              reverseCurve: KurumiMotion.exitCurve,
+            ),
+          ),
       child: child,
     );
   },

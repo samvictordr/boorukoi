@@ -107,6 +107,8 @@ final class HeadlessAppHarness {
     await tester.tap(find.byType(SliverPostGridImageGridItem).first);
     await tester.pump();
     await pumpUntilFound(tester, find.byType(PostDetailsPageScaffold));
+    // Wait for the zoom transition and the chrome that slides in after it.
+    await settle(tester);
   }
 
   void dispose() {

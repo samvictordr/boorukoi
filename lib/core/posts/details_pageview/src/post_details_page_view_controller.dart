@@ -108,7 +108,7 @@ class PostDetailsPageViewController extends ChangeNotifier {
     if (Kurumi.enableHeroTransition) {
       if (!initialHideOverlay) {
         _showOverlayAnim(
-          animationDelay: const Duration(milliseconds: 150),
+          animationDelay: _kChromeIntroDelay,
         );
       } else {
         _hideOverlayAnim();
@@ -128,7 +128,7 @@ class PostDetailsPageViewController extends ChangeNotifier {
     if (Kurumi.enableHeroTransition) {
       if (!initialHideOverlay) {
         _showBottomSheetAnim(
-          animationDelay: const Duration(milliseconds: 150),
+          animationDelay: _kChromeIntroDelay,
         );
       } else {
         _hideBottomSheetAnim();
@@ -640,3 +640,6 @@ enum SheetState {
 extension SheetExpansionStateX on SheetState {
   bool get isExpanded => this == SheetState.expanded;
 }
+
+// Lets the hero flight land before the chrome slides in.
+const _kChromeIntroDelay = Duration(milliseconds: 250);

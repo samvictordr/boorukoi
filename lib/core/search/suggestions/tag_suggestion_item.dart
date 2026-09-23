@@ -1,12 +1,10 @@
 // Package imports:
-import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:kurumi/kurumi.dart';
 import 'package:kurumi/material.dart';
 
 // Project imports:
-import '../../../foundation/html.dart';
 import '../../configs/config/types.dart';
 import '../../tags/autocompletes/types.dart';
 import '../../tags/metatag/providers.dart';
@@ -36,14 +34,11 @@ class TagSuggestionItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      customBorder: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8),
+      customBorder: const RoundedRectangleBorder(
+        borderRadius: KurumiBorderRadius.sm,
       ),
       onTap: () => onItemTap(tag),
       child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
-        ),
         margin: const EdgeInsets.only(bottom: 2),
         padding: EdgeInsets.symmetric(
           horizontal: 8,
@@ -52,7 +47,7 @@ class TagSuggestionItem extends StatelessWidget {
         child: Row(
           children: [
             Expanded(
-              child: _buildTitle(),
+              child: _buildTitle(context),
             ),
             if (showCount)
               Container(
@@ -70,20 +65,27 @@ class TagSuggestionItem extends StatelessWidget {
     );
   }
 
-  Widget _buildTitle() {
-    return AppHtml(
-      style: {
-        'p': Style(
-          fontSize: FontSize.medium,
-          color: textColor,
-          margin: Margins.zero,
-        ),
-        'b': Style(
-          fontWeight: FontWeight.w900,
-        ),
-      },
-      selectable: false,
-      data: tag.toDisplayHtml(currentQuery, metatagExtractor),
+  Widget _buildTitle(BuildContext context) {
+    final style = Kurumi.themeOf(context).textTheme.bodyLarge?.copyWith(
+      color: textColor,
+    );
+
+    return Text.rich(
+      TextSpan(
+        style: style,
+        children: [
+          for (final segment in tag.toDisplaySegments(
+            currentQuery,
+            metatagExtractor,
+          ))
+            TextSpan(
+              text: segment.text,
+              style: segment.highlighted
+                  ? const TextStyle(fontWeight: FontWeight.w800)
+                  : null,
+            ),
+        ],
+      ),
     );
   }
 }

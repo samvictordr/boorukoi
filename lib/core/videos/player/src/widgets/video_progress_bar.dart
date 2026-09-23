@@ -1,5 +1,6 @@
 // Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kurumi/kurumi.dart';
 import 'package:kurumi/material.dart';
 import 'package:video_player/video_player.dart';
 
@@ -132,7 +133,7 @@ class _VideoProgressBarState extends ConsumerState<VideoProgressBar> {
                     )
                   : CustomPaint(
                       painter: _ProgressBarPainter(
-                        barRadius: Radius.zero,
+                        barRadius: Radius.circular(barHeight / 2),
                         position: widget.position,
                         duration: widget.duration,
                         buffered: widget.buffered,
@@ -175,7 +176,7 @@ class _ProgressBarPainter extends CustomPainter {
     required this.bufferedColor,
     required this.handleColor,
     required this.useHandle,
-    this.barRadius = const Radius.circular(4),
+    this.barRadius = const Radius.circular(KurumiRadius.xs),
   });
 
   final Duration position;
