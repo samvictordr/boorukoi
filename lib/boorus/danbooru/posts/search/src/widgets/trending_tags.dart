@@ -5,8 +5,7 @@ import 'package:kurumi/material.dart';
 
 // Project imports:
 import '../../../../../../core/tags/tag/types.dart';
-import '../../../../../../core/widgets/booru_chip.dart';
-import '../../../../../../foundation/platform.dart';
+import '../../../../../../core/widgets/search_section_card.dart';
 import '../../../../tags/tag/widgets.dart';
 
 class TrendingTags extends ConsumerWidget {
@@ -23,35 +22,26 @@ class TrendingTags extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return tags != null && tags!.isNotEmpty
-        ? Wrap(
-            spacing: 6,
-            runSpacing: isMobilePlatform() ? -2 : 8,
-            children: tags!.map((e) {
-              final color = colorBuilder?.call(context, e.category.name);
-
-              return DanbooruTagContextMenu(
-                tag: e.name,
-                child: BooruChip(
-                  visualDensity: VisualDensity.compact,
-                  color: color,
-                  onPressed: () => onTagTap?.call(e.name),
-                  label: Text(
-                    e.displayName,
-                    style: TextStyle(
-                      color: Kurumi.themeOf(context).brightness.isDark
-                          ? color
-                          : null,
-                    ),
-                  ),
-                ),
-              );
-            }).toList(),
-          )
-        : const SizedBox.shrink();
+    return switch (tags) {
+      final tags? when tags.isNotEmpty => SearchPillWrap(
+        children: [
+          for (final tag in tags)
+            DanbooruTagContextMenu(
+              tag: tag.name,
+              child: KurumiPill(
+                label: tag.displayName,
+                color: colorBuilder?.call(context, tag.category.name),
+                onTap: () => onTagTap?.call(tag.name),
+              ),
+            ),
+        ],
+      ),
+      _ => const SizedBox.shrink(),
+    };
   }
 }
 
+/// Pill-shaped skeletons sized like the tags they stand in for.
 class TrendingTagsPlaceholder extends StatelessWidget {
   const TrendingTagsPlaceholder({
     required this.tags,
@@ -62,28 +52,24 @@ class TrendingTagsPlaceholder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Wrap(
-      spacing: 6,
-      runSpacing: isMobilePlatform() ? -2 : 8,
-      children: tags.map((e) {
-        return BooruChip(
-          chipColors: KurumiChipColors(
-            backgroundColor: Kurumi.themeOf(
-              context,
-            ).colorScheme.surfaceContainerLow,
-            borderColor: Colors.transparent,
-            foregroundColor: Colors.transparent,
-          ),
-          visualDensity: VisualDensity.compact,
-          onPressed: () {},
-          label: Text(
-            e.name,
-            style: const TextStyle(
-              color: Colors.transparent,
+    return SearchPillWrap(
+      children: [
+        for (final tag in tags)
+          ExcludeSemantics(
+            child: DecoratedBox(
+              decoration: ShapeDecoration(
+                shape: const StadiumBorder(),
+                color: Kurumi.themeOf(
+                  context,
+                ).colorScheme.onSurface.withValues(alpha: 0.06),
+              ),
+              child: Opacity(
+                opacity: 0,
+                child: KurumiPill(label: tag.name),
+              ),
             ),
           ),
-        );
-      }).toList(),
+      ],
     );
   }
 }

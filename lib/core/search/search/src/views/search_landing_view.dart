@@ -115,10 +115,8 @@ class DefaultSearchLandingChildren extends ConsumerWidget {
     final effectiveChildren = [
       const SizedBox(height: 8),
       ?notice,
-      ...[
-        ...children,
-      ].intersperse(
-        const Divider(thickness: 1),
+      ...children.intersperse(
+        const SizedBox(height: KurumiSpacing.xl),
       ),
       SizedBox(
         height: MediaQuery.viewPaddingOf(context).bottom + 12,
@@ -232,77 +230,34 @@ class QueryActionsSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+      padding: const EdgeInsets.symmetric(horizontal: KurumiSpacing.md),
+      child: Row(
         children: [
-          Container(
-            height: 32,
-            margin: const EdgeInsets.symmetric(vertical: 4),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    // Text(
-                    //   'Actions'.toUpperCase(),
-                    //   style: Kurumi.themeOf(context).titleSmall?.copyWith(
-                    //     fontWeight: FontWeight.w700,
-                    //   ),
-                    // ),
-                    // const SizedBox(width: 8),
-                    FilledButton(
-                      style: FilledButton.styleFrom(
-                        padding: const EdgeInsets.only(left: 4, right: 8),
-                        visualDensity: VisualDensity.compact,
-                        backgroundColor: Kurumi.themeOf(
-                          context,
-                        ).colorScheme.surfaceContainerHighest,
-                      ),
-                      onPressed: () {
-                        showDialog(
-                          routeSettings: const RouteSettings(
-                            name: 'raw_query_input',
-                          ),
-                          context: context,
-                          builder: (c) {
-                            return SelectedTagEditDialog(
-                              tag: const TagSearchItem.raw(tag: ''),
-                              onUpdated: (tag) {
-                                if (tag.isNotEmpty) {
-                                  onTagAdded(tag);
-                                }
-                              },
-                            );
-                          },
-                        );
-                      },
-                      child: Row(
-                        children: [
-                          Icon(
-                            Symbols.add,
-                            color: Kurumi.themeOf(
-                              context,
-                            ).colorScheme.onSurfaceVariant,
-                            fill: 1,
-                          ),
-                          Text(
-                            context.t.search.raw_query,
-                            style: TextStyle(
-                              color: Kurumi.themeOf(
-                                context,
-                              ).colorScheme.onSurfaceVariant,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
+          KurumiPill(
+            icon: Symbols.add,
+            label: context.t.search.raw_query,
+            tone: KurumiPillTone.accent,
+            onTap: () {
+              showDialog(
+                routeSettings: const RouteSettings(
+                  name: 'raw_query_input',
                 ),
-                titleTrailing?.call() ?? const SizedBox.shrink(),
-              ],
-            ),
+                context: context,
+                builder: (c) {
+                  return SelectedTagEditDialog(
+                    tag: const TagSearchItem.raw(tag: ''),
+                    onUpdated: (tag) {
+                      if (tag.isNotEmpty) {
+                        onTagAdded(tag);
+                      }
+                    },
+                  );
+                },
+              );
+            },
           ),
+          const Spacer(),
+          ?titleTrailing?.call(),
         ],
       ),
     );

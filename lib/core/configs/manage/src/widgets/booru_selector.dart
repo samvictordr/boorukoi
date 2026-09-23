@@ -57,7 +57,9 @@ class _BooruSelectorVerticalState extends ConsumerState<BooruSelectorVertical>
 
     return Container(
       width: 68,
-      color: Kurumi.themeOf(context).colorScheme.surface,
+      color: KurumiGlassScope.isInside(context)
+          ? Colors.transparent
+          : Kurumi.themeOf(context).colorScheme.surface,
       child: ScrollConfiguration(
         behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
         child: ref
@@ -134,7 +136,9 @@ class _BooruSelectorHorizontalState
 
     return Container(
       height: 48,
-      color: Kurumi.themeOf(context).colorScheme.surface,
+      color: KurumiGlassScope.isInside(context)
+          ? Colors.transparent
+          : Kurumi.themeOf(context).colorScheme.surface,
       child: ScrollConfiguration(
         behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
         child: ref

@@ -24,3 +24,4 @@ export 'time_pulse.dart';
 export 'website_logo.dart';
 export 'multi_select_button.dart';
 export 'settings_selector.dart';
+export 'search_section_card.dart';

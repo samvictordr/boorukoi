@@ -55,190 +55,202 @@ class SideBarMenu extends ConsumerWidget {
     final hasConfigs = ref.watch(hasBooruConfigsProvider);
     final isFossBuild = ref.watch(isFossBuildProvider);
 
-    return Container(
-      color: colorScheme.surfaceContainerLow,
-      constraints: BoxConstraints.expand(
-        width: min(MediaQuery.sizeOf(context).width * 0.85, 400),
+    final coreItems = <Widget>[
+      if (viewKey != null && viewKey.isAlt)
+        SideMenuTile(
+          icon: const Icon(Symbols.search),
+          title: Text(context.t.settings.search.search),
+          onTap: () {
+            goToSearchPage(ref);
+          },
+        ),
+      SideMenuTile(
+        icon: const Icon(Symbols.favorite),
+        title: Text(context.t.sideMenu.your_bookmarks),
+        onTap: () {
+          goToBookmarkPage(ref);
+        },
       ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          if (position.isSide)
-            ColoredBox(
-              color: colorScheme.surface,
-              child: const SafeArea(
-                bottom: false,
-                child: BooruSelector(),
-              ),
-            ),
-          VerticalDivider(
-            color: colorScheme.outlineVariant,
-            thickness: 0.25,
-            width: 1,
+      SideMenuTile(
+        icon: const Icon(Symbols.list),
+        title: Text(context.t.sideMenu.your_blacklist),
+        onTap: () {
+          goToGlobalBlacklistedTagsPage(ref);
+        },
+      ),
+      SideMenuTile(
+        icon: const Icon(Symbols.tag),
+        title: Text(context.t.favorite_tags.title),
+        onTap: () {
+          goToFavoriteTagsPage(ref);
+        },
+      ),
+      SideMenuTile(
+        icon: const Icon(Symbols.sim_card_download),
+        title: Text(context.t.sideMenu.bulk_download),
+        onTap: () {
+          goToBulkDownloadPage(
+            context,
+            null,
+            ref: ref,
+          );
+        },
+      ),
+      SideMenuTile(
+        icon: const Icon(Symbols.download),
+        title: Text(context.t.sideMenu.download_manager),
+        onTap: () {
+          goToDownloadManagerPage(ref);
+        },
+      ),
+    ];
+
+    final footerItems = <Widget>[
+      if (isFossBuild)
+        SideMenuTile(
+          icon: const Icon(
+            Symbols.favorite,
+            fill: 1,
+            color: Colors.red,
           ),
-          Expanded(
-            child: ColoredBox(
-              color: colorScheme.surfaceContainerLow,
-              child: SingleChildScrollView(
-                physics: const AlwaysScrollableScrollPhysics(),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    if (initialContent != null)
-                      SizedBox(
-                        height: viewPadding.top,
-                      )
-                    else
-                      const SizedBox(height: 28),
-                    if (hasConfigs)
-                      const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 8),
-                        child: CurrentBooruTile(
-                          minWidth: kMinSideBarWidth,
-                        ),
-                      )
-                    else
-                      const SizedBox(
-                        height: 24,
-                      ),
-                    if (initialContent != null)
-                      ...initialContent!.map(
-                        (e) => Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8),
-                          child: e,
-                        ),
-                      ),
-                    if (initialContent != null)
-                      const Divider(
-                        thickness: 0.75,
-                      ),
-                    if (content != null) ...[
-                      ...content!.map(
-                        (e) => Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8),
-                          child: e,
-                        ),
-                      ),
-                    ] else
-                      ...[
-                        if (viewKey != null && viewKey.isAlt)
-                          SideMenuTile(
-                            icon: const Icon(Symbols.search),
-                            title: Text(context.t.settings.search.search),
-                            onTap: () {
-                              goToSearchPage(ref);
-                            },
-                          ),
-                        SideMenuTile(
-                          icon: const Icon(Symbols.favorite),
-                          title: Text(context.t.sideMenu.your_bookmarks),
-                          onTap: () {
-                            goToBookmarkPage(ref);
-                          },
-                        ),
-                        SideMenuTile(
-                          icon: const Icon(Symbols.list),
-                          title: Text(context.t.sideMenu.your_blacklist),
-                          onTap: () {
-                            goToGlobalBlacklistedTagsPage(ref);
-                          },
-                        ),
-                        SideMenuTile(
-                          icon: const Icon(Symbols.tag),
-                          title: Text(context.t.favorite_tags.title),
-                          onTap: () {
-                            goToFavoriteTagsPage(ref);
-                          },
-                        ),
-                        SideMenuTile(
-                          icon: const Icon(Symbols.sim_card_download),
-                          title: Text(context.t.sideMenu.bulk_download),
-                          onTap: () {
-                            goToBulkDownloadPage(
-                              context,
-                              null,
-                              ref: ref,
-                            );
-                          },
-                        ),
-                        SideMenuTile(
-                          icon: const Icon(Symbols.download),
-                          title: Text(context.t.sideMenu.download_manager),
-                          onTap: () {
-                            goToDownloadManagerPage(ref);
-                          },
-                        ),
-                        const Divider(
-                          key: ValueKey('divider'),
-                          thickness: 0.75,
-                        ),
-                        if (isFossBuild)
-                          SideMenuTile(
-                            icon: const Icon(
-                              Symbols.favorite,
-                              fill: 1,
-                              color: Colors.red,
-                            ),
-                            title: Text(context.t.donation.donate),
-                            onTap: () {
-                              goToDonationPage(ref);
-                            },
-                          )
-                        else if (ref.watch(showPremiumFeatsProvider) &&
-                            !kForcePremium &&
-                            !hasPremium)
-                          SideMenuTile(
-                            icon: const Icon(
-                              Symbols.favorite,
-                              fill: 1,
-                              color: Colors.red,
-                            ),
-                            title: Text(
-                              context.t.premium.get_premium(
-                                brand: kPremiumBrandName,
-                              ),
-                            ),
-                            onTap: () {
-                              goToPremiumPage(ref);
-                            },
-                          ),
-                        SideMenuTile(
-                          icon: const Icon(
-                            Symbols.question_mark,
-                            fill: 1,
-                          ),
-                          title: Text(context.t.sideMenu.get_support),
-                          onTap: () {
-                            goToSettingsPage(ref, scrollTo: 'support');
-                          },
-                        ),
-                        SideMenuTile(
-                          icon: const Icon(
-                            Symbols.settings,
-                            fill: 1,
-                          ),
-                          title: Text(context.t.sideMenu.settings),
-                          onTap: () {
-                            goToSettingsPage(ref);
-                          },
-                        ),
-                      ].map(
-                        (e) => Padding(
-                          padding: e.key != const ValueKey('divider')
-                              ? const EdgeInsets.symmetric(horizontal: 8)
-                              : EdgeInsets.zero,
-                          child: e,
-                        ),
-                      ),
-                    SizedBox(
-                      height: viewPadding.bottom + 12,
+          title: Text(context.t.donation.donate),
+          onTap: () {
+            goToDonationPage(ref);
+          },
+        )
+      else if (ref.watch(showPremiumFeatsProvider) &&
+          !kForcePremium &&
+          !hasPremium)
+        SideMenuTile(
+          icon: const Icon(
+            Symbols.favorite,
+            fill: 1,
+            color: Colors.red,
+          ),
+          title: Text(
+            context.t.premium.get_premium(
+              brand: kPremiumBrandName,
+            ),
+          ),
+          onTap: () {
+            goToPremiumPage(ref);
+          },
+        ),
+      SideMenuTile(
+        icon: const Icon(
+          Symbols.question_mark,
+          fill: 1,
+        ),
+        title: Text(context.t.sideMenu.get_support),
+        onTap: () {
+          goToSettingsPage(ref, scrollTo: 'support');
+        },
+      ),
+      SideMenuTile(
+        icon: const Icon(
+          Symbols.settings,
+          fill: 1,
+        ),
+        title: Text(context.t.sideMenu.settings),
+        onTap: () {
+          goToSettingsPage(ref);
+        },
+      ),
+    ];
+
+    // Floats as an inset glass panel, matching the navigation pill.
+    return Padding(
+      padding: EdgeInsets.fromLTRB(
+        KurumiSpacing.sm,
+        viewPadding.top + KurumiSpacing.sm,
+        0,
+        viewPadding.bottom + KurumiSpacing.sm,
+      ),
+      child: ConstrainedBox(
+        constraints: BoxConstraints.expand(
+          width: min(MediaQuery.sizeOf(context).width * 0.85, 400),
+        ),
+        child: KurumiGlass(
+          shape: KurumiShapes.xl,
+          thickness: KurumiGlassThickness.thick,
+          elevated: true,
+          child: MediaQuery.removePadding(
+            context: context,
+            removeTop: true,
+            removeBottom: true,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (position.isSide)
+                  ColoredBox(
+                    color: colorScheme.onSurface.withValues(alpha: 0.04),
+                    child: const Padding(
+                      padding: EdgeInsets.only(top: KurumiSpacing.sm),
+                      child: BooruSelector(),
                     ),
-                  ],
+                  ),
+                Expanded(
+                  child: ListView(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: KurumiSpacing.md,
+                    ),
+                    children: [
+                      if (hasConfigs)
+                        const Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: KurumiSpacing.sm,
+                          ),
+                          child: CurrentBooruTile(
+                            minWidth: kMinSideBarWidth,
+                          ),
+                        )
+                      else
+                        const SizedBox(height: KurumiSpacing.xl),
+                      const SizedBox(height: KurumiSpacing.sm),
+                      if (initialContent case final items?
+                          when items.isNotEmpty)
+                        _MenuGroup(children: items),
+                      _MenuGroup(children: content ?? coreItems),
+                      if (content == null) _MenuGroup(children: footerItems),
+                    ],
+                  ),
                 ),
-              ),
+              ],
             ),
           ),
-        ],
+        ),
+      ),
+    );
+  }
+}
+
+/// A rounded group of menu rows on the glass panel.
+class _MenuGroup extends StatelessWidget {
+  const _MenuGroup({
+    required this.children,
+  });
+
+  final List<Widget> children;
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Kurumi.themeOf(context).colorScheme;
+
+    return Container(
+      margin: const EdgeInsets.fromLTRB(
+        KurumiSpacing.sm,
+        0,
+        KurumiSpacing.sm,
+        KurumiSpacing.md,
+      ),
+      padding: const EdgeInsets.all(KurumiSpacing.xs),
+      decoration: ShapeDecoration(
+        shape: KurumiShapes.md,
+        color: colorScheme.onSurface.withValues(alpha: 0.05),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: children,
       ),
     );
   }

@@ -33,61 +33,64 @@ class SearchHistorySection extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final colorScheme = Kurumi.themeOf(context).colorScheme;
+    final items = histories.take(maxHistory).toList();
+
     return histories.isNotEmpty
         ? RemoveLeftPaddingOnLargeScreen(
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        context.t.search.history.history.toUpperCase(),
-                        style: Kurumi.themeOf(context).textTheme.titleSmall
-                            ?.copyWith(
-                              fontWeight: FontWeight.w700,
-                            ),
-                      ),
-                      if (onFullHistoryRequested != null)
-                        IconButton(
-                          onPressed: onFullHistoryRequested,
-                          icon: const Icon(Symbols.manage_history),
-                        ),
-                    ],
-                  ),
+            child: SearchSectionCard(
+              title: context.t.search.history.history,
+              trailing: switch (onFullHistoryRequested) {
+                final onPressed? => SearchSectionActionButton(
+                  icon: Symbols.manage_history,
+                  onPressed: onPressed,
                 ),
-                ...histories
-                    .take(maxHistory)
-                    .map(
-                      (item) => Material(
-                        color: Colors.transparent,
-                        child: ListTile(
-                          visualDensity: VisualDensity.compact,
-                          title: SearchHistoryQueryWidget(
-                            history: item,
-                            reverseScheme: reverseScheme,
-                          ),
-                          contentPadding: const EdgeInsets.only(left: 8),
-                          onTap: () => onHistoryTap(item),
-                          minTileHeight:
-                              ref.watch(appPlatformProvider).isDesktop
-                              ? 0
-                              : null,
-                          subtitle: showTime
-                              ? DateTooltip(
-                                  date: item.createdAt,
-                                  child: Text(
-                                    item.createdAt.fuzzify(
-                                      locale: Localizations.localeOf(context),
-                                    ),
-                                  ),
-                                )
-                              : null,
+                null => null,
+              },
+              padding: const EdgeInsets.symmetric(vertical: KurumiSpacing.xs),
+              child: Column(
+                children: [
+                  for (final (index, item) in items.indexed) ...[
+                    if (index > 0)
+                      Divider(
+                        height: 0.5,
+                        thickness: 0.5,
+                        indent: KurumiSpacing.md,
+                        color: colorScheme.outlineVariant.withValues(
+                          alpha: 0.6,
                         ),
+                      ),
+                    Material(
+                      color: Colors.transparent,
+                      child: ListTile(
+                        visualDensity: VisualDensity.compact,
+                        shape: const RoundedRectangleBorder(),
+                        title: SearchHistoryQueryWidget(
+                          history: item,
+                          reverseScheme: reverseScheme,
+                        ),
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: KurumiSpacing.md,
+                        ),
+                        onTap: () => onHistoryTap(item),
+                        minTileHeight: ref.watch(appPlatformProvider).isDesktop
+                            ? 0
+                            : null,
+                        subtitle: showTime
+                            ? DateTooltip(
+                                date: item.createdAt,
+                                child: Text(
+                                  item.createdAt.fuzzify(
+                                    locale: Localizations.localeOf(context),
+                                  ),
+                                ),
+                              )
+                            : null,
                       ),
                     ),
-              ],
+                  ],
+                ],
+              ),
             ),
           )
         : const SizedBox.shrink();
@@ -114,19 +117,7 @@ class SearchHistoryQueryWidget extends StatelessWidget {
             .queryAsList()
             .map(
               (e) => IgnorePointer(
-                child: KurumiCompactChip(
-                  label: e,
-                  borderRadius: KurumiBorderRadius.sm,
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 2,
-                    horizontal: 8,
-                  ),
-                  backgroundColor: (reverseScheme ?? false)
-                      ? Kurumi.themeOf(context).colorScheme.surface
-                      : Kurumi.themeOf(
-                          context,
-                        ).colorScheme.surfaceContainerHighest,
-                ),
+                child: KurumiPill(label: e),
               ),
             )
             .toList(),

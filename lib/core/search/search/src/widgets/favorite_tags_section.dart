@@ -1,5 +1,4 @@
 // Package imports:
-import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:i18n/i18n.dart';
 import 'package:kurumi/kurumi.dart';
@@ -7,14 +6,13 @@ import 'package:kurumi/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
 // Project imports:
-import '../../../../../foundation/platform.dart';
 import '../../../../cache/providers.dart';
 import '../../../../router.dart';
 import '../../../../tags/favorites/types.dart';
 import '../../../../tags/favorites/widgets.dart';
-import '../../../../themes/colors/providers.dart';
 import '../../../selected_tags/types.dart';
 import 'constants.dart';
+import '../../../../widgets/search_section_card.dart';
 
 class FavoriteTagsSection extends ConsumerWidget {
   const FavoriteTagsSection({
@@ -32,24 +30,17 @@ class FavoriteTagsSection extends ConsumerWidget {
       miscDataProvider(kSearchSelectedFavoriteTagLabelKey).notifier,
     );
 
-    return Padding(
-      padding: const EdgeInsets.only(
-        left: 8,
-        right: 8,
-        bottom: 8,
-      ),
-      child: FavoriteTagsFilterScope(
-        initialValue: selectedLabel,
-        sortType: FavoriteTagsSortType.nameAZ,
-        builder: (_, tags, labels, selected) => OptionTagsArenaNoEdit(
-          title: context.t.favorite_tags.favorites,
-          titleTrailing: FavoriteTagLabelSelectorField(
-            selected: selected,
-            labels: labels,
-            onSelect: (value) => notifier.put(value),
-          ),
-          children: _buildFavoriteTags(ref, tags),
+    return FavoriteTagsFilterScope(
+      initialValue: selectedLabel,
+      sortType: FavoriteTagsSortType.nameAZ,
+      builder: (_, tags, labels, selected) => OptionTagsArenaNoEdit(
+        title: context.t.favorite_tags.favorites,
+        titleTrailing: FavoriteTagLabelSelectorField(
+          selected: selected,
+          labels: labels,
+          onSelect: (value) => notifier.put(value),
         ),
+        children: _buildFavoriteTags(ref, tags),
       ),
     );
   }
@@ -59,42 +50,12 @@ class FavoriteTagsSection extends ConsumerWidget {
     List<FavoriteTag> tags,
   ) {
     return [
-      ...tags.mapIndexed((index, tag) {
-        final colors = ref
-            .watch(booruChipColorsProvider)
-            .fromColor(
-              Kurumi.themeOf(ref.context).colorScheme.onSurface,
-            );
-
-        return KurumiMaterialRawChip(
-          visualDensity: VisualDensity.compact,
-          onPressed: () => onTagTap?.call(tag),
-          avatar: tag.queryType == QueryType.simple
-              ? Icon(
-                  Symbols.code,
-                  size: 16,
-                  color: colors?.foregroundColor,
-                )
-              : null,
-          label: Text(
-            tag.name,
-            style: TextStyle(
-              color: colors?.foregroundColor,
-            ),
-          ),
-          backgroundColor: colors?.backgroundColor,
-          side: colors != null
-              ? BorderSide(
-                  color: colors.borderColor,
-                )
-              : null,
-          deleteIcon: Icon(
-            Symbols.close,
-            size: 18,
-            color: colors?.foregroundColor,
-          ),
-        );
-      }),
+      for (final tag in tags)
+        KurumiPill(
+          label: tag.name,
+          icon: tag.queryType == QueryType.simple ? Symbols.code : null,
+          onTap: () => onTagTap?.call(tag),
+        ),
       if (tags.isEmpty) ...[
         const ImportTagButton(),
       ],
@@ -116,50 +77,16 @@ class OptionTagsArenaNoEdit extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              children: [
-                Text(
-                  title.toUpperCase(),
-                  style: Kurumi.themeOf(context).textTheme.titleSmall?.copyWith(
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-                FilledButton(
-                  style: FilledButton.styleFrom(
-                    visualDensity: VisualDensity.compact,
-                    padding: const EdgeInsets.symmetric(horizontal: 12),
-                    minimumSize: const Size(32, 32),
-                    shape: const CircleBorder(),
-                    backgroundColor: Kurumi.themeOf(
-                      context,
-                    ).colorScheme.surfaceContainerHighest,
-                  ),
-                  onPressed: () => ref.router.push('/favorite_tags'),
-                  child: Icon(
-                    Symbols.settings,
-                    size: 16,
-                    color: Kurumi.themeOf(context).colorScheme.onSurfaceVariant,
-                    fill: 1,
-                  ),
-                ),
-              ],
-            ),
-            titleTrailing ?? const SizedBox.shrink(),
-          ],
-        ),
-        const SizedBox(height: 2),
-        Wrap(
-          spacing: 4,
-          runSpacing: ref.watch(appPlatformProvider).isDesktop ? 4 : 0,
-          children: children,
+    return SearchSectionCard(
+      title: title,
+      trailing: titleTrailing,
+      actions: [
+        SearchSectionActionButton(
+          icon: Symbols.settings,
+          onPressed: () => ref.router.push('/favorite_tags'),
         ),
       ],
+      child: SearchPillWrap(children: children),
     );
   }
 }
@@ -169,10 +96,11 @@ class ImportTagButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FilledButton(
-      style: FilledButton.styleFrom(shape: const StadiumBorder()),
-      onPressed: () => goToFavoriteTagImportPage(context),
-      child: Text(context.t.settings.backup_and_restore.import),
+    return KurumiPill(
+      icon: Symbols.download,
+      label: context.t.settings.backup_and_restore.import,
+      tone: KurumiPillTone.accent,
+      onTap: () => goToFavoriteTagImportPage(context),
     );
   }
 }

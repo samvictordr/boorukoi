@@ -127,6 +127,7 @@ class _BooruScopeState extends ConsumerState<BooruScope> {
             )
           : null,
       backgroundColor: colorScheme.surface,
+      drawerScrimColor: kKurumiScrimColor,
       resizeToAvoidBottomInset: false,
       drawerEdgeDragWidth: _calculateDrawerEdgeDragWidth(context, swipeArea),
       body: MultiSplitViewTheme(

@@ -1,5 +1,7 @@
 import 'package:material_ui/material_ui.dart';
+
 import '../theme/shapes.dart';
+import '../theme/spacing.dart';
 
 class KurumiSideMenuTile extends StatelessWidget {
   const KurumiSideMenuTile({
@@ -15,6 +17,8 @@ class KurumiSideMenuTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Semantics(
       button: true,
       onTap: onTap,
@@ -22,22 +26,30 @@ class KurumiSideMenuTile extends StatelessWidget {
         color: Colors.transparent,
         child: InkWell(
           onTap: onTap,
-          customBorder: RoundedRectangleBorder(
-            borderRadius: KurumiBorderRadius.sm,
-          ),
+          customBorder: KurumiShapes.sm,
           child: DefaultTextStyle(
-            style: Theme.of(context).textTheme.titleSmall ?? const TextStyle(),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                vertical: 12,
+            style:
+                theme.textTheme.bodyLarge?.copyWith(
+                  fontWeight: FontWeight.w500,
+                ) ??
+                const TextStyle(),
+            child: IconTheme.merge(
+              data: IconThemeData(
+                size: 22,
+                color: theme.colorScheme.onSurfaceVariant,
               ),
-              child: Row(
-                children: [
-                  const SizedBox(width: 8),
-                  icon,
-                  const SizedBox(width: 12),
-                  title,
-                ],
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: KurumiSpacing.md,
+                  vertical: 11,
+                ),
+                child: Row(
+                  children: [
+                    icon,
+                    const SizedBox(width: KurumiSpacing.md),
+                    Expanded(child: title),
+                  ],
+                ),
               ),
             ),
           ),

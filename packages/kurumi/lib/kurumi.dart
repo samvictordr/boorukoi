@@ -58,6 +58,7 @@ export 'src/components/navigation_tile.dart';
 export 'src/components/option_dropdown.dart';
 export 'src/components/option_searchable_sheet.dart';
 export 'src/components/page_indicator.dart';
+export 'src/components/pill.dart';
 export 'src/components/popup_menu.dart';
 export 'src/components/pulse_indicator.dart';
 export 'src/components/scroll_button.dart';
